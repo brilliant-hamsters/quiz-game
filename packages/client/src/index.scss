@@ -1,0 +1,54 @@
+@font-face {
+  font-family: Inter;
+  src: url('../public/fonts/Inter-VariableFont.ttf') format('ttf-variations');
+  font-weight: 100 900;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+html,
+body {
+  --color-text: #1e1e1e;
+
+  font-family: Inter, sans-serif;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 32px;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+}
