@@ -1,0 +1,16 @@
+.box{
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.iconLogin{
+  background-image: url("../../../public/images/icons/login-icon.svg");
+  width: 65px;
+  height: 70px;
+  background-size: cover;
+}

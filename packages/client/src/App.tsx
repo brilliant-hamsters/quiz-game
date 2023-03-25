@@ -1,6 +1,5 @@
-import React from 'react';
-import styles from './App.module.scss';
+import { Login } from './pages/Login/Login'
 
 export const App = () => {
-  return <div className={styles.app}>Вот тут будет жить ваше приложение :)</div>;
-};
+  return <Login />
+}
