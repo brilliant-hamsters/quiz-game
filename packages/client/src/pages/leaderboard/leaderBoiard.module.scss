@@ -1,0 +1,157 @@
+.leaderBoard {
+  margin: 0 auto;
+  width: 1820px;
+  padding: 28px 0 69px 0;
+}
+.blocks {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.block-left {
+  width: 680px;
+  height: 100%;
+}
+.block-rigth {
+  width: 550px;
+  height: 100%;
+}
+.block-left-trophy {
+  display: flex;
+  align-items: center;
+}
+.block-left-salary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 52px;
+}
+.block-left-text {
+  font-size: 24px;
+  align-items: center;
+  margin-left: 21px;
+}
+.trophyIcon {
+  width: 126.41px;
+  height: 119.39px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.emojiIcon {
+  width: 80px;
+  height: 80px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.emojiWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+.titles {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-size: 48px;
+  margin-left: 20px;
+}
+.subTitle {
+  font-size: 24px;
+  margin-left: 230px;
+  margin-top: 16px;
+}
+.titleSalary {
+  font-size: 40px;
+  text-align: center;
+}
+.columnWrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 43px;
+}
+.columnElem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.columnFirst {
+  width: 200px;
+  height: 160px;
+  background: linear-gradient(
+    180deg,
+    #ffc700 0%,
+    #d87400 43.74%,
+    #ff3d00 76.41%
+  );
+  border: 12px solid #000000;
+}
+.columnSecond {
+  width: 200px;
+  height: 420px;
+  background: linear-gradient(
+    180deg,
+    #ffc700 0%,
+    #d87400 43.74%,
+    #ff3d00 76.41%
+  );
+  border: 12px solid #000000;
+}
+.columnThird {
+  width: 200px;
+  height: 260px;
+  background: linear-gradient(
+    180deg,
+    #ffc700 0%,
+    #d87400 43.74%,
+    #ff3d00 76.41%
+  );
+  border: 12px solid #000000;
+}
+.columnEmojis {
+  height: 120px;
+  width: 120px;
+  margin-bottom: 20px;
+}
+.leaders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 37px;
+  width: 538px;
+}
+.leadersTitle {
+  text-align: center;
+  font-size: 48px;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 71px;
+  background: linear-gradient(180deg, #1b0085 0%, #430085 47.4%, #7900b3 100%);
+  position: fixed;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.sidebarArrow {
+  width: 37px;
+  height: 35px;
+  position: absolute;
+  right: 17px;
+  top: 10px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.sidebarDivider {
+  width: 100%;
+  height: 5px;
+  background-color: #fff;
+  margin-top: 55px;
+}
