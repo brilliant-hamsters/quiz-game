@@ -1,38 +1,26 @@
-.error404_page {
-    background-image: url("../../../public/images/bg_404.svg");
-    background-repeat: no-repeat;
-    background-size:auto;
+.page {
     height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
+    background-image: url("../../../public/images/bg_404.svg");
+    background-repeat: no-repeat;
+    background-size:auto; 
 }
-
-
-.error404_header {
-    height: 20%;
-    
-}
-.service_is_broken {
+.page__span {
     display: flex;
-    align-items: center;
-    margin-top: 30%;
-    font-size: 8vh;
-        .tools_icon {
-            background-image: url("../../../public/images/icons/icon\ _tools.svg");
-            background-repeat: no-repeat;
-            background-size:contain;
-            width: 120px;
-            height: 120px;
-        }
+    font-size: 4vw;  
 }
-
-
-.error404_body {
-    height: 80%;
+.span__icon {
+    background-image: url("../../../public/images/icons/icon\ _tools.svg");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 5vw;
+    height: 5vw;
 }
-.btn_back {
-    margin-top: 45%;
+.page__button {
+    margin-top: 10%;
 }
 
 
