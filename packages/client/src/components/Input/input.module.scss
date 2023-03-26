@@ -7,10 +7,16 @@
   justify-content: space-between;
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.2;
   color: #7b7b7b;
+  transition: color 0.2s ease;
+
+  &:focus-within{
+    color: #7900b3;
+    transition: color 0.3s ease;
+  }
 }
 
 .input {

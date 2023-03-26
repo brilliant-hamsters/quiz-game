@@ -1,8 +1,4 @@
-@font-face {
-  font-family: Inter;
-  src: url('../public/fonts/Inter-VariableFont.ttf') format('ttf-variations');
-  font-weight: 100 500 900;
-}
+@import url('../public/fonts/fonts.css');
 
 * {
   margin: 0;

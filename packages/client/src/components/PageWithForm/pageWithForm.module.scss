@@ -81,5 +81,11 @@
 .link {
   margin-left: 5px;
   text-decoration: none;
-  color: #009EF8;
+  color: #009ef8;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #7900b3;
+    transition: color 0.2s ease;
+  }
 }

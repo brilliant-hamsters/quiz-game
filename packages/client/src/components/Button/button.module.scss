@@ -6,7 +6,7 @@
   border: none;
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 1;
   text-align: center;
@@ -15,4 +15,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: opacity .5s ease;
+
+  &:hover{
+    opacity: .8;
+    transition: opacity .3s ease;
+  }
 }
+
+
