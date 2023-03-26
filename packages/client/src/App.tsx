@@ -1,4 +1,4 @@
-
+import { Error500 } from "./pages/error500";
 export const App = () => {
-  return <div></div>;
+  return <div><Error500/></div>;
 };

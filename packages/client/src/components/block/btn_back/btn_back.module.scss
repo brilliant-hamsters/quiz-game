@@ -1,15 +1,18 @@
-.back_btn {
+.button {
     display: flex;
     align-items: center;
-    font-size: 60px;
-    background-color: rgba(0, 0, 0, 0);
+    font-size: 3.5vw;
     border: none;
-    cursor: pointer;
-        .send_icon {
-            background-image: url("../../../public/images/icons/129414_icon_send.svg");
-            background-repeat: no-repeat;
-            background-size:contain;
-            width: 120px;
-            height: 120px;
-        }
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer; 
+}
+.button:hover {
+    text-decoration: underline;
+}
+.button__icon {
+    background-image: url("../../../public/images/icons/129414_icon_send.svg");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 5vw;
+    height: 5vw;
 }

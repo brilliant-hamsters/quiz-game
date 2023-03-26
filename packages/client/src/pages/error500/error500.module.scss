@@ -1,31 +1,17 @@
-.error500_page {
-    background-image: url("../../../public/images/bg_500.svg");
-    background-repeat: no-repeat;
-    background-size:auto;
+.page {
     height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content:center;
+    text-align: center;
+    background-image: url("../../../public/images/bg_500.svg");
+    background-repeat: no-repeat;
+    background-size:auto;
 }
-
-
-.error500_header {
-    height: 20vh;
-    margin-top: 5vh;
+.page__p {
+    font-size: 6.5vh;
 }
-.service_is_unavailable {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10vh;
-    font-size: 8vh;
-}
-
-
-.error500_body {
-    height: 80vh;
-}
-
-.btn_back {
-    margin-top: 45%;
+.page__btn {
+    margin-top: 6%;
 }
