@@ -7,3 +7,4 @@ export const Error500 = () => {
                 <div className={styles.page__btn}><BtnBack/></div>
         </div>
 }
+
