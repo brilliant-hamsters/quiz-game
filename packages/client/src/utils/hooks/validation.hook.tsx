@@ -77,7 +77,7 @@ export const useValidation = (): [
     if (
       /^[\w\S]{3,20}$/i.test(input.value) &&
       input.value.match(/\D/gi)?.length &&
-      !input.value.match(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/]/gi)?.length
+      !input.value.match(/[`~!@#$%^&*()|+=?;:'",.<>{}[]\\\/]/gi)?.length
     ) {
       setObjValidation(state => ({
         ...state,
@@ -100,7 +100,7 @@ export const useValidation = (): [
     if (
       (/^[A-Z][A-Za-z]+$/.test(input.value) ||
         /^[А-Я][А-Яа-яЁё]+$/.test(input.value)) &&
-      !input.value.match(/[`~!@#$%^&*()|+\=_?;:'",.<>\{\}\[\]\\\/]/gi)?.length
+      !input.value.match(/[`~!@#$%^&*()|+=_?;:'",.<>{}[]\\\/]/gi)?.length
     ) {
       setObjValidation(state => ({
         ...state,
