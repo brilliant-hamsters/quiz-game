@@ -4,18 +4,31 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  min-height: 50vh;
+  min-height: 65vh;
   width: 380px;
 }
 
-.iconLogin {
+.box_login{
+  min-height: 50vh;
+}
+
+%icon{
   position: absolute;
   left: auto;
   top: 60px;
-  background-image: url('../../../public/images/icons/login-icon.svg');
   width: 65px;
   height: 70px;
   background-size: cover;
+}
+
+.icon_login {
+  @extend %icon;
+  background-image: url('../../../public/images/icons/login-icon.svg');
+}
+
+.icon_register {
+  @extend %icon;
+  background-image: url('../../../public/images/icons/register-icon.svg');
 }
 
 .title {
@@ -29,11 +42,15 @@
 
 .form {
   width: 100%;
-  min-height: 80%;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+}
+
+.form_login{
+  height: 80%;
 }
 
 .fieldset {

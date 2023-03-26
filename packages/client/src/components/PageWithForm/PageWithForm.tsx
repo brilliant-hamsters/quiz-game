@@ -3,7 +3,7 @@ import { Button } from '../Button/Button'
 import styles from './pageWithForm.module.scss'
 
 type PageWithFormProps = {
-  iconClass: string
+  classElement: string
   title: string
   children: ReactNode
   buttonName: string
@@ -14,7 +14,7 @@ type PageWithFormProps = {
 }
 
 export const PageWithForm: FC<PageWithFormProps> = ({
-  iconClass,
+  classElement,
   title,
   children,
   buttonName,
@@ -24,10 +24,10 @@ export const PageWithForm: FC<PageWithFormProps> = ({
   linkName,
 }) => {
   return (
-    <div className={styles.box}>
-      <div className={styles[iconClass]}></div>
+    <div className={`${styles.box} ${styles[`box_${classElement}`]}`}>
+      <div className={styles[`icon_${classElement}`]}></div>
       <h1 className={styles.title}>{title}</h1>
-      <form className={styles.form}>
+      <form className={`${styles.form} ${styles[`form_${classElement}`]}`}>
         <fieldset className={styles.fieldset}>{children}</fieldset>
         <div className={styles.control}>
           <Button

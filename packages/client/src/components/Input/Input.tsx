@@ -2,6 +2,7 @@ import { FC } from 'react'
 import styles from './input.module.scss'
 
 type InputProps = {
+  classInput: string
   type: string
   name: string
   autoFocus: boolean
@@ -12,6 +13,7 @@ type InputProps = {
 }
 
 export const Input: FC<InputProps> = ({
+  classInput,
   type,
   name,
   autoFocus,
@@ -21,7 +23,7 @@ export const Input: FC<InputProps> = ({
   label,
 }) => {
   return (
-    <label className={styles.label}>
+    <label className={`${styles.label} ${styles[`type_${classInput}`]}`}>
       {label}
       <input
         type={type}
