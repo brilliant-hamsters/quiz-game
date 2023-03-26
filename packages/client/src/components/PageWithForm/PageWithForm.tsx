@@ -31,13 +31,13 @@ export const PageWithForm: FC<PageWithFormProps> = ({
         <fieldset className={styles.fieldset}>{children}</fieldset>
         <div className={styles.control}>
           <Button
-            classButton={styles.buttonSubmit}
+            classButton="standard"
             buttonName={buttonName}
             isFormValid={isFormValid}
           />
           <span className={styles.span}>или</span>
           <Button
-            classButton={styles.buttonSubmit}
+            classButton="standard"
             buttonName="Войти с"
             isFormValid={isFormValid}>
             <div className={styles.iconOAuth}></div>
@@ -45,7 +45,7 @@ export const PageWithForm: FC<PageWithFormProps> = ({
         </div>
         <span className={styles.caption}>
           {caption}
-          <a href={path}>{linkName}</a>
+          <a href={path} className={styles.link}>{linkName}</a>
         </span>
       </form>
     </div>

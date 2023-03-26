@@ -1,16 +1,85 @@
-.box{
+.box {
   background-color: #fff;
-  width: 100vw;
-  height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
+  min-height: 50vh;
+  width: 380px;
 }
 
-.iconLogin{
-  background-image: url("../../../public/images/icons/login-icon.svg");
+.iconLogin {
+  position: absolute;
+  left: auto;
+  top: 60px;
+  background-image: url('../../../public/images/icons/login-icon.svg');
   width: 65px;
   height: 70px;
   background-size: cover;
+}
+
+.title {
+  color: #7b7b7b;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.form {
+  width: 100%;
+  min-height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.fieldset {
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iconOAuth {
+  width: 25px;
+  height: 25px;
+  background-image: url('../../../public/images/icons/icon-oauth.svg');
+  background-size: cover;
+  margin-left: 7px;
+}
+
+.span {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #7b7b7b;
+}
+
+.caption {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #7b7b7b;
+}
+
+.link {
+  margin-left: 5px;
+  text-decoration: none;
+  color: #009EF8;
 }
