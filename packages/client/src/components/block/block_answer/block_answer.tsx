@@ -7,8 +7,8 @@ type answer = {
 
 export const Answer = (props:answer) => {
 
-    return <div className={styles.blocks_answers}>
-                <p className={styles.answer}>
+    return <div className={styles.answer}>
+                <p className={styles.answer__p}>
                     {props.answer_number}: {props.answer_text}
                 </p>
            </div>
