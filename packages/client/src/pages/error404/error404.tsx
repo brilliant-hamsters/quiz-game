@@ -1,5 +1,4 @@
 import styles from './error404.module.scss'
-import { BtnBack } from '../../components/block/btn_back'
 
 export const Error404 = () => {
     return <div className={styles.page}>
@@ -7,6 +6,11 @@ export const Error404 = () => {
                     <div className={styles.span__icon}></div> 
                     <p>Поломалося!!((</p> 
                 </span>
-                <div className={styles.page__button}><BtnBack/></div> 
+                <div className={styles.page__button}>
+                    <button className={styles.button}>
+                        <div className={styles.button__icon}></div> 
+                        Вернуться назад
+                    </button>
+                </div> 
             </div>
 }
