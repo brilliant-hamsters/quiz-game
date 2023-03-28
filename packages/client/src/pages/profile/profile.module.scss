@@ -37,7 +37,7 @@
     width: 1.2vw;
     height: 1.2vw;
 }
-.header__btnClose {
+.header__btn__close {
     width: 2vw;
     height: 2vw;
     display: none;
@@ -49,7 +49,7 @@
     font-size: 2vw;
     cursor: pointer;
 }
-.header__btnClose:hover {
+.header__btn__close:hover {
     background-color: rgba(0, 0, 0, 0.07);
     border-radius: 999px;
 }
@@ -74,6 +74,7 @@
             width: 8vw;
             height: 8vw;
             border-radius: 10px;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5)
         }
         .avatar:hover { 
             background: rgb(27,0,133);
@@ -81,13 +82,8 @@
             background-repeat: no-repeat;
             background-size: 20%;
             background-position: 90% 95%;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5)
         }
-
-}
-.form__label_avatar {
-    position: relative;
-    width: 2vw;
-    height: 2vw;
 }
 .form__icon {
     width: 1.5vw;
@@ -118,18 +114,23 @@
                 border-bottom: 1px solid rgb(27,0,133);
             }
 }
-.body__userInfo_input {
+.body__userInfo_input:enabled {
     width: 15vw;
     height: 3vh;
     background-color: rgba(27, 0, 133, 0.06);
+    border: none;
+}
+.body__userInfo_input:disabled {
+    width: 15vw;
+    height: 3vh;
     border: none;
 }
 .userInfo__save:enabled {
     display: block;
     width: 7.5vw;
     height: 3vh;
-    margin-left: 70%;
-    margin-top: 5%;
+    margin-left: 75%;
+    margin-top: 3%;
     font-size: 1.2vw;
     color:white;
     border: none;
@@ -151,7 +152,7 @@
 .userInfo__save:hover {
     background-color: rgb(84, 0, 126);
 }
-.userInfo__editPass:enabled {
+.userInfo__btn__editPass:enabled {
     width: 7.5vw;
     height: 3vh;
     margin-left: 75%;
@@ -162,10 +163,10 @@
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
 }
-.userInfo__editPass:disabled { 
+.userInfo__btn__editPass:disabled { 
     width: 7.5vw;
     height: 3vh;
-    margin-left: 70%;
+    margin-left: 75%;
     text-decoration: underline;
     font-size: .7vw;
     color:rgb(172, 172, 172);
@@ -173,7 +174,7 @@
     background-color: rgba(0, 0, 0, 0);
     cursor:not-allowed ;
 }
-.userInfo__editPass:hover {
+.userInfo__btn__editPass:hover {
     color: rgb(255, 0, 191);
 }
 .body__gameInfo {
@@ -195,7 +196,6 @@
     margin-bottom: 30%;
         .nickname {
             margin-left: 2vw;
-            height: 3.5vh;
             width: 15vw;
             border-bottom: 1px solid rgb(27,0,133);
         }
@@ -291,12 +291,18 @@
     border-radius: 4px;
     font-size: .9vw;
 }
-.props__OldPassword,
-.props__NewPassword {
+.form__oldPassword,
+.form__newPassword {
     margin-left: 2vw;
     padding-left: 4px ;
     background-color: rgba(255, 255, 255, 0.5); 
     border-bottom: 1px solid rgba(255, 255, 255, 0.493);
+}
+.password {
+    width: 15vw;
+    height: 3vh;
+    background-color: rgba(27, 0, 133, 0.06);
+    border: none;
 }
 .softBar {
     display: flex;
@@ -306,6 +312,10 @@
     height: 100vh;
     background: rgb(27,0,133);
     background: linear-gradient(180deg, rgba(27,0,133,1) 0%, rgba(67,0,133,1) 50%, rgba(120,0,178,1) 100%);
+        .softBar__icon {
+            width: 3vw;
+            height: 2vw;
+        }
 }
 .softBar__btn {
     margin-top: 1vh;
@@ -316,10 +326,6 @@
 }
 .softBar__btn:hover { 
     background-color: rgba(255, 255, 255, 0.144);
-}
-.softBar__icon {
-    width: 3vw;
-    height: 2vw;
 }
 .achievements {
     width: 6vw;
