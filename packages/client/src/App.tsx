@@ -1,6 +1,4 @@
-import React from 'react';
-import styles from './App.module.scss';
-
+import { ServerError } from "./pages/serverError";
 export const App = () => {
-  return <div className={styles.app}>Вот тут будет жить ваше приложение :)</div>;
+  return <div><ServerError/></div>;
 };
