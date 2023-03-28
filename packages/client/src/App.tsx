@@ -1,4 +1,4 @@
-import { ServerError } from "./pages/error500";
+import { ServerError } from "./pages/serverError";
 export const App = () => {
   return <div><ServerError/></div>;
 };
