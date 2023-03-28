@@ -1,2 +1,2 @@
 
-export {Error500} from "./error500"
+export {ServerError} from "./serverError"
