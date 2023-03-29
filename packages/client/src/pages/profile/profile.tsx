@@ -27,8 +27,8 @@ const Achievements = (props:achieve) => {
 
 export const Profile = (props: profile) => {
 
-    const [trottle, setTrottle] = React.useState("true");
-    const [check, setCheck] = React.useState("true");
+    const [trottle, setTrottle] = React.useState(true);
+    const [check, setCheck] = React.useState(true);
 
     const addEditElement: MouseEventHandler = () => {
         const button_close = document.querySelector<HTMLButtonElement>(`.${styles.header__btn__close}`);
@@ -37,7 +37,7 @@ export const Profile = (props: profile) => {
         const userInfo__save = document.querySelector<HTMLButtonElement>(`.${styles.userInfo__save}`);
         const userInfo__editPass = document.querySelector<HTMLButtonElement>(`.${styles.userInfo__btn__editPass}`);
 
-        if(check === "true") {
+        if(check) {
             if(button_close !== null 
                 && message !== null 
                 && userInfo__save !== null 
@@ -52,7 +52,7 @@ export const Profile = (props: profile) => {
                     e.disabled = false;
             })
             }
-            setCheck("false");
+            setCheck(false);
         }else {
             if(button_close !== null 
                 && message !== null 
@@ -68,7 +68,7 @@ export const Profile = (props: profile) => {
                     e.disabled = true;
             });
             }
-            setCheck("true")
+            setCheck(true)
         }
         
       };
@@ -76,15 +76,15 @@ export const Profile = (props: profile) => {
 
     const addModal:MouseEventHandler = () => {
         const modal = document.querySelector<HTMLDivElement>(`.${styles.background}`);
-        if(trottle === "true") {
+        if(trottle) {
             if(modal !== null) {
                 modal.style.display = "flex"
-                setTrottle("false");
+                setTrottle(false);
             }
         }else {
             if(modal !== null) {
                 modal.style.display = "none" 
-                setTrottle("true");
+                setTrottle(true);
             }
         }
     }
@@ -92,9 +92,9 @@ export const Profile = (props: profile) => {
     return <div className={styles.page}>
                 <div className={styles.body}>
                     <div className={styles.body__header}>
-                        <p className={styles.header__p}>
+                        <div className={styles.header__p}>
                             Профиль <button onClick={addEditElement} className={styles.header__btn} ><img src={iconEdit} className={styles.header__image}/></button>
-                        </p>
+                        </div>
                         <div className={styles.message}>Редактирование профиля!</div>
                         <button className={styles.header__btn__close} onClick={addEditElement}>x</button>
                     </div>
