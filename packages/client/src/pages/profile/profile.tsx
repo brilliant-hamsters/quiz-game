@@ -1,9 +1,11 @@
 import styles from "./profile.module.scss"
+import { Achievements } from "../../components/core/Achievements"
 import iconEdit from "../../../public/images/icons/icon_edit_pencil.svg"
 import iconWin from "../../../public/images/icons/icon_verified_user.svg"
 import iconBtnBack from "../../../public/images/icons/Vector.svg"
 import { MouseEventHandler } from "react"
 import React from "react"
+
 type profile = {
     avatar: string;
     first_name: string;
@@ -11,18 +13,6 @@ type profile = {
     nickName:string;
     mail: string;
     phone: string;
-}
-type achieve = {
-    imp_path: string;
-    achieve_text:string;
-}
-
-
-const Achievements = (props:achieve) => {
-    return <div className={styles.achievements}>
-                <img src={props.imp_path} alt="" className={styles.achievements__icon} />
-                <p className={styles.achievements_p}>{props.achieve_text}</p>
-            </div>
 }
 
 export const Profile = (props: profile) => {
