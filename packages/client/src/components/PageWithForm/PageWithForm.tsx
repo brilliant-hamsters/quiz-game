@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC, FormEvent, ReactNode } from 'react'
 import { Button } from '../Button/Button'
 import styles from './pageWithForm.module.scss'
 
@@ -11,6 +11,7 @@ type PageWithFormProps = {
   caption: string
   path: string
   linkName: string
+  onSubmitForm: () => void
 }
 
 export const PageWithForm: FC<PageWithFormProps> = ({
@@ -22,12 +23,19 @@ export const PageWithForm: FC<PageWithFormProps> = ({
   caption,
   path,
   linkName,
+  onSubmitForm,
 }) => {
+  function handlerSubmit(e:FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    onSubmitForm()
+  }
   return (
     <div className={`${styles.box} ${styles[`box_${classElement}`]}`}>
       <div className={styles[`icon_${classElement}`]}></div>
       <h1 className={styles.title}>{title}</h1>
-      <form className={`${styles.form} ${styles[`form_${classElement}`]}`}>
+      <form
+        className={`${styles.form} ${styles[`form_${classElement}`]}`}
+        onSubmit={handlerSubmit}>
         <fieldset className={styles.fieldset}>{children}</fieldset>
         <div className={styles.control}>
           <Button
@@ -45,7 +53,9 @@ export const PageWithForm: FC<PageWithFormProps> = ({
         </div>
         <span className={styles.caption}>
           {caption}
-          <a href={path} className={styles.link}>{linkName}</a>
+          <a href={path} className={styles.link}>
+            {linkName}
+          </a>
         </span>
       </form>
     </div>
