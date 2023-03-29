@@ -24,7 +24,7 @@ export const PageWithForm: FC<PageWithFormProps> = ({
   linkName,
 }) => {
   return (
-    <div className={styles.box}>
+    <div className={styles.root}>
       <div className={styles[iconClass]}></div>
       <h1 className={styles.title}>{title}</h1>
       <form className={styles.form}>

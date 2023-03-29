@@ -21,7 +21,7 @@ export const Input: FC<InputProps> = ({
   label,
 }) => {
   return (
-    <label className={styles.label}>
+    <label className={styles.root}>
       {label}
       <input
         type={type}
