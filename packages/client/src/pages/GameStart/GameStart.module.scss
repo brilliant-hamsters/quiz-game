@@ -1,0 +1,40 @@
+.logoutContainer {
+  margin-bottom: 30px;
+  text-align: right;
+}
+
+.logoutImage {
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.leadLink {
+  color: white;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.lead {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 48px;
+  line-height: 60px;
+  text-decoration: underline;
+}
+
+.leadText {
+  font-size: 20px;
+  line-height: 25px;
+}
