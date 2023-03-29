@@ -1,12 +1,22 @@
 import { ChangeEvent, useState } from 'react'
 
+enum ErrorMessages {
+  Email = 'Невалидный email',
+  Login = 'от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчёркивание)',
+  FirstNameOrSecondName = 'латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис)',
+  Password = 'от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра',
+  PasswordRepeat = 'пароль не совпадает',
+  Phone = 'от 10 до 15 символов, состоит из цифр, может начинается с плюса',
+  Message = 'не должно быть пустым',
+}
+
 interface IValidationObj {
   [key: string]: { valid: boolean; text: string }
 }
 
 export const useValidation = (): [
-  (e: ChangeEvent<HTMLInputElement>) => void,
-  IValidationObj
+  IValidationObj,
+  (e: ChangeEvent<HTMLInputElement>) => void
 ] => {
   const [objValidation, setObjValidation] = useState<IValidationObj>({})
   const [passwordValid, setPasswordValid] = useState<string>('')
@@ -68,14 +78,14 @@ export const useValidation = (): [
         ...state,
         email: {
           valid: false,
-          text: 'латиница, может включать цифры и спецсимволы вроде дефиса, обязательно должна быть «собака» (@) и точка после неё, но перед точкой обязательно должны быть буквы',
+          text: 'Невалидный email',
         },
       }))
     }
   }
   const login = (input: HTMLInputElement) => {
     if (
-      /^[\w\S]{3,20}$/i.test(input.value) &&
+      /^[\w]{3,20}$/i.test(input.value) &&
       input.value.match(/\D/gi)?.length &&
       !input.value.match(/[`~!@#$%^&*()|+=?;:'",.<>{}[]\\\/]/gi)?.length
     ) {
@@ -91,7 +101,7 @@ export const useValidation = (): [
         ...state,
         [input.name === 'login' ? 'login' : 'displayName']: {
           valid: false,
-          text: 'от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчёркивание)',
+          text: ErrorMessages.Login,
         },
       }))
     }
@@ -114,7 +124,7 @@ export const useValidation = (): [
         ...state,
         [input.name === 'first_name' ? 'firstName' : 'secondName']: {
           valid: false,
-          text: 'латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис)',
+          text: ErrorMessages.FirstNameOrSecondName,
         },
       }))
     }
@@ -135,7 +145,7 @@ export const useValidation = (): [
         ...state,
         password: {
           valid: false,
-          text: 'от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра',
+          text: ErrorMessages.Password,
         },
       }))
     }
@@ -151,7 +161,7 @@ export const useValidation = (): [
         ...state,
         passwordRepeat: {
           valid: false,
-          text: 'пароль не совпадает',
+          text: ErrorMessages.PasswordRepeat,
         },
       }))
     }
@@ -167,7 +177,7 @@ export const useValidation = (): [
         ...state,
         phone: {
           valid: false,
-          text: 'от 10 до 15 символов, состоит из цифр, может начинается с плюса',
+          text: ErrorMessages.Phone,
         },
       }))
     }
@@ -183,10 +193,10 @@ export const useValidation = (): [
         ...state,
         message: {
           valid: false,
-          text: 'не должно быть пустым',
+          text: ErrorMessages.Message,
         },
       }))
     }
   }
-  return [validation, objValidation]
+  return [objValidation, validation]
 }
