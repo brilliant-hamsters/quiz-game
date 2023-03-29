@@ -1,9 +1,20 @@
+.root {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+
+  &:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+}
+
 .standard {
   width: 156px;
   height: 37px;
   background: #7900b3;
   border-radius: 4px;
-  border: none;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
@@ -14,13 +25,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: opacity .5s ease;
-
-  &:hover{
-    opacity: .8;
-    transition: opacity .3s ease;
-  }
 }
-
-

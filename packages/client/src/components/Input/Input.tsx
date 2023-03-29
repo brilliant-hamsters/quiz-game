@@ -32,7 +32,7 @@ export const Input: FC<InputProps> = ({
 }) => {
   return (
     <>
-      <label className={`${styles.label} ${styles[`type_${classInput}`]}`}>
+      <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
         {label}
         <input
           type={type}
