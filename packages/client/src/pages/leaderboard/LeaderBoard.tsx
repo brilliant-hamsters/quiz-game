@@ -2,23 +2,14 @@ import style from './leaderBoiard.module.scss'
 
 import trophy from '../../../public/images/icons/trophy.svg'
 import emoji from '../../../public/images/icons/emoji.svg'
-import emojiTop1 from '../../../public/images/icons/emojiTop1.svg'
-import emojiTop2 from '../../../public/images/icons/emojiTop2.svg'
-import emojiTop3 from '../../../public/images/icons/emojiTop3.svg'
+
 import arrow from '../../../public/images/icons/arrow.svg'
 import { FunctionComponent, useState } from 'react'
-import { LeaderItem } from './leaderItem'
+import { LeaderBoardItem } from '../../components/block/leaderBoardItem'
+import { ILeaderBoardItemProps } from '../../components/block/leaderBoardItem/LeaderBoardItem'
+import { LeaderBoardPedestal } from '../../components/block/leaderBoardPedestal'
 
-export interface ILeaderList {
-  nickname: string
-  money: number
-}
-interface ILeaderBoardProps {
-  position: number
-  salary: number
-}
-
-const arrList: ILeaderList[] = [
+const arrList: ILeaderBoardItemProps[] = [
   {
     nickname: 'anonim',
     money: 10000,
@@ -32,30 +23,19 @@ const arrList: ILeaderList[] = [
     money: 30000,
   },
 ]
+
+interface ILeaderBoardProps {
+  position: number
+  salary: number
+}
+
 export const LeaderBoard: FunctionComponent<ILeaderBoardProps> = ({
   position,
   salary,
 }) => {
-  const [list, setList] = useState(arrList ?? [])
-
-  const renderList = () => {
-    if (!list.length) {
-      return 'Лидеров нет!'
-    } else {
-      return list.map((item: ILeaderList) => {
-        return (
-          <LeaderItem
-            key={item.nickname}
-            nickname={item.nickname}
-            money={item.money}
-          />
-        )
-      })
-    }
-  }
-
+  const [leaderItem, setLeaderItem] = useState(arrList ?? [])
   return (
-    <section className={style.leaderBoard}>
+    <section className={style.root}>
       <div className={style.blocks}>
         <div className={style['block-left']}>
           <div>
@@ -80,30 +60,22 @@ export const LeaderBoard: FunctionComponent<ILeaderBoardProps> = ({
               </div>
             </div>
           </div>
-          <div className={style.columnWrapper}>
-            <div className={style.columnElem}>
-              <div>
-                <img src={emojiTop3} alt="emojiTop3" />
-              </div>
-              <div className={style.columnFirst}></div>
-            </div>
-            <div className={style.columnElem}>
-              <div>
-                <img src={emojiTop1} alt="emojiTop1" />
-              </div>
-              <div className={style.columnSecond}></div>
-            </div>
-            <div className={style.columnElem}>
-              <div>
-                <img src={emojiTop2} alt="emojiTop2" />
-              </div>
-              <div className={style.columnThird}></div>
-            </div>
-          </div>
+          <LeaderBoardPedestal />
         </div>
         <div className={style['block-rigth']}>
           <h2 className={style.leadersTitle}>Leaderboard</h2>
-          <ul className={style.leaders}>{renderList()}</ul>
+          <ul className={style.leaders}>
+            {leaderItem.length
+              ? leaderItem.map(item => {
+                  return (
+                    <LeaderBoardItem
+                      nickname={item.nickname}
+                      money={item.money}
+                    />
+                  )
+                })
+              : 'Лидеров нет!'}
+          </ul>
         </div>
       </div>
       <div className={style.sidebar}>
