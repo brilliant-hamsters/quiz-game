@@ -1,4 +1,4 @@
-.leaderBoard {
+.root {
   margin: 0 auto;
   width: 1820px;
   padding: 28px 0 69px 0;
@@ -69,54 +69,7 @@
   font-size: 40px;
   text-align: center;
 }
-.columnWrapper {
-  display: flex;
-  align-items: flex-end;
-  margin-top: 43px;
-}
-.columnElem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.columnFirst {
-  width: 200px;
-  height: 160px;
-  background: linear-gradient(
-    180deg,
-    #ffc700 0%,
-    #d87400 43.74%,
-    #ff3d00 76.41%
-  );
-  border: 12px solid #000000;
-}
-.columnSecond {
-  width: 200px;
-  height: 420px;
-  background: linear-gradient(
-    180deg,
-    #ffc700 0%,
-    #d87400 43.74%,
-    #ff3d00 76.41%
-  );
-  border: 12px solid #000000;
-}
-.columnThird {
-  width: 200px;
-  height: 260px;
-  background: linear-gradient(
-    180deg,
-    #ffc700 0%,
-    #d87400 43.74%,
-    #ff3d00 76.41%
-  );
-  border: 12px solid #000000;
-}
-.columnEmojis {
-  height: 120px;
-  width: 120px;
-  margin-bottom: 20px;
-}
+
 .leaders {
   display: flex;
   flex-direction: column;

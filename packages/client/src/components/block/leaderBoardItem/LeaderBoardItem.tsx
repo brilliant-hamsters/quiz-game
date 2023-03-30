@@ -1,14 +1,18 @@
-import { FunctionComponent } from 'react'
-import style from './leaderItem.module.scss'
+import { FunctionComponent, useState } from 'react'
+import style from './leaderBoardItem.module.scss'
 import profile from '../../../../public/images/icons/profile.svg'
-import { ILeaderList } from '../LeaderBoard'
 
-export const LeaderItem: FunctionComponent<ILeaderList> = ({
+export interface ILeaderBoardItemProps {
+  nickname: string
+  money: number
+}
+
+export const LeaderBoardItem: FunctionComponent<ILeaderBoardItemProps> = ({
   nickname,
   money,
 }) => {
   return (
-    <li className={style.leadersList}>
+    <li className={style.root}>
       <div slot={style.leadersAvatar}>
         <img src={profile} alt="profile" />
       </div>
