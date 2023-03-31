@@ -17,7 +17,7 @@ export const Button: FC<ButtonProps> = ({
   return (
     <button
       type="submit"
-      className={styles[classButton]}
+      className={`${styles.root} ${styles[classButton]}`}
       disabled={!isFormValid}>
       {buttonName}
       {children}
