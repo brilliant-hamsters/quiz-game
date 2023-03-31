@@ -1,4 +1,6 @@
 import { GamePage } from "../pages/GamePage";
+import { Profile } from "../pages/Profile";
+
 interface IRoute {
     /**
      * Идентификатор роута
@@ -59,6 +61,12 @@ export const routes: IRoute[] = [
     id: 'signUp',
     path: '/sign_up',
     component: () => <div>Sign Up</div>,
+    isPrivate: false
+  },
+  {
+    id: 'profile',
+    path: '/profile',
+    component: Profile,
     isPrivate: false
   }
 ]
