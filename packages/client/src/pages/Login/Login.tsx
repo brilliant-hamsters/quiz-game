@@ -26,7 +26,7 @@ export function Login() {
           classInput="login"
           type="password"
           name="password"
-          autoFocus
+          autoFocus={false}
           required
           minSymbol={2}
           label="Пароль"
