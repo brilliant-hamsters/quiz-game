@@ -5,7 +5,6 @@ import iconWin from "../../../public/images/icons/icon_verified_user.svg"
 import iconMenu from "../../../public/images/icons/icon_menu.svg"
 import { MouseEventHandler } from "react"
 import React from "react"
-import { useAppDispatch, useAppSelector } from "../../store"
 
 
 export const Profile = () => {
