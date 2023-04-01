@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
+import profileReducer from './profile/profileSlice';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 const reducers = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  profile: profileReducer
 });
 
 const store = configureStore({

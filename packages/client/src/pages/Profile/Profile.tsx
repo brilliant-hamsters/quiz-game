@@ -5,9 +5,13 @@ import iconWin from "../../../public/images/icons/icon_verified_user.svg"
 import iconMenu from "../../../public/images/icons/icon_menu.svg"
 import { MouseEventHandler } from "react"
 import React from "react"
+import { useAppDispatch, useAppSelector } from "../../store"
+import { editUser } from "../../store/profile/profileSlice"
 
 
 export const Profile = () => {
+    const dispatch = useAppDispatch();
+    const {isLoading, error, user} = useAppSelector(state => state.profile)
     const [trottle, setTrottle] = React.useState(true);
     const [check, setCheck] = React.useState(true);
 
@@ -68,7 +72,31 @@ export const Profile = () => {
             }
         }
     }
-
+    
+    const updateUser = (event: React.SyntheticEvent)=> {
+        event.preventDefault();
+        const userInfo__names = document.querySelector<HTMLInputElement>(`.${styles.input}`);
+        if(userInfo__names) {
+            if(userInfo__names.disabled === false) {
+                const data:any = {
+                    
+                };
+            
+            const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.input}`)
+            
+            if(userInfo) {
+                userInfo.forEach((e) => {
+                    data[e.name] = e.value;
+                });
+                console.log(data)
+                dispatch(editUser(data))
+            }
+            }else {
+                console.log("Перейдите в режим редактирования")
+            }
+        }
+        
+    }
     return <div className={styles.root}>
                 <div className={styles.body}>
                     <div className={styles.header}>
@@ -85,18 +113,18 @@ export const Profile = () => {
                                 <input type="file" name="input__avatar" className={styles.avatar} accept="image/png, image/jpeg"/>
                             </span>
                         </form>
-                        <form action="" className={styles.userDataControl}>
-                            <div className={styles.userData}>Имя: <input  className={styles.input} name="first_name"  placeholder={""} disabled/></div>
-                            <div className={styles.userData}>Фамилия: <input  className={styles.input} name="second_name" placeholder={""} disabled/></div>
-                            <div className={styles.userData}>Почта: <input  className={styles.input} name="email" placeholder={""} disabled/></div>
-                            <div className={styles.userData}>Логин: <input  className={styles.input} name="login" placeholder={""} disabled/></div>
-                            <div className={styles.userData}>Номер телефона: <input  className={styles.input} name="phone" placeholder={""} disabled/></div>
+                        <form action="" onSubmit={updateUser} className={styles.userDataControl}>
+                            <div className={styles.userData}>Имя: <input  className={styles.input} name="first_name"  placeholder={user?.first_name} disabled/></div>
+                            <div className={styles.userData}>Фамилия: <input  className={styles.input} name="second_name" placeholder={user?.second_name} disabled/></div>
+                            <div className={styles.userData}>Почта: <input  className={styles.input} name="email" placeholder={user?.mail} disabled/></div>
+                            <div className={styles.userData}>Логин: <input  className={styles.input} name="login" placeholder={user?.login} disabled/></div>
+                            <div className={styles.userData}>Номер телефона: <input  className={styles.input} name="phone" placeholder={user?.phone} disabled/></div>
                             <button className={styles.buttonSave} type="submit"  disabled>Сохранить</button>
                         </form>
                         <button className={styles.buttonEditPass} onClick={addModal}>Изменить пароль</button>
                     </div>
                     <div className={styles.gameInfo}>
-                        <div className={styles.nickname}>Nickname:<input  className={styles.input} name="display_name" placeholder={""} disabled/></div>
+                        <div className={styles.nickname}>Nickname:<input  className={styles.input} name="display_name" placeholder={user?.nickName} disabled/></div>
                         <div className={styles.achievementsControl}>
                             Achievements:
                             <div className={styles.achievements}>
