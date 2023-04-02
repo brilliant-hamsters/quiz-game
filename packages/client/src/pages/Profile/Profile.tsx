@@ -7,6 +7,7 @@ import { MouseEventHandler } from "react"
 import React from "react"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { editUser, editAvatar, editPass } from "../../store/profile/profileSlice"
+import { signIn } from "../../store/auth/authSlice"
 
 interface IUserData {
     [key: string]: string
@@ -129,26 +130,35 @@ export const Profile = () => {
 
     const updateAvater = (event: React.SyntheticEvent)=> {
         event.preventDefault();
-        const avatarControl = document.querySelector<HTMLFormElement>(`.${styles.avatarControl}`);
-        if(avatarControl) {
-            dispatch(editAvatar(new FormData(avatarControl)));
-        }
+        const input = event.target;
+        const fileList = (input as HTMLInputElement).files;
+        const data = new FormData();
+            if(fileList) {
+                data.append('avatar', fileList[0], 'userAvatar');
+                dispatch(editAvatar(data));
+            }
+        
+    }
+
+    const loginIn = () => {
+        const data = {login: "Dmitriy1234", password: "Dmitriy1234"};
+        dispatch(signIn(data))
     }
 
     return <div className={styles.root}>
                 <div className={styles.body}>
                     <div className={styles.header}>
                         <div className={styles.title}>
-                            Профиль <button onClick={addEditElement} className={styles.buttonEdit} ><img src={iconEdit} className={styles.iconEdit}/></button>
+                            Профиль <button onClick={loginIn} className={styles.buttonEdit} ><img src={iconEdit} className={styles.iconEdit}/></button>
                         </div>
                         <div className={styles.message}>Редактирование профиля!</div>
                         <button className={styles.buttonClose} onClick={addEditElement}>x</button>
                     </div>
                     <div className={styles.userInfo}>
-                        <form method="post" encType="multipart/form-data" className={styles.avatarControl} onChange={updateAvater}>
+                        <form method="post" encType="multipart/form-data" className={styles.avatarControl} >
                             Аватар:
                             <span className={styles.avatarSpan} style={{backgroundImage:`url(${avatar?.avatar})`}}> 
-                                <input type="file" name="input__avatar" className={styles.avatar} accept="image/png, image/jpeg"/>
+                                <input type="file" name="input__avatar" className={styles.avatar} accept="image/*" onChange={updateAvater} />
                             </span>
                         </form>
                         <form action="" onSubmit={updateUser} className={styles.userDataControl}>
@@ -179,7 +189,7 @@ export const Profile = () => {
                     <div className={styles.background}>
                         <div className={styles.modal}>
                             <div className={styles.modalHeader}>Изменение пароля!<button className={styles.buttonCloseModal} onClick={addModal}>X</button></div> 
-                            <form action="" className={styles.modalForm} onSubmit={updatePassword}>
+                            <form action="" className={styles.modalForm} onSubmit={updatePassword} onClick={addModal}>
                                 <div className={styles.modalDiv}>Старый пароль: <input name="oldPassword"  className={styles.password} /></div>
                                 <div className={styles.modalDiv}>Новый пароль:  <input name="newPassword" className={styles.password} /></div>
                                 <input className={styles.savePass} type="submit" value="Сохранить" />
