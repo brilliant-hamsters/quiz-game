@@ -1,0 +1,46 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  margin-left: 80px;
+  margin-bottom: 30px;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.result {
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.logoutImage {
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.leadLink {
+  color: white;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.lead {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 48px;
+  line-height: 60px;
+  text-decoration: underline;
+}
