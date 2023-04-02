@@ -3,10 +3,13 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Credentials': 'true'
 };
+const FORMDATA_HEADERS = {
+  "Content-Type": "multipart/form-data"
+}
 
 interface IApiOptions {
   method: string;
-  body?: Record<string, string | number | boolean>;
+  body?: Record<string, string | number | boolean > | FormData;
 }
 
 export const sendApiRequest = async (path: string, options?: IApiOptions) => {
@@ -26,8 +29,9 @@ export const sendApiRequest = async (path: string, options?: IApiOptions) => {
   const result = await fetch(`${DEFAULT_API_URL}${path}`, {
     method,
     headers: {
-      ...DEFAULT_HEADERS
+      ...((path === '/user/profile/avatar') ? FORMDATA_HEADERS : DEFAULT_HEADERS)
     },
+      credentials: 'include',
     ...(body ? { body: typeof body === 'object' ? JSON.stringify(body) : body } : {})
   });
 

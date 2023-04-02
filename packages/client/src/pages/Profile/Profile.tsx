@@ -6,12 +6,27 @@ import iconMenu from "../../../public/images/icons/icon_menu.svg"
 import { MouseEventHandler } from "react"
 import React from "react"
 import { useAppDispatch, useAppSelector } from "../../store"
-import { editUser } from "../../store/profile/profileSlice"
+import { editUser, editAvatar, editPass } from "../../store/profile/profileSlice"
 
+interface IUserData {
+    [key: string]: string
+    first_name:string;
+    second_name:string;
+    display_name:string;
+    login:string;
+    email:string;
+    phone:string;
+}
+
+interface IUserUpdatePass {
+    [key: string]: string;
+    oldPassword: string;
+    newPassword: string;
+}
 
 export const Profile = () => {
     const dispatch = useAppDispatch();
-    const {isLoading, error, user} = useAppSelector(state => state.profile)
+    const {isLoading, error, user, avatar} = useAppSelector(state => state.profile)
     const [trottle, setTrottle] = React.useState(true);
     const [check, setCheck] = React.useState(true);
 
@@ -77,26 +92,49 @@ export const Profile = () => {
         event.preventDefault();
         const userInfo__names = document.querySelector<HTMLInputElement>(`.${styles.input}`);
         if(userInfo__names) {
-            if(userInfo__names.disabled === false) {
-                const data:any = {
-                    
+                const data:IUserData = {
+                    first_name: "",
+                    second_name: "",
+                    display_name: "",
+                    login: "",
+                    email: "",
+                    phone: ""
                 };
-            
-            const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.input}`)
+                const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.input}`)
             
             if(userInfo) {
                 userInfo.forEach((e) => {
-                    data[e.name] = e.value;
+                    data[e.name] = e.value 
                 });
-                console.log(data)
                 dispatch(editUser(data))
-            }
-            }else {
-                console.log("Перейдите в режим редактирования")
-            }
+            } 
         }
         
     }
+
+    const updatePassword = (event: React.SyntheticEvent)=> {
+        event.preventDefault();
+        const data:IUserUpdatePass = {
+            oldPassword: "",
+            newPassword: "",
+        };
+        const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.password}`)
+        if(userInfo) {
+                userInfo.forEach((e) => {
+                    data[e.name] = e.value;
+                });
+                dispatch(editPass(data))
+        }
+    }
+
+    const updateAvater = (event: React.SyntheticEvent)=> {
+        event.preventDefault();
+        const avatarControl = document.querySelector<HTMLFormElement>(`.${styles.avatarControl}`);
+        if(avatarControl) {
+            dispatch(editAvatar(new FormData(avatarControl)));
+        }
+    }
+
     return <div className={styles.root}>
                 <div className={styles.body}>
                     <div className={styles.header}>
@@ -107,9 +145,9 @@ export const Profile = () => {
                         <button className={styles.buttonClose} onClick={addEditElement}>x</button>
                     </div>
                     <div className={styles.userInfo}>
-                        <form method="post" encType="multipart/form-data" className={styles.avatarControl}>
+                        <form method="post" encType="multipart/form-data" className={styles.avatarControl} onChange={updateAvater}>
                             Аватар:
-                            <span className={styles.avatarSpan}> 
+                            <span className={styles.avatarSpan} style={{backgroundImage:`url(${avatar?.avatar})`}}> 
                                 <input type="file" name="input__avatar" className={styles.avatar} accept="image/png, image/jpeg"/>
                             </span>
                         </form>
@@ -141,9 +179,9 @@ export const Profile = () => {
                     <div className={styles.background}>
                         <div className={styles.modal}>
                             <div className={styles.modalHeader}>Изменение пароля!<button className={styles.buttonCloseModal} onClick={addModal}>X</button></div> 
-                            <form action="" className={styles.modalForm}>
-                                <div className={styles.password}>Старый пароль: <input  className={styles.oldPassword} /></div>
-                                <div className={styles.password}>Новый пароль:  <input  className={styles.newPassword} /></div>
+                            <form action="" className={styles.modalForm} onSubmit={updatePassword}>
+                                <div className={styles.modalDiv}>Старый пароль: <input name="oldPassword"  className={styles.password} /></div>
+                                <div className={styles.modalDiv}>Новый пароль:  <input name="newPassword" className={styles.password} /></div>
                                 <input className={styles.savePass} type="submit" value="Сохранить" />
                             </form>
                         </div> 

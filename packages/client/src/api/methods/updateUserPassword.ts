@@ -6,7 +6,7 @@ interface IUserPassword {
 }
 
 
-export const updateUserData = async (data:IUserPassword) => {
+export const updateUserPassword = async (data:IUserPassword) => {
     return await sendApiRequest('/user/password', {
         method: "PUT",
         body: {...data}
