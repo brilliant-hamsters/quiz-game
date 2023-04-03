@@ -1,6 +1,9 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { signIn } from '../../store/auth/authSlice'
 import styles from './login.module.scss'
 //import { useValidation } from './../../utils/hooks/validation.hook'
 //import Api from '../../api/ApiBase'
@@ -11,18 +14,23 @@ export function Login() {
     login: '',
     password: '',
   })
+  const dispatch = useAppDispatch()
+  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (loggedIn === true) navigate('/')
+  }, [loggedIn])
 
   function changeData(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     const nameInput = e.target.name
     onChangeDataLogin({ ...dataLogin, [nameInput]: value })
     // setValidity(e)
-    // console.log(validObj)
   }
 
-  async function onSubmitForm() {
-    //const res = await Api.login(dataLogin)
-    //console.log(res)
+  function onSubmitForm() {
+    dispatch(signIn(dataLogin))
   }
 
   return (
@@ -33,16 +41,16 @@ export function Login() {
         buttonName="Войти"
         isFormValid
         caption="Нет аккаунта?"
-        path="#"
+        path="/sign_up"
         linkName="Зарегистрироваться"
-        onSubmitForm={onSubmitForm}>
+        onSubmitForm={onSubmitForm}
+        isLoading={isLoading}>
         <Input
           classInput="login"
           type="text"
           name="login"
           autoFocus
           required
-          minSymbol={2}
           label="Логин"
           onChange={changeData}
           value={dataLogin.login}
@@ -53,9 +61,8 @@ export function Login() {
           classInput="login"
           type="password"
           name="password"
-          autoFocus
+          autoFocus={false}
           required
-          minSymbol={2}
           label="Пароль"
           onChange={changeData}
           value={dataLogin.password}

@@ -7,8 +7,6 @@ type InputProps = {
   name: string
   autoFocus: boolean
   required: boolean
-  minSymbol?: number
-  maxSymbol?: number
   label: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   value: string
@@ -22,8 +20,6 @@ export const Input: FC<InputProps> = ({
   name,
   autoFocus,
   required,
-  minSymbol,
-  maxSymbol,
   label,
   onChange,
   value,
@@ -31,7 +27,6 @@ export const Input: FC<InputProps> = ({
   // errorMessage
 }) => {
   return (
-    <>
       <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
         {label}
         <input
@@ -41,14 +36,10 @@ export const Input: FC<InputProps> = ({
           id={`input-${name}`}
           autoFocus={autoFocus}
           required={required}
-          minLength={minSymbol}
-          maxLength={maxSymbol}
           onChange={onChange}
           value={value}
         />
         {/* {isValid?<></>:<span className={styles.errorMessage}>{errorMessage}</span>} */}
       </label>
-      
-    </>
   )
 }

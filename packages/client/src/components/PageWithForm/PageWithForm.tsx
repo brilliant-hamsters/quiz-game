@@ -1,4 +1,5 @@
 import { FC, FormEvent, ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '../Button/Button'
 import styles from './pageWithForm.module.scss'
 
@@ -12,6 +13,7 @@ type PageWithFormProps = {
   path: string
   linkName: string
   onSubmitForm: () => void
+  isLoading: boolean
 }
 
 export const PageWithForm: FC<PageWithFormProps> = ({
@@ -24,8 +26,9 @@ export const PageWithForm: FC<PageWithFormProps> = ({
   path,
   linkName,
   onSubmitForm,
+  isLoading,
 }) => {
-  function handlerSubmit(e:FormEvent<HTMLFormElement>) {
+  function handlerSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     onSubmitForm()
   }
@@ -35,27 +38,31 @@ export const PageWithForm: FC<PageWithFormProps> = ({
       <h1 className={styles.title}>{title}</h1>
       <form
         className={`${styles.form} ${styles[`form_${classElement}`]}`}
-        onSubmit={handlerSubmit}>
-        <fieldset className={styles.fieldset}>{children}</fieldset>
+        onSubmit={handlerSubmit}
+        noValidate>
+        <fieldset className={styles.fieldset} disabled={isLoading}>
+          {children}
+        </fieldset>
         <div className={styles.control}>
           <Button
             classButton="standard"
             buttonName={buttonName}
-            isFormValid={isFormValid}
+            disabled={isLoading||!isFormValid}
           />
           <span className={styles.span}>или</span>
           <Button
             classButton="standard"
             buttonName="Войти с"
-            isFormValid={isFormValid}>
+            disabled={isLoading||!isFormValid}
+            >
             <div className={styles.iconOAuth}></div>
           </Button>
         </div>
         <span className={styles.caption}>
           {caption}
-          <a href={path} className={styles.link}>
+          <Link to={path} className={styles.link}>
             {linkName}
-          </a>
+          </Link>
         </span>
       </form>
     </div>
