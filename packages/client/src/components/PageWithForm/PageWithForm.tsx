@@ -13,6 +13,7 @@ type PageWithFormProps = {
   path: string
   linkName: string
   onSubmitForm: () => void
+  
   isLoading: boolean
 }
 
@@ -32,6 +33,7 @@ export const PageWithForm: FC<PageWithFormProps> = ({
     e.preventDefault()
     onSubmitForm()
   }
+
   return (
     <div className={`${styles.root} ${styles[`box_${classElement}`]}`}>
       <div className={styles[`icon_${classElement}`]}></div>

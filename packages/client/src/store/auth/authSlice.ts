@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { login } from '../../api/methods/login'
 import { getCurrentUser } from '../../api/methods/getCurrentUser'
+import { signup } from '../../api/methods/signup'
 
 interface IInitState {
   user: Record<string, string> | null
@@ -33,13 +34,25 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     const result = await getCurrentUser()
     if (result.status === 401) {
-      return rejectWithValue(result.status)
+      return rejectWithValue('Ошибка авторизации')
     }
 
     if (!result.ok) {
       return rejectWithValue('Информация о пользователе не получена.')
     }
     return result
+  }
+)
+
+export const signUp = createAsyncThunk(
+  'auth/signup',
+  async (data: DataRegister, { rejectWithValue, dispatch }) => {
+    const result = await signup(data)
+    if (!result.ok) {
+      return rejectWithValue('В процессе регистрации произошла ошибка')
+    }
+    dispatch(getUser())
+    return
   }
 )
 
@@ -57,7 +70,6 @@ const authSlice = createSlice({
         state.loggedIn = true
       }),
       builder.addCase(signIn.rejected, (state, { error }) => {
-        console.log(error.message)
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
@@ -73,13 +85,25 @@ const authSlice = createSlice({
       }),
       builder.addCase(getUser.rejected, (state, { error }) => {
         console.log(error.message)
-        if (error.message === '401') {
+        if (error.message === 'Ошибка авторизации') {
           state.loggedIn = false
         }
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      }),
+      builder.addCase(signUp.pending, state => {
+        state.isLoading = true
+        state.error = null
+      }),
+      builder.addCase(signUp.fulfilled, state => {
+        state.loggedIn = true
+        state.isLoading = false
+        state.error = null
+      }),
+      builder.addCase(signUp.rejected, (state, { error }) => {
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
-        console.log(state.loggedIn)
       })
   },
 })

@@ -8,10 +8,8 @@ type InputProps = {
   autoFocus: boolean
   required: boolean
   label: string
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (nameInput: string, value: string) => void
   value: string
-  // isValid:boolean
-  // errorMessage:string
 }
 
 export const Input: FC<InputProps> = ({
@@ -23,23 +21,25 @@ export const Input: FC<InputProps> = ({
   label,
   onChange,
   value,
-  // isValid,
-  // errorMessage
 }) => {
+  function handlerChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value
+    const nameInput = e.target.name
+    onChange(nameInput, value)
+  }
   return (
-      <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
-        {label}
-        <input
-          type={type}
-          className={styles.input}
-          name={name}
-          id={`input-${name}`}
-          autoFocus={autoFocus}
-          required={required}
-          onChange={onChange}
-          value={value}
-        />
-        {/* {isValid?<></>:<span className={styles.errorMessage}>{errorMessage}</span>} */}
-      </label>
+    <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
+      {label}
+      <input
+        type={type}
+        className={styles.input}
+        name={name}
+        id={`input-${name}`}
+        autoFocus={autoFocus}
+        required={required}
+        onChange={handlerChange}
+        value={value}
+      />
+    </label>
   )
 }

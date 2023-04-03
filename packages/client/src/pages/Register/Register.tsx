@@ -1,8 +1,36 @@
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
 import styles from './register.module.scss'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { useNavigate } from 'react-router-dom'
+import { signUp } from '../../store/auth/authSlice'
 
 export function Register() {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
+  const [dataRegister, onChangeDataRegister] = useState<DataRegister>({
+    login: '',
+    first_name: '',
+    second_name: '',
+    password: '',
+    email: '',
+    phone: '',
+  })
+
+  useEffect(() => {
+    if (loggedIn === true) navigate('/')
+  }, [loggedIn])
+
+  function onChange(nameInput: string, value: string) {
+    onChangeDataRegister({ ...dataRegister, [nameInput]: value })
+  }
+
+  function onSubmitForm() {
+    dispatch(signUp(dataRegister))
+  }
+
   return (
     <main className={styles.main}>
       <PageWithForm
@@ -11,16 +39,19 @@ export function Register() {
         buttonName="Зарегистрироваться"
         isFormValid
         caption="Уже зарегистрированы?"
-        path="#"
-        linkName="Войти">
+        path="/auth"
+        linkName="Войти"
+        onSubmitForm={onSubmitForm}
+        isLoading={isLoading}>
         <Input
           classInput="register"
           type="text"
           name="login"
           autoFocus
           required
-          minSymbol={2}
           label="Логин"
+          onChange={onChange}
+          value={dataRegister.login}
         />
         <Input
           classInput="register"
@@ -28,8 +59,9 @@ export function Register() {
           name="first_name"
           autoFocus={false}
           required
-          minSymbol={2}
           label="Имя"
+          onChange={onChange}
+          value={dataRegister.first_name}
         />
         <Input
           classInput="register"
@@ -37,8 +69,9 @@ export function Register() {
           name="second_name"
           autoFocus={false}
           required
-          minSymbol={2}
           label="Фамилия"
+          onChange={onChange}
+          value={dataRegister.second_name}
         />
         <Input
           classInput="register"
@@ -46,8 +79,9 @@ export function Register() {
           name="email"
           autoFocus={false}
           required
-          minSymbol={2}
           label="Email"
+          onChange={onChange}
+          value={dataRegister.email}
         />
         <Input
           classInput="register"
@@ -55,8 +89,9 @@ export function Register() {
           name="phone"
           autoFocus={false}
           required
-          minSymbol={2}
           label="Телефон"
+          onChange={onChange}
+          value={dataRegister.phone}
         />
         <Input
           classInput="register"
@@ -64,8 +99,9 @@ export function Register() {
           name="password"
           autoFocus={false}
           required
-          minSymbol={2}
           label="Пароль"
+          onChange={onChange}
+          value={dataRegister.password}
         />
       </PageWithForm>
     </main>
