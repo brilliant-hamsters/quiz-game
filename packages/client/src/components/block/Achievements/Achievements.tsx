@@ -7,8 +7,8 @@ type achieve = {
 
 
 export const Achievements = (props:achieve) => {
-    return <div className={styles.achievements}>
-                <img src={props.imp_path} alt="" className={styles.achievements__icon} />
-                <p className={styles.achievements_p}>{props.achieve_text}</p>
+    return <div className={styles.root}>
+                <img src={props.imp_path} alt="" className={styles.icon} />
+                <p className={styles.title}>{props.achieve_text}</p>
             </div>
 }
