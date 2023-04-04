@@ -1,7 +1,3 @@
-//Это пример работы redux-toolkit + createAsyncThunk
-//Это не до конца готовый слайс для авторизации, требуется добавить signOut, а также getUser (по аналогии с signIn),
-// для получения данных авторизированного пользака
-
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateUserData } from '../../api/methods/updateUserData';
 import { updateUserAvatar } from '../../api/methods/updateAvatar';
@@ -80,7 +76,6 @@ const profileSlice = createSlice({
         ...state,
         isLoading: false,
         error: null,
-        password: payload.data
       }
     }),
     builder.addCase(editPass.rejected, (state, { error }) => {
@@ -102,7 +97,6 @@ const profileSlice = createSlice({
         ...state,
         isLoading: false,
         error: null,
-        avatar: payload.data
       }
     }),
     builder.addCase(editAvatar.rejected, (state, { error }) => {
