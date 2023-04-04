@@ -71,7 +71,7 @@ const profileSlice = createSlice({
         error: null
       }
     }),
-    builder.addCase(editPass.fulfilled, (state , { payload }) => {
+    builder.addCase(editPass.fulfilled, (state) => {
       return {
         ...state,
         isLoading: false,
@@ -92,7 +92,7 @@ const profileSlice = createSlice({
         error: null
       }
     }),
-    builder.addCase(editAvatar.fulfilled, (state , { payload }) => {
+    builder.addCase(editAvatar.fulfilled, (state) => {
       return {
         ...state,
         isLoading: false,
