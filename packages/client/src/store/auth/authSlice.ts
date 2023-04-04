@@ -64,43 +64,43 @@ const authSlice = createSlice({
     builder.addCase(signIn.pending, state => {
       state.isLoading = true
       state.error = null
-    }),
-      builder.addCase(signIn.fulfilled, state => {
+    })
+      .addCase(signIn.fulfilled, state => {
         state.error = null
         state.loggedIn = true
-      }),
-      builder.addCase(signIn.rejected, (state, { error }) => {
+      })
+      .addCase(signIn.rejected, (state, { error }) => {
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
-      }),
-      builder.addCase(getUser.pending, state => {
+      })
+     .addCase(getUser.pending, state => {
         state.isLoading = true
         state.error = null
-      }),
-      builder.addCase(getUser.fulfilled, (state, action) => {
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload
         state.isLoading = false
         state.error = null
-      }),
-      builder.addCase(getUser.rejected, (state, { error }) => {
+      })
+      .addCase(getUser.rejected, (state, { error }) => {
         console.log(error.message)
         if (error.message === 'Ошибка авторизации') {
           state.loggedIn = false
         }
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
-      }),
-      builder.addCase(signUp.pending, state => {
+      })
+      .addCase(signUp.pending, state => {
         state.isLoading = true
         state.error = null
-      }),
-      builder.addCase(signUp.fulfilled, state => {
+      })
+      .addCase(signUp.fulfilled, state => {
         state.loggedIn = true
         state.isLoading = false
         state.error = null
-      }),
-      builder.addCase(signUp.rejected, (state, { error }) => {
+      })
+      .addCase(signUp.rejected, (state, { error }) => {
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
