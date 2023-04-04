@@ -6,7 +6,7 @@ export function Login() {
   return (
     <main className={styles.main}>
       <PageWithForm
-        iconClass="iconLogin"
+        classElement="login"
         title="Авторизация"
         buttonName="Войти"
         isFormValid
@@ -14,6 +14,7 @@ export function Login() {
         path="#"
         linkName="Зарегистрироваться">
         <Input
+          classInput="login"
           type="text"
           name="login"
           autoFocus
@@ -22,9 +23,10 @@ export function Login() {
           label="Логин"
         />
         <Input
+          classInput="login"
           type="password"
           name="password"
-          autoFocus
+          autoFocus={false}
           required
           minSymbol={2}
           label="Пароль"

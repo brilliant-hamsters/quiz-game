@@ -2,7 +2,6 @@
   width: 100%;
   border-bottom: 2px solid #7900b3;
   padding: 0 0 12px;
-  margin-top: 40px;
   display: flex;
   justify-content: space-between;
   font-family: 'Inter';
@@ -18,6 +17,16 @@
     transition: color 0.3s ease;
   }
 }
+
+.type_login{
+  margin-top: 40px;
+}
+
+.type_register{
+  margin-top: 20px;
+}
+
+
 
 .input {
   width: 100%;
