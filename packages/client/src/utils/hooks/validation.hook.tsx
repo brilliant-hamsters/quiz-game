@@ -1,49 +1,71 @@
 import { ChangeEvent, useState } from 'react'
 
-enum ErrorMessages {
-  Email = 'Невалидный email',
-  Login = 'от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчёркивание)',
-  FirstNameOrSecondName = 'латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис)',
-  Password = 'от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра',
-  PasswordRepeat = 'пароль не совпадает',
-  Phone = 'от 10 до 15 символов, состоит из цифр, может начинается с плюса',
-  Message = 'не должно быть пустым',
+type FormFields =
+  | 'email'
+  | 'login'
+  | 'first_name'
+  | 'second_name'
+  | 'phone'
+  | 'message'
+  | 'password'
+  | 'passwordRepeat'
+  | 'display_name'
+  | 'oldPassword'
+  | 'newPassword'
+
+type ErrorMessages =
+  | Exclude<
+      FormFields,
+      | 'first_name'
+      | 'second_name'
+      | 'display_name'
+      | 'oldPassword'
+      | 'newPassword'
+    >
+  | 'FirstNameOrSecondName'
+
+const errorMessages: { [key in ErrorMessages]: string } = {
+  email: 'невалидный email',
+  login:
+    'от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчёркивание)',
+  FirstNameOrSecondName:
+    'латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис)',
+  password:
+    'от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра',
+  passwordRepeat: 'пароль не совпадает',
+  phone: 'от 10 до 15 символов, состоит из цифр, может начинается с плюса',
+  message: 'не должно быть пустым',
 }
 
-interface IValidationObj {
-  [key: string]: { valid: boolean; text: string }
+type ValidationObj = {
+  [key in FormFields]?: { valid: boolean; text: string }
 }
-
 export const useValidation = (): [
-  IValidationObj,
+  ValidationObj,
   (e: ChangeEvent<HTMLInputElement>) => void
 ] => {
-  const [objValidation, setObjValidation] = useState<IValidationObj>({})
+  const [objValidation, setObjValidation] = useState<ValidationObj>({})
   const [passwordValid, setPasswordValid] = useState<string>('')
 
   const validation = (e: ChangeEvent<HTMLInputElement>): void => {
     const input = e.target as HTMLInputElement
-    switch (input.name) {
+    const inputName = input.name as FormFields
+    switch (inputName) {
       case 'email':
         email(input)
         break
-
       case 'login':
         login(input)
         break
-
       case 'first_name':
         firstNameOrSecondName(input)
         break
-
       case 'second_name':
         firstNameOrSecondName(input)
         break
-
       case 'phone':
         phone(input)
         break
-
       case 'message':
         message(input)
         break
@@ -62,7 +84,6 @@ export const useValidation = (): [
       case 'newPassword':
         password(input)
         break
-
       default:
         break
     }
@@ -78,7 +99,7 @@ export const useValidation = (): [
         ...state,
         email: {
           valid: false,
-          text: 'Невалидный email',
+          text: errorMessages.email,
         },
       }))
     }
@@ -101,7 +122,7 @@ export const useValidation = (): [
         ...state,
         [input.name === 'login' ? 'login' : 'displayName']: {
           valid: false,
-          text: ErrorMessages.Login,
+          text: errorMessages.login,
         },
       }))
     }
@@ -124,7 +145,7 @@ export const useValidation = (): [
         ...state,
         [input.name === 'first_name' ? 'firstName' : 'secondName']: {
           valid: false,
-          text: ErrorMessages.FirstNameOrSecondName,
+          text: errorMessages.FirstNameOrSecondName,
         },
       }))
     }
@@ -145,7 +166,7 @@ export const useValidation = (): [
         ...state,
         password: {
           valid: false,
-          text: ErrorMessages.Password,
+          text: errorMessages.password,
         },
       }))
     }
@@ -161,7 +182,7 @@ export const useValidation = (): [
         ...state,
         passwordRepeat: {
           valid: false,
-          text: ErrorMessages.PasswordRepeat,
+          text: errorMessages.passwordRepeat,
         },
       }))
     }
@@ -177,7 +198,7 @@ export const useValidation = (): [
         ...state,
         phone: {
           valid: false,
-          text: ErrorMessages.Phone,
+          text: errorMessages.phone,
         },
       }))
     }
@@ -193,7 +214,7 @@ export const useValidation = (): [
         ...state,
         message: {
           valid: false,
-          text: ErrorMessages.Message,
+          text: errorMessages.message,
         },
       }))
     }
