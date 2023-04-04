@@ -1,4 +1,3 @@
-import { Profile } from "../pages/Profile";
 interface IRoute {
     /**
      * Идентификатор роута
@@ -64,7 +63,7 @@ export const routes: IRoute[] = [
   {
     id: 'profile',
     path: '/profile',
-    component: Profile,
+    component: () => <div>Profile</div>,
     isPrivate: false
   }
 ]
