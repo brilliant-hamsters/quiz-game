@@ -5,14 +5,15 @@
   justify-content: space-between;
   flex-direction: column;
   min-height: 65vh;
+  margin-top: 65px;
   width: 380px;
 }
 
-.box_login{
-  min-height: 50vh;
+.box_login {
+  min-height: 30vh;
 }
 
-%icon{
+%icon {
   position: absolute;
   left: auto;
   top: 60px;
@@ -49,7 +50,7 @@
   flex-direction: column;
 }
 
-.form_login{
+.form_login {
   height: 80%;
 }
 
@@ -60,6 +61,7 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  flex-grow: 3;
 }
 
 .control {
@@ -67,6 +69,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 2;
+  margin-top: 30px;
 }
 
 .iconOAuth {
@@ -93,6 +97,8 @@
   font-size: 14px;
   line-height: 1.25;
   color: #7b7b7b;
+  flex-grow: 1;
+  margin-top: 30px;
 }
 
 .link {
