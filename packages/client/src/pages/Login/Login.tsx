@@ -1,32 +1,26 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { signIn } from '../../store/auth/authSlice'
 import styles from './login.module.scss'
-//import { useValidation } from './../../utils/hooks/validation.hook'
-//import Api from '../../api/ApiBase'
 
 export function Login() {
-  //const [validObj, setValidity] = useValidation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
   const [dataLogin, onChangeDataLogin] = useState<DataAuth>({
     login: '',
     password: '',
   })
-  const dispatch = useAppDispatch()
-  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (loggedIn === true) navigate('/')
   }, [loggedIn])
 
-  function changeData(e: ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value
-    const nameInput = e.target.name
+  function onChange(nameInput: string, value: string) {
     onChangeDataLogin({ ...dataLogin, [nameInput]: value })
-    // setValidity(e)
   }
 
   function onSubmitForm() {
@@ -52,10 +46,8 @@ export function Login() {
           autoFocus
           required
           label="Логин"
-          onChange={changeData}
+          onChange={onChange}
           value={dataLogin.login}
-          // isValid={validObj.login?.valid}
-          // errorMessage={validObj.login?.text}
         />
         <Input
           classInput="login"
@@ -64,10 +56,8 @@ export function Login() {
           autoFocus={false}
           required
           label="Пароль"
-          onChange={changeData}
+          onChange={onChange}
           value={dataLogin.password}
-          // isValid={validObj.password?.valid}
-          // errorMessage={validObj.password?.text}
         />
       </PageWithForm>
     </main>
