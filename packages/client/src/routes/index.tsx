@@ -1,3 +1,4 @@
+import { GamePage } from "../pages/GamePage";
 interface IRoute {
     /**
      * Идентификатор роута
@@ -21,7 +22,7 @@ export const routes: IRoute[] = [
   {
     id: 'game',
     path: '/',
-    component: () => <div>Game</div>,
+    component: GamePage,
     isPrivate: true
   },
   {
