@@ -1,11 +1,6 @@
 import { sendApiRequest } from '../apiService';
 
-interface ILoginData {
-  login: string;
-  password: string
-}
-
-export const login = async (data: ILoginData) => {
+export const login = async (data: DataAuth) => {
   return await sendApiRequest('/auth/signin', {
     method: 'POST',
     body: { ...data }

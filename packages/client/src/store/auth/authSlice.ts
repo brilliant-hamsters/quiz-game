@@ -1,63 +1,87 @@
-//Это пример работы redux-toolkit + createAsyncThunk
-//Это не до конца готовый слайс для авторизации, требуется добавить signOut, а также getUser (по аналогии с signIn),
-// для получения данных авторизированного пользака
-
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { login } from '../../api/methods/login'
-
-interface IAuthData {
-  login: string,
-  password: string
-}
+import { getCurrentUser } from '../../api/methods/getCurrentUser'
 
 interface IInitState {
-  user: Record<string, string> | null;
-  isLoading: boolean;
+  user: Record<string, string> | null
+  isLoading: boolean
   error: null | string
+  loggedIn: boolean
 }
 
 const initialState: IInitState = {
   user: null,
   isLoading: false,
-  error: null
+  error: null,
+  loggedIn: false,
 }
 
-export const signIn = createAsyncThunk('auth/login', async (data: IAuthData, {rejectWithValue}) => {
-  const result = await login(data);
-  if (!result.ok) {
-    return rejectWithValue('Невозможно выполнить запрос авторизации!');
+export const signIn = createAsyncThunk(
+  'auth/login',
+  async (data: DataAuth, { rejectWithValue, dispatch }) => {
+    const result = await login(data)
+    if (!result.ok) {
+      return rejectWithValue('Невозможно выполнить запрос авторизации!')
+    }
+    dispatch(getUser())
+    return
   }
+)
 
-  return;
-});
+export const getUser = createAsyncThunk(
+  'auth/user',
+  async (_, { rejectWithValue }) => {
+    const result = await getCurrentUser()
+    if (result.status === 401) {
+      return rejectWithValue(result.status)
+    }
+
+    if (!result.ok) {
+      return rejectWithValue('Информация о пользователе не получена.')
+    }
+    return result
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(signIn.pending, (state) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: null
-      }
+  extraReducers: builder => {
+    builder.addCase(signIn.pending, state => {
+      state.isLoading = true
+      state.error = null
     }),
-    builder.addCase(signIn.fulfilled, (state) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: null
-      }
-    }),
-    builder.addCase(signIn.rejected, (state, { error }) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: error.message || 'Произошла неизвестная ошибка'
-      }
-    })
-  }
-});
+      builder.addCase(signIn.fulfilled, state => {
+        state.error = null
+        state.loggedIn = true
+      }),
+      builder.addCase(signIn.rejected, (state, { error }) => {
+        console.log(error.message)
+        state.loggedIn = false
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      }),
+      builder.addCase(getUser.pending, state => {
+        state.isLoading = true
+        state.error = null
+      }),
+      builder.addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.isLoading = false
+        state.error = null
+      }),
+      builder.addCase(getUser.rejected, (state, { error }) => {
+        console.log(error.message)
+        if (error.message === '401') {
+          state.loggedIn = false
+        }
+        state.loggedIn = false
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+        console.log(state.loggedIn)
+      })
+  },
+})
 
-export default authSlice.reducer;
+export default authSlice.reducer
