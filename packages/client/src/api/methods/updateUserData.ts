@@ -1,6 +1,6 @@
 import {sendApiRequest} from "../apiService";
 
-interface IUserData {
+export type IUserData = {
     first_name:string;
     second_name:string;
     display_name:string;
@@ -13,6 +13,6 @@ interface IUserData {
 export const updateUserData = async (data:IUserData) => {
     return await sendApiRequest('/user/profile', {
         method: "PUT",
-        body: {...data}
+        body: data
     })
 }
