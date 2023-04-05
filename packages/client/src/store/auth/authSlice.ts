@@ -40,7 +40,7 @@ export const getUser = createAsyncThunk(
     if (!result.ok) {
       return rejectWithValue('Информация о пользователе не получена.')
     }
-    return result
+    return  await result.json()
   }
 )
 
@@ -70,6 +70,7 @@ const authSlice = createSlice({
         state.loggedIn = true
       })
       .addCase(signIn.rejected, (state, { error }) => {
+        console.log(error)
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
@@ -82,9 +83,10 @@ const authSlice = createSlice({
         state.user = action.payload
         state.isLoading = false
         state.error = null
+        console.log(state.user)
       })
       .addCase(getUser.rejected, (state, { error }) => {
-        console.log(error.message)
+        console.log(error)
         if (error.message === 'Ошибка авторизации') {
           state.loggedIn = false
         }
@@ -101,6 +103,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(signUp.rejected, (state, { error }) => {
+        console.log(error)
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
