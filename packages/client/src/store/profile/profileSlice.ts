@@ -5,7 +5,7 @@ import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
 interface IInitState {
-  user: Record<string, string> | null;
+  user: IUserData | null;
   isLoading: boolean;
   error: null | string
 }
