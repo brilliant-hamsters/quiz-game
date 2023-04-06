@@ -4,7 +4,6 @@ import iconEdit from "../../../public/images/icons/icon_edit_pencil.svg"
 import iconWin from "../../../public/images/icons/icon_verified_user.svg"
 import iconMenu from "../../../public/images/icons/icon_menu.svg"
 import React from "react"
-import { useAppDispatch, useAppSelector } from "../../store"
 import { MouseEventHandler, useState } from "react"
 
 export const Profile = () => {
