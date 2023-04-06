@@ -1,4 +1,6 @@
 import { GamePage } from "../pages/GamePage";
+import { GameEnd } from '../pages/GameEnd'
+
 interface IRoute {
     /**
      * Идентификатор роута
@@ -34,7 +36,7 @@ export const routes: IRoute[] = [
   {
     id: 'end',
     path: '/end',
-    component: () => <div>End</div>,
+    component: GameEnd,
     isPrivate: true
   },
   {
