@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GameLayout } from '../../layouts/GameLayout'
 import styles from './GameEnd.module.scss'
 import logoutIcon from '/images/icons/logout-icon.svg'
 
-export function GameEnd(): JSX.Element {
+export const GameEnd = () => {
   const [state] = useState(10)
 
   return (

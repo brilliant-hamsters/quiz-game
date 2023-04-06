@@ -1,5 +1,4 @@
 import { GamePage } from "../pages/GamePage";
-import { GameStart } from '../pages/GameStart'
 import { GameEnd } from '../pages/GameEnd'
 
 interface IRoute {
@@ -31,13 +30,13 @@ export const routes: IRoute[] = [
   {
     id: 'start',
     path: '/start',
-    component: () => <GameStart />,
+    component: () => <div>Start</div>,
     isPrivate: true
   },
   {
     id: 'end',
     path: '/end',
-    component: () => <GameEnd />,
+    component: GameEnd,
     isPrivate: true
   },
   {
