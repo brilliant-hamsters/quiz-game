@@ -1,4 +1,5 @@
 import { GamePage } from "../pages/GamePage";
+import { Profile } from "../pages/Profile";
 
 interface IRoute {
     /**
@@ -65,7 +66,7 @@ export const routes: IRoute[] = [
   {
     id: 'profile',
     path: '/profile',
-    component: () => <div>Profile</div>,
+    component: Profile,
     isPrivate: false
   }
 ]
