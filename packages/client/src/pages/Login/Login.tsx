@@ -4,6 +4,7 @@ import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { signIn } from '../../store/auth/authSlice'
+import { DataAuth } from '../../typings/appTypes'
 import styles from './login.module.scss'
 
 export function Login() {
@@ -16,7 +17,7 @@ export function Login() {
   })
 
   useEffect(() => {
-    if (loggedIn === true) navigate('/')
+    if (loggedIn) navigate('/')
   }, [loggedIn])
 
   function onChange(nameInput: string, value: string) {

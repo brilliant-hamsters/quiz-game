@@ -4,17 +4,15 @@ import styles from './button.module.scss'
 export type ButtonProps = {
   classButton: string
   buttonName: string
-  //isFormValid: boolean
   children?: ReactNode
-  disabled:boolean
+  disabled: boolean
 }
 
 export const Button: FC<ButtonProps> = ({
   classButton,
   buttonName,
-  //isFormValid,
   children,
-  disabled
+  disabled,
 }) => {
   return (
     <button

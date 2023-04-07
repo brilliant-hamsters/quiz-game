@@ -1,4 +1,4 @@
-type User = {
+export type User = {
   avatar?: string
   display_name?: string
   email: string
@@ -10,5 +10,5 @@ type User = {
   password: string
 }
 
-type DataAuth = Pick<User, 'login' | 'password'>
-type DataRegister = Omit<User, 'id' | 'display_name'>
+export type DataAuth = Pick<User, 'login' | 'password'>
+export type DataRegister = Omit<User, 'id' | 'display_name'>

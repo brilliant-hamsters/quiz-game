@@ -1,3 +1,4 @@
+import { DataRegister } from '../../typings/appTypes';
 import { sendApiRequest } from '../apiService';
 
 export const signup = async (data: DataRegister) => {

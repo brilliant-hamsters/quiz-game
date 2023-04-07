@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { useNavigate } from 'react-router-dom'
 import { signUp } from '../../store/auth/authSlice'
+import { DataRegister } from '../../typings/appTypes'
 
 export function Register() {
   const dispatch = useAppDispatch()

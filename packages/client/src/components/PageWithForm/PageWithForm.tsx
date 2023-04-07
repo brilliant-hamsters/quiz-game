@@ -13,7 +13,6 @@ type PageWithFormProps = {
   path: string
   linkName: string
   onSubmitForm: () => void
-  
   isLoading: boolean
 }
 
@@ -49,14 +48,13 @@ export const PageWithForm: FC<PageWithFormProps> = ({
           <Button
             classButton="standard"
             buttonName={buttonName}
-            disabled={isLoading||!isFormValid}
+            disabled={isLoading || !isFormValid}
           />
           <span className={styles.span}>или</span>
           <Button
             classButton="standard"
             buttonName="Войти с"
-            disabled={isLoading||!isFormValid}
-            >
+            disabled={isLoading || !isFormValid}>
             <div className={styles.iconOAuth}></div>
           </Button>
         </div>

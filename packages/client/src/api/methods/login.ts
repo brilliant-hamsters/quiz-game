@@ -1,3 +1,4 @@
+import { DataAuth } from '../../typings/appTypes';
 import { sendApiRequest } from '../apiService';
 
 export const login = async (data: DataAuth) => {

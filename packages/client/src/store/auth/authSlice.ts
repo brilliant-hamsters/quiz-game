@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { login } from '../../api/methods/login'
 import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
+import { DataAuth, DataRegister } from '../../typings/appTypes'
 
 interface IInitState {
   user: Record<string, string> | null
@@ -40,7 +41,7 @@ export const getUser = createAsyncThunk(
     if (!result.ok) {
       return rejectWithValue('Информация о пользователе не получена.')
     }
-    return  await result.json()
+    return await result.json()
   }
 )
 
@@ -61,10 +62,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(signIn.pending, state => {
-      state.isLoading = true
-      state.error = null
-    })
+    builder
+      .addCase(signIn.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
       .addCase(signIn.fulfilled, state => {
         state.error = null
         state.loggedIn = true
@@ -75,7 +77,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
       })
-     .addCase(getUser.pending, state => {
+      .addCase(getUser.pending, state => {
         state.isLoading = true
         state.error = null
       })
