@@ -3,7 +3,7 @@ import styles from "./Achievements.module.scss"
 
 interface IAchieve {
     imp_path: string;
-    achieve_text:string;
+    achieve_text: string;
 }
 
 export const Achievements: FunctionComponent<IAchieve> = ({imp_path, achieve_text}) => {
