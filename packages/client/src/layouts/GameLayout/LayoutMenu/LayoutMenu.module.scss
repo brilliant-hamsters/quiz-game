@@ -1,0 +1,17 @@
+.menu {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  justify-items: center;
+  justify-content: space-around;
+  margin: 60px auto 30px auto;
+}
+
+.menuItem {
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
