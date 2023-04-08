@@ -1,0 +1,44 @@
+.page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: url("../../../public/images/bg_404.svg");
+    background-repeat: no-repeat;
+    background-size:auto; 
+}
+.page__span {
+    display: flex;
+    font-size: 4vw;  
+}
+.span__icon {
+    background-image: url("../../../public/images/icons/icon\ _tools.svg");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 5vw;
+    height: 5vw;
+}
+.page__button {
+    margin-top: 10%;
+}
+.button {
+    display: flex;
+    align-items: center;
+    font-size: 3.5vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer; 
+}
+.button:hover {
+    text-decoration: underline;
+}
+.button__icon {
+    background-image: url("../../../public/images/icons/129414_icon_send.svg");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 5vw;
+    height: 5vw;
+}
+
+

@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  min-height: 100px;
+  padding-top: 18px;
+}
+.message {
+  padding: 16px 16px;
+  background: rgba(67, 0, 133, 0.29);
+  width: 450px;
+  height: 100%;
+  padding-top: 15px;
+  border-radius: 10px;
+  position: relative;
+}
+.nickName {
+  position: absolute;
+  top: -16px;
+  left: 1px;
+  font-size: 16px;
+  color: rgba(67, 0, 133, 0.37);
+}
+.your {
+  justify-content: right;
+}
+.other {
+  justify-content: left;
+}

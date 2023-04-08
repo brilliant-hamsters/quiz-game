@@ -1,0 +1,55 @@
+.root {
+  width: 100%;
+  border-bottom: 2px solid #7900b3;
+  padding: 0 0 12px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #7b7b7b;
+  transition: color 0.2s ease;
+  position: relative;
+
+  &:focus-within {
+    color: #7900b3;
+    transition: color 0.3s ease;
+  }
+}
+
+.type_login {
+  margin-top: 40px;
+}
+
+.type_register{
+  margin-top: 20px;
+}
+
+.input {
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+  border: none;
+  font-family: 'Inter';
+  text-align: right;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #000;
+
+  &:disabled {
+    color: #7b7b7b;
+    background: none;
+  }
+}
+
+.errorMessage {
+  position: absolute;
+  top: 25px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #fd2828;
+  margin-top: 10px;
+}

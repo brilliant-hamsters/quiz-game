@@ -1,0 +1,114 @@
+.root {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 65vh;
+  margin-top: 65px;
+  width: 380px;
+}
+
+.box_login {
+  min-height: 30vh;
+}
+
+%icon {
+  position: absolute;
+  left: auto;
+  top: 60px;
+  width: 65px;
+  height: 70px;
+  background-size: cover;
+}
+
+.icon_login {
+  @extend %icon;
+  background-image: url('../../../public/images/icons/login-icon.svg');
+}
+
+.icon_register {
+  @extend %icon;
+  background-image: url('../../../public/images/icons/register-icon.svg');
+}
+
+.title {
+  color: #7b7b7b;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.form {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.form_login {
+  height: 80%;
+}
+
+.fieldset {
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-grow: 3;
+}
+
+.control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 2;
+  margin-top: 30px;
+}
+
+.iconOAuth {
+  width: 25px;
+  height: 25px;
+  background-image: url('../../../public/images/icons/icon-oauth.svg');
+  background-size: cover;
+  margin-left: 7px;
+}
+
+.span {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #7b7b7b;
+}
+
+.caption {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #7b7b7b;
+  flex-grow: 1;
+  margin-top: 30px;
+}
+
+.link {
+  margin-left: 5px;
+  text-decoration: none;
+  color: #009ef8;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #7900b3;
+    transition: color 0.2s ease;
+  }
+}
