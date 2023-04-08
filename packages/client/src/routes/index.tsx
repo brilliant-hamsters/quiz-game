@@ -1,3 +1,7 @@
+import { GamePage } from "../pages/GamePage";
+import { GameEnd } from '../pages/GameEnd';
+import { GameStart } from '../pages/GameStart';
+
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
 
@@ -21,46 +25,46 @@ interface IRoute {
 }
 
 export const routes: IRoute[] = [
-  {
-    id: 'game',
-    path: '/',
-    component: () => <div>Game</div>,
-    isPrivate: true
-  },
-  {
-    id: 'start',
-    path: '/start',
-    component: () => <div>Start</div>,
-    isPrivate: true
-  },
-  {
-    id: 'end',
-    path: '/end',
-    component: () => <div>End</div>,
-    isPrivate: true
-  },
-  {
-    id: 'leaderBoard',
-    path: '/leader_board',
-    component: () => <div>Leader Board</div>,
-    isPrivate: true
-  },
-  {
-    id: 'forum',
-    path: '/forum',
-    component: () => <div>Forum</div>,
-    isPrivate: true
-  },
-  {
-    id: 'auth',
-    path: '/auth',
-    component: () => <Login/>,
-    isPrivate: false
-  },
-  {
-    id: 'signUp',
-    path: '/sign_up',
-    component: () => <Register/>,
-    isPrivate: false
-  }
+    {
+        id: 'game',
+        path: '/',
+        component: GamePage,
+        isPrivate: true
+    },
+    {
+        id: 'start',
+        path: '/start',
+        component: GameStart,
+        isPrivate: true
+    },
+    {
+        id: 'end',
+        path: '/end',
+        component: GameEnd,
+        isPrivate: true
+    },
+    {
+        id: 'leaderBoard',
+        path: '/leader_board',
+        component: () => <div>Leader Board</div>,
+        isPrivate: true
+    },
+    {
+        id: 'forum',
+        path: '/forum',
+        component: () => <div>Forum</div>,
+        isPrivate: true
+    },
+    {
+        id: 'auth',
+        path: '/auth',
+        component: () => <Login/>,
+        isPrivate: false
+    },
+    {
+        id: 'signUp',
+        path: '/sign_up',
+        component: () => <Register/>,
+        isPrivate: false
+    }
 ]

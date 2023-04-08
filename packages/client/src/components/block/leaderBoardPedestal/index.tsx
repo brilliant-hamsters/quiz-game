@@ -1,0 +1,1 @@
+export { LeaderBoardPedestal } from './LeaderBoardPedestal'
