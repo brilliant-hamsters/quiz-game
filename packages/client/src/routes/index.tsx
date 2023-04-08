@@ -1,6 +1,7 @@
 import { GamePage } from "../pages/GamePage";
 import { GameEnd } from '../pages/GameEnd';
 import { GameStart } from '../pages/GameStart';
+import { Profile } from "../pages/Profile";
 
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
@@ -66,5 +67,11 @@ export const routes: IRoute[] = [
         path: '/sign_up',
         component: () => <Register/>,
         isPrivate: false
+    },
+    {
+        id: 'profile',
+        path: '/profile',
+        component: Profile,
+        isPrivate: true
     }
 ]
