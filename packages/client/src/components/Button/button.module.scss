@@ -1,0 +1,33 @@
+.root {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+
+  &:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    color: gray;
+  }
+}
+
+.standard {
+  width: 156px;
+  height: 37px;
+  background: #7900b3;
+  border-radius: 4px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

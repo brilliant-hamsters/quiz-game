@@ -3,6 +3,9 @@ import { GameEnd } from '../pages/GameEnd';
 import { GameStart } from '../pages/GameStart';
 import { Profile } from "../pages/Profile";
 
+import { Login } from "../pages/Login/Login";
+import { Register } from "../pages/Register/Register";
+
 interface IRoute {
     /**
      * Идентификатор роута
@@ -56,13 +59,13 @@ export const routes: IRoute[] = [
     {
         id: 'auth',
         path: '/auth',
-        component: () => <div>Auth</div>,
+        component: () => <Login/>,
         isPrivate: false
     },
     {
         id: 'signUp',
         path: '/sign_up',
-        component: () => <div>Sign Up</div>,
+        component: () => <Register/>,
         isPrivate: false
     },
     {
