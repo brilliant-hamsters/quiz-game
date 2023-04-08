@@ -6,7 +6,7 @@ const DEFAULT_HEADERS = {
 
 interface IApiOptions {
   method: string;
-  body?: Record<string, string | number | boolean>;
+  body?: Record<string, string | number | boolean > | FormData;
 }
 
 export const sendApiRequest = async (path: string, options?: IApiOptions) => {
@@ -26,9 +26,10 @@ export const sendApiRequest = async (path: string, options?: IApiOptions) => {
   const result = await fetch(`${DEFAULT_API_URL}${path}`, {
     method,
     headers: {
-      ...DEFAULT_HEADERS
+      ...((path === '/user/profile/avatar') ? {} : DEFAULT_HEADERS)
     },
-    ...(body ? { body: typeof body === 'object' ? JSON.stringify(body) : body } : {})
+      credentials: 'include',
+    ...(body ? { body: body instanceof FormData ? body : JSON.stringify(body)} : {})
   });
 
   return await result.json();
