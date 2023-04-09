@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./ButtonRout.module.scss"
 
 type BtnRoute = {
@@ -7,8 +8,11 @@ type BtnRoute = {
 }
 
 export const BtnRoute = (props:BtnRoute) => {
-    return <a className={styles.button} href={props.link}>
-                <img src={props.image_path} className={styles.icon} alt="Пусто" />
-                {props.name_btn}
-            </a>
+    return (
+    <div className={styles.button}><Link to={props.link}>
+        <img src={props.image_path} className={styles.icon} alt="Пусто" />
+        {props.name_btn}
+        </Link>
+    </div>
+    )
 }

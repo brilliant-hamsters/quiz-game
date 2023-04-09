@@ -2,9 +2,10 @@ import { GamePage } from "../pages/GamePage";
 import { GameEnd } from '../pages/GameEnd';
 import { GameStart } from '../pages/GameStart';
 import { Profile } from "../pages/Profile";
-
+import { LeaderBoard } from "../pages/leaderboard";
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
+import { Forum } from "../pages/forum";
 
 interface IRoute {
     /**
@@ -47,13 +48,13 @@ export const routes: IRoute[] = [
     {
         id: 'leaderBoard',
         path: '/leader_board',
-        component: () => <div>Leader Board</div>,
+        component: () => <LeaderBoard position={0} salary={0} />,
         isPrivate: true
     },
     {
         id: 'forum',
         path: '/forum',
-        component: () => <div>Forum</div>,
+        component: () => <Forum />,
         isPrivate: true
     },
     {

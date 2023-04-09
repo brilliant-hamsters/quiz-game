@@ -1,9 +1,6 @@
 .button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    font-size: 1vw;
+    text-align: center;
+    font-size: .8vw;
     color: black;
     background:none;
     border: none;
@@ -16,8 +13,8 @@
 }
 
 .icon {
-    width: 3vw;
-    height: 3vw;
+    width: 2.5vw;
+    height: 2.5vw;
     background-size: auto;
     background-repeat: no-repeat;
 }
