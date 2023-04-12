@@ -1,9 +1,17 @@
-import * as question from './questions.json';
+import question from './questions.json';
+
+type QuestionType = {
+  question: string,
+  answers: string[],
+  correctAnswer: string,
+  save: boolean,
+  award: number
+}
 
 export class QuizGame {
-  config: Record<string, number | string | string[] | boolean>[] | null;
-  saveCash: unknown;
-  totalCash: unknown;
+  config: QuestionType[] | null;
+  saveCash: number;
+  totalCash: number;
   numberQuestion: number;
 
   constructor() {
@@ -13,8 +21,8 @@ export class QuizGame {
     this.numberQuestion = 0
   }
 
-  private configStarted() {
-    const result: Record<string, number | string | string[] | boolean>[] = [];
+  private configStarted(): QuestionType[] {
+    const result: QuestionType[] = [];
     let award = 0;
 
     question.forEach(({ questions }) => {
