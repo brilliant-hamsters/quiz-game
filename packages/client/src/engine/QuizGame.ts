@@ -1,4 +1,4 @@
-import question from './questions.json';
+import { question } from './questions';
 
 type QuestionType = {
   question: string,
