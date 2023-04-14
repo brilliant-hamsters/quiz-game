@@ -3,7 +3,7 @@
     "complication": "low",
     "questions": [
       {
-        "question": "1.В чем измеряется ширна элемента отностильено размеров view port?",
+        "question": "1.В чем измеряется ширина элемента относительно размеров view port?",
         "answers": ["px", "rem", "%", "vw"],
         "correctAnswer": "vw"
       },

@@ -8,20 +8,22 @@ type QuestionType = {
   award: number
 }
 
+type FinalScoreType = number;
+
 export class QuizGame {
   config: QuestionType[] | null;
-  saveCash: number;
+  savedCash: number;
   totalCash: number;
-  numberQuestion: number;
+  currentQuestionNumber: number;
 
   constructor() {
     this.config = null;
-    this.saveCash = 0;
+    this.savedCash = 0;
     this.totalCash = 0;
-    this.numberQuestion = 0
+    this.currentQuestionNumber = 0
   }
 
-  private configStarted(): QuestionType[] {
+  private buildConfig(): QuestionType[] {
     const result: QuestionType[] = [];
     let award = 0;
 
@@ -29,7 +31,7 @@ export class QuizGame {
       let iterationCount = 0;
       const historyQuestion: number[] = [];
 
-      while(iterationCount < 2) {
+      while(iterationCount < 5) {
         const randomQuestion = Math.floor(Math.random() * (5));
 
         if (!historyQuestion.length || (!historyQuestion.includes(randomQuestion) && historyQuestion.length)) {
@@ -50,7 +52,7 @@ export class QuizGame {
     return result;
   }
 
-  private selectQuestion(id: number) {
+  private findQuestion(id: number) {
     if (!this.config) {
       return;
     }
@@ -58,22 +60,22 @@ export class QuizGame {
     return this.config[id];
   }
 
-  public checkingAnswer(answer: string) {
+  public checkAnswerAndMoveNext(answer: string): FinalScoreType | QuestionType | undefined {
     if (!this.config) {
       return;
     }
 
-    const { correctAnswer, save, award } = this.config[this.numberQuestion];
+    const { correctAnswer, save, award } = this.config[this.currentQuestionNumber];
 
     if (correctAnswer === answer) {
-      this.numberQuestion += 1;
-      this.saveCash = save ? award : this.saveCash;
+      this.currentQuestionNumber += 1;
+      this.savedCash = save ? award : this.savedCash;
       this.totalCash = award;
 
-      if (this.numberQuestion === this.config.length) {
+      if (this.currentQuestionNumber === this.config.length) {
         return this.endGame(true);
       } else {
-        return this.selectQuestion(this.numberQuestion);
+        return this.findQuestion(this.currentQuestionNumber);
       }
     } else {
       this.totalCash = 0;
@@ -82,15 +84,15 @@ export class QuizGame {
   }
 
   public startGame() {
-    this.config = this.configStarted();
-    return this.selectQuestion(this.numberQuestion);
+    this.config = this.buildConfig();
+    return this.findQuestion(this.currentQuestionNumber);
   }
 
   private endGame(victory: boolean) {
     if (victory) {
       return this.totalCash
     } else {
-      return this.saveCash ? this.saveCash : this.totalCash;
+      return this.savedCash ? this.savedCash : this.totalCash;
     }
   }
 }
