@@ -1,4 +1,4 @@
-import { question } from './questions'
+import { question } from './questions';
 
 export type QuestionType = {
   question: string
