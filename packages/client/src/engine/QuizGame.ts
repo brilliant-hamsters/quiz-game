@@ -102,7 +102,6 @@ export class QuizGame {
     this.savedCash = 0
     this.totalCash = 0
     this.config = this.buildConfig()
-    console.log(this.currentQuestionNumber)
     return this.findQuestion(this.currentQuestionNumber)
   }
 

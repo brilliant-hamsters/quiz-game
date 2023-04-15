@@ -5,17 +5,15 @@ import { BtnRoute } from '../../components/block/ButtonRout'
 import iconHome from '../../../public/images/icons/icon_home.svg'
 import iconLeaderboarStar from '../../../public/images/icons/icon_leaderboard_star.svg'
 import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
-import { QuestionType, QuizGame, } from '../../engine/QuizGame'
+import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
-  console.log(currentQuestion)
-
   const navigate = useNavigate()
+  const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
@@ -23,7 +21,7 @@ export const GamePage = () => {
 
   function onClick(answer: string) {
     const result = game.checkAnswerAndMoveNext(answer)
-    if (typeof result === 'object') onChangeCurrentQuestion({...result})
+    if (typeof result === 'object') onChangeCurrentQuestion({ ...result })
     if (typeof result === 'number') navigate('/end')
   }
 
@@ -34,7 +32,7 @@ export const GamePage = () => {
         <div className={styles.timer}>
           <TimeBar />
         </div>
-        <div className={styles.money}>Р:10000</div>
+        <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
         <div className={styles.questionControl}>
