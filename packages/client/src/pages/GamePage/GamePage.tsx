@@ -41,18 +41,16 @@ export const GamePage = () => {
           </div>
         </div>
         <ul className={styles.answersList}>
-          {currentQuestion?.answers.map((answer: string, i: number) => {
-            return (
-              <li
-                key={i}
-                className={styles.answer}
-                onClick={() => {
-                  onClick(answer)
-                }}>
-                <Answer answer_number={i + 1} answer_text={answer} />
-              </li>
-            )
-          })}
+          {currentQuestion?.answers.map((answer: string, i: number) => (
+            <li
+              key={i}
+              className={styles.answer}
+              onClick={() => {
+                onClick(answer)
+              }}>
+              <Answer answer_number={i + 1} answer_text={answer} />
+            </li>
+          ))}
         </ul>
       </div>
       <nav className={styles.navBar}>
