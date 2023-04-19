@@ -1,7 +1,7 @@
 import styles from "./Answer.module.scss"
 
 type AnswerProps = {
-    answer_number: string;
+    answer_number: number;
     answer_text: string;
 }
 

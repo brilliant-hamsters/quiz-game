@@ -1,14 +1,14 @@
-import { question } from './questions';
+import { question } from './questions'
 
-type QuestionType = {
-  question: string,
-  answers: string[],
-  correctAnswer: string,
-  save: boolean,
+export type QuestionType = {
+  question: string
+  answers: string[]
+  correctAnswer: string
+  save: boolean
   award: number
 }
 
-type FinalScoreType = number;
+type FinalScoreType = number
 
 export class QuizGame {
   config: QuestionType[] | null = null;
@@ -34,52 +34,60 @@ export class QuizGame {
       while(iterationCount < maxIterations) {
         const randomQuestion = Math.floor(Math.random() * (5));
 
-        if (!historyQuestion.length || (!historyQuestion.includes(randomQuestion) && historyQuestion.length)) {
-          iterationCount += 1;
-          award = (award * 2) + 500;
+        if (
+          !historyQuestion.length ||
+          (!historyQuestion.includes(randomQuestion) && historyQuestion.length)
+        ) {
+          iterationCount += 1
+          award = award * 2 + 100
 
-          historyQuestion.push(randomQuestion);
+          historyQuestion.push(randomQuestion)
 
           if (iterationCount !== maxIterations - 1) {
             result.push({ ...questions[randomQuestion], save: false, award: award })
           } else {
-            result.push({ ...questions[randomQuestion], save: true, award: award })
+            result.push({
+              ...questions[randomQuestion],
+              save: true,
+              award: award,
+            })
           }
         }
       }
-    });
+    })
 
-    return result;
+    return result
   }
 
   private findQuestion = (id: number) => {
     if (!this.config) {
-      return;
+      return
     }
 
-    return this.config[id];
+    return this.config[id]
   }
 
   public checkAnswerAndMoveNext = (answer: string): FinalScoreType | QuestionType | undefined => {
     if (!this.config) {
-      return;
+      return
     }
 
-    const { correctAnswer, save, award } = this.config[this.currentQuestionNumber];
+    const { correctAnswer, save, award } =
+      this.config[this.currentQuestionNumber]
 
     if (correctAnswer === answer) {
-      this.currentQuestionNumber += 1;
-      this.savedCash = save ? award : this.savedCash;
-      this.totalCash = award;
+      this.currentQuestionNumber += 1
+      this.savedCash = save ? award : this.savedCash
+      this.totalCash = award
 
       if (this.currentQuestionNumber === this.config.length) {
-        return this.endGame(true);
+        return this.endGame(true)
       } else {
-        return this.findQuestion(this.currentQuestionNumber);
+        return this.findQuestion(this.currentQuestionNumber)
       }
     } else {
-      this.totalCash = 0;
-      return this.endGame(false);
+      this.totalCash = 0
+      return this.endGame(false)
     }
   }
 
@@ -92,7 +100,7 @@ export class QuizGame {
     if (victory) {
       return this.totalCash
     } else {
-      return this.savedCash ? this.savedCash : this.totalCash;
+      return this.savedCash ? this.savedCash : this.totalCash
     }
   }
 }
