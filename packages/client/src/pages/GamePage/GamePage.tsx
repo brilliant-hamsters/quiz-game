@@ -1,12 +1,30 @@
+import styles from './GamePage.module.scss'
+import { TimeBar } from '../../components/block/TimeBar'
 import { Answer } from '../../components/block/Answer'
 import { BtnRoute } from '../../components/block/ButtonRout'
-import { TimeBar } from '../../components/block/TimeBar'
-import styles from './GamePage.module.scss'
 import iconHome from '../../../public/images/icons/icon_home.svg'
-import iconLeaderboardStar from '../../../public/images/icons/icon_leaderboard_star.svg'
-import iconPerson from '../../../public/images/icons/icon_user_circle.svg'
+import iconLeaderboarStar from '../../../public/images/icons/icon_leaderboard_star.svg'
+import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
+import { QuestionType, QuizGame } from '../../engine/QuizGame'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+export const game = new QuizGame()
 
 export const GamePage = () => {
+  const navigate = useNavigate()
+  const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
+
+  useEffect(() => {
+    onChangeCurrentQuestion(game.startGame())
+  }, [])
+
+  function onClick(answer: string) {
+    const result = game.checkAnswerAndMoveNext(answer)
+    if (typeof result === 'object') onChangeCurrentQuestion({ ...result })
+    if (typeof result === 'number') navigate('/end')
+  }
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -14,35 +32,27 @@ export const GamePage = () => {
         <div className={styles.timer}>
           <TimeBar />
         </div>
-        <div className={styles.money}>Р:10000</div>
+        <div className={styles.money}>{game.totalCash}</div>
       </div>
-
       <div className={styles.game}>
         <div className={styles.questionControl}>
           <div className={styles.question}>
-            <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua?
-            </span>
+            <span>{currentQuestion?.question}</span>
           </div>
         </div>
-
         <ul className={styles.answersList}>
-          <li className={styles.answer}>
-            <Answer answer_number="A" answer_text="lorem ipsum..........." />
-          </li>
-          <li className={styles.answer}>
-            <Answer answer_number="B" answer_text="lorem ipsum..........." />
-          </li>
-          <li className={styles.answer}>
-            <Answer answer_number="C" answer_text="lorem ipsum..........." />
-          </li>
-          <li className={styles.answer}>
-            <Answer answer_number="D" answer_text="lorem ipsum..........." />
-          </li>
+          {currentQuestion?.answers.map((answer: string, i: number) => (
+            <li
+              key={i}
+              className={styles.answer}
+              onClick={() => {
+                onClick(answer)
+              }}>
+              <Answer answer_number={i + 1} answer_text={answer} />
+            </li>
+          ))}
         </ul>
       </div>
-
       <nav className={styles.navBar}>
         <ul className={styles.linkList}>
           <li className={styles.link}>
@@ -54,14 +64,14 @@ export const GamePage = () => {
           </li>
           <li className={styles.link}>
             <BtnRoute
-              image_path={iconLeaderboardStar}
+              image_path={iconLeaderboarStar}
               name_btn="Leaders"
               link={'/leaderbord'}
             />
           </li>
           <li className={styles.link}>
             <BtnRoute
-              image_path={iconPerson}
+              image_path={iconPercon}
               name_btn="Profile"
               link={'/profile'}
             />
