@@ -11,27 +11,27 @@ type QuestionType = {
 type FinalScoreType = number;
 
 export class QuizGame {
-  config: QuestionType[] | null;
+  config: QuestionType[] | null = null;
   savedCash: number;
   totalCash: number;
   currentQuestionNumber: number;
 
   constructor() {
-    this.config = null;
     this.savedCash = 0;
     this.totalCash = 0;
     this.currentQuestionNumber = 0
   }
 
-  private buildConfig(): QuestionType[] {
+  private buildConfig = (): QuestionType[] => {
     const result: QuestionType[] = [];
     let award = 0;
 
     question.forEach(({ questions }) => {
       let iterationCount = 0;
+      const maxIterations = 5;
       const historyQuestion: number[] = [];
 
-      while(iterationCount < 5) {
+      while(iterationCount < maxIterations) {
         const randomQuestion = Math.floor(Math.random() * (5));
 
         if (!historyQuestion.length || (!historyQuestion.includes(randomQuestion) && historyQuestion.length)) {
@@ -40,7 +40,7 @@ export class QuizGame {
 
           historyQuestion.push(randomQuestion);
 
-          if (iterationCount !== 4) {
+          if (iterationCount !== maxIterations - 1) {
             result.push({ ...questions[randomQuestion], save: false, award: award })
           } else {
             result.push({ ...questions[randomQuestion], save: true, award: award })
@@ -52,7 +52,7 @@ export class QuizGame {
     return result;
   }
 
-  private findQuestion(id: number) {
+  private findQuestion = (id: number) => {
     if (!this.config) {
       return;
     }
@@ -60,7 +60,7 @@ export class QuizGame {
     return this.config[id];
   }
 
-  public checkAnswerAndMoveNext(answer: string): FinalScoreType | QuestionType | undefined {
+  public checkAnswerAndMoveNext = (answer: string): FinalScoreType | QuestionType | undefined => {
     if (!this.config) {
       return;
     }
@@ -83,12 +83,12 @@ export class QuizGame {
     }
   }
 
-  public startGame() {
+  public startGame = () => {
     this.config = this.buildConfig();
     return this.findQuestion(this.currentQuestionNumber);
   }
 
-  private endGame(victory: boolean) {
+  private endGame = (victory: boolean) => {
     if (victory) {
       return this.totalCash
     } else {
