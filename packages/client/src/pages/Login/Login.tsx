@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
@@ -6,26 +6,27 @@ import { useAppDispatch, useAppSelector } from '../../store'
 import { signIn } from '../../store/auth/authSlice'
 import { DataAuth } from '../../typings/appTypes'
 import styles from './login.module.scss'
+import {
+  ComponentWithValidation,
+  CustomComponentProps,
+} from '../../utils/hoc/ComponentWithValidation'
 
-export function Login() {
+export interface LoginProps extends CustomComponentProps {
+  dataForm: DataAuth
+}
+
+function Login({ validObj, onChange, dataForm }: LoginProps) {
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loggedIn, isLoading } = useAppSelector(state => state.auth)
-  const [dataLogin, onChangeDataLogin] = useState<DataAuth>({
-    login: '',
-    password: '',
-  })
 
   useEffect(() => {
-    if (loggedIn) navigate('/')
+    if (loggedIn) navigate('/start')
   }, [loggedIn])
 
-  function onChange(nameInput: string, value: string) {
-    onChangeDataLogin({ ...dataLogin, [nameInput]: value })
-  }
-
   function onSubmitForm() {
-    dispatch(signIn(dataLogin))
+    dispatch(signIn(dataForm))
   }
 
   return (
@@ -48,7 +49,8 @@ export function Login() {
           required
           label="Логин"
           onChange={onChange}
-          value={dataLogin.login}
+          validObj={validObj.login}
+          value={dataForm.login}
         />
         <Input
           classInput="login"
@@ -58,9 +60,12 @@ export function Login() {
           required
           label="Пароль"
           onChange={onChange}
-          value={dataLogin.password}
+          validObj={validObj.password}
+          value={dataForm.password}
         />
       </PageWithForm>
     </main>
   )
 }
+
+export default ComponentWithValidation(Login)

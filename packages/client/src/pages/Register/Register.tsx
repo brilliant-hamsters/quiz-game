@@ -1,35 +1,29 @@
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
 import styles from './register.module.scss'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { useNavigate } from 'react-router-dom'
 import { signUp } from '../../store/auth/authSlice'
 import { DataRegister } from '../../typings/appTypes'
+import { ComponentWithValidation, CustomComponentProps } from '../../utils/hoc/ComponentWithValidation'
 
-export function Register() {
+export interface RegisterProps extends CustomComponentProps{
+  dataForm:DataRegister
+}
+
+function Register({validObj, onChange, dataForm}:RegisterProps) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loggedIn, isLoading } = useAppSelector(state => state.auth)
-  const [dataRegister, onChangeDataRegister] = useState<DataRegister>({
-    login: '',
-    first_name: '',
-    second_name: '',
-    password: '',
-    email: '',
-    phone: '',
-  })
 
   useEffect(() => {
-    if (loggedIn === true) navigate('/')
+    if (loggedIn === true) navigate('/start')
   }, [loggedIn])
 
-  function onChange(nameInput: string, value: string) {
-    onChangeDataRegister({ ...dataRegister, [nameInput]: value })
-  }
 
   function onSubmitForm() {
-    dispatch(signUp(dataRegister))
+    dispatch(signUp(dataForm))
   }
 
   return (
@@ -52,7 +46,8 @@ export function Register() {
           required
           label="Логин"
           onChange={onChange}
-          value={dataRegister.login}
+          validObj={validObj.login}
+          value={dataForm.login}
         />
         <Input
           classInput="register"
@@ -62,7 +57,8 @@ export function Register() {
           required
           label="Имя"
           onChange={onChange}
-          value={dataRegister.first_name}
+          validObj={validObj.first_name}
+          value={dataForm.first_name}
         />
         <Input
           classInput="register"
@@ -72,7 +68,8 @@ export function Register() {
           required
           label="Фамилия"
           onChange={onChange}
-          value={dataRegister.second_name}
+          validObj={validObj.second_name}
+          value={dataForm.second_name}
         />
         <Input
           classInput="register"
@@ -82,7 +79,8 @@ export function Register() {
           required
           label="Email"
           onChange={onChange}
-          value={dataRegister.email}
+          validObj={validObj.email}
+          value={dataForm.email}
         />
         <Input
           classInput="register"
@@ -92,7 +90,8 @@ export function Register() {
           required
           label="Телефон"
           onChange={onChange}
-          value={dataRegister.phone}
+          validObj={validObj.phone}
+          value={dataForm.phone}
         />
         <Input
           classInput="register"
@@ -102,9 +101,12 @@ export function Register() {
           required
           label="Пароль"
           onChange={onChange}
-          value={dataRegister.password}
+          validObj={validObj.password}
+          value={dataForm.password}
         />
       </PageWithForm>
     </main>
   )
 }
+
+export default ComponentWithValidation(Register)
