@@ -5,10 +5,12 @@ import iconWin from "../../../public/images/icons/icon_verified_user.svg"
 import iconMenu from "../../../public/images/icons/icon_menu.svg"
 import React from "react"
 import { MouseEventHandler, useState } from "react"
+import { useAppSelector } from "../../store"
 
 export const Profile = () => {
     const [trottle, setTrottle] = useState(true);
     const [check, setCheck] = useState(true);
+    const { user } = useAppSelector(state => state.auth)
 
     const addEditElement: MouseEventHandler = () => {
         const button_close = document.querySelector<HTMLButtonElement>(`.${styles.buttonClose}`);
@@ -62,11 +64,11 @@ export const Profile = () => {
                         </form>
                         <form action="" className={styles.userDataControl}>
                             <fieldset className={styles.fieldset} disabled={check}>
-                            <label className={styles.userData}>Имя: <input  className={styles.input} name="first_name"  placeholder={""} /></label>
-                            <label className={styles.userData}>Фамилия: <input  className={styles.input} name="second_name" placeholder={""} /></label>
-                            <label className={styles.userData}>Почта: <input  className={styles.input} name="email" placeholder={""} /></label>
-                            <label className={styles.userData}>Логин: <input  className={styles.input} name="login" placeholder={""} /></label>
-                            <label className={styles.userData}>Номер телефона: <input  className={styles.input} name="phone" placeholder={""} /></label>
+                            <label className={styles.userData}>Имя: <input  className={styles.input} name="first_name"  value={user?.first_name} /></label>
+                            <label className={styles.userData}>Фамилия: <input  className={styles.input} name="second_name" value={user?.second_name} /></label>
+                            <label className={styles.userData}>Почта: <input  className={styles.input} name="email" value={user?.email} /></label>
+                            <label className={styles.userData}>Логин: <input  className={styles.input} name="login" value={user?.login} /></label>
+                            <label className={styles.userData}>Номер телефона: <input  className={styles.input} name="phone" value={user?.phone} /></label>
                             <button className={styles.buttonSave} type="submit"  disabled={check}>Сохранить</button>
                             </fieldset>
                         </form>
