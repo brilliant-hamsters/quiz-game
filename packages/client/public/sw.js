@@ -2,10 +2,6 @@ const CACHE_NAME = 'my-site-cache-v1'
 
 const URLS = ['index.html', 'src/index.scss', 'src/index.tsx']
 
-export {}
-
-declare const self: ServiceWorkerGlobalScope
-
 self.addEventListener('install', event => {
   event.waitUntil(
     caches
