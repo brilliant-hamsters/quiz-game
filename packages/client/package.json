@@ -38,6 +38,7 @@
     "sass": "^1.59.3",
     "ts-jest": "^28.0.8",
     "typescript": "^4.8.2",
+    "utility-types": "^3.10.0",
     "vite": "^3.0.7"
   },
   "license": "MIT"

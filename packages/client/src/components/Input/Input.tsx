@@ -1,5 +1,6 @@
 import { ChangeEvent, FC } from 'react'
 import styles from './input.module.scss'
+import { ValidationObj } from '../../utils/hooks/validation.hook'
 
 type InputProps = {
   classInput: string
@@ -8,9 +9,11 @@ type InputProps = {
   autoFocus: boolean
   required: boolean
   label: string
-  onChange: (nameInput: string, value: string) => void
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
   value: string
+  validObj: ValidationObj[keyof ValidationObj]
 }
+
 
 export const Input: FC<InputProps> = ({
   classInput,
@@ -21,11 +24,10 @@ export const Input: FC<InputProps> = ({
   label,
   onChange,
   value,
+  validObj
 }) => {
   function handlerChange(e: ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value
-    const nameInput = e.target.name
-    onChange(nameInput, value)
+    onChange(e)
   }
   return (
     <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
@@ -39,7 +41,8 @@ export const Input: FC<InputProps> = ({
         required={required}
         onChange={handlerChange}
         value={value}
-      />
+       
+      /> {validObj?.valid?<></>:<span className={styles.errorMessage}>{validObj?.text}</span>}
     </label>
   )
 }

@@ -37,7 +37,7 @@ const errorMessages: { [key in ErrorMessages]: string } = {
   message: 'не должно быть пустым',
 }
 
-type ValidationObj = {
+export type ValidationObj = {
   [key in FormFields]?: { valid: boolean; text: string }
 }
 export const useValidation = (): [

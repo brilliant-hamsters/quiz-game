@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../Button/Button'
 import styles from './pageWithForm.module.scss'
 
+
 type PageWithFormProps = {
   classElement: string
   title: string
