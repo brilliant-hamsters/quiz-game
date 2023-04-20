@@ -23,7 +23,7 @@ export const editUser = createAsyncThunk('user/profile' , async (data: IUserData
     return rejectWithValue('Невозможно выполнить запрос!');
   }
 
-return result;
+return await result.json();
 });
 
 export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue}) => {
@@ -41,7 +41,7 @@ export const editPass = createAsyncThunk('user/password', async (data: IUserPass
     return rejectWithValue('Невозможно выполнить запрос');
   }
 
-  return ;
+  return;
 });
 
 
@@ -51,68 +51,41 @@ const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(editPass.pending, (state) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: null
-      }
+      state.isLoading = true
+      state.error = null
     })
     .addCase(editPass.fulfilled, (state) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: null,
-      }
+      state.isLoading = false
+      state.error = null
     })
     .addCase(editPass.rejected, (state, { error }) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: error.message || 'Произошла неизвестная ошибка'
-      }
+      state.isLoading = false
+      state.error = error.message || 'Произошла неизвестная ошибка'
     })
     .addCase(editAvatar.pending, (state) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: null
-      }
+      state.isLoading = true
+      state.error = null
     })
     .addCase(editAvatar.fulfilled, (state) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: null,
-      }
+      state.isLoading = false
+      state.error = null
     })
     .addCase(editAvatar.rejected, (state, { error }) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: error.message || 'Произошла неизвестная ошибка'
-      }
+      state.isLoading = false
+      state.error = error.message || 'Произошла неизвестная ошибка'
     })
     .addCase(editUser.pending, (state) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: null
-      }
+      state.isLoading = true
+      state.error = null
     })
     .addCase(editUser.fulfilled, (state , { payload }) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: null,
-        user: payload.data
-      }
+      state.isLoading = false
+      state.error = null
+      state.user = payload.data
     })
     .addCase(editUser.rejected, (state, { error }) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: error.message || 'Произошла неизвестная ошибка'
-      }
+      state.isLoading = false
+      state.error = error.message || 'Произошла неизвестная ошибка'
     })
   }
 });
