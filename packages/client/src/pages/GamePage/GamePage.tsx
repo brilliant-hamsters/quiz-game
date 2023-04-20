@@ -8,15 +8,20 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from "../../store";
 
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const navigate = useNavigate()
+  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
+  const navigate = useNavigate();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
+    if (!loggedIn) {
+      navigate('/auth');
+    }
   }, [])
 
   function onClick(answer: string) {
