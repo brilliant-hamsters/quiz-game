@@ -5,7 +5,6 @@ import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
 import { getCurrentUser } from '../../api/methods/getCurrentUser';
-import { useAppDispatch } from '..';
 
 interface IInitState {
   user: Record<string, string> | null;

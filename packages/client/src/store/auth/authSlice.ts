@@ -4,7 +4,6 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
-import { useNavigate } from 'react-router-dom'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean

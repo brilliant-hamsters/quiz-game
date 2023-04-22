@@ -1,14 +1,13 @@
-import { useAppDispatch, useAppSelector } from "../../store";
-import { editUser } from "../../store/profile/profileSlice";
-import { Input } from "../Input"
-import styles from "./PageWithProfileForm.module.scss"
-import { ProfileProps } from "../../pages/Profile/Profile";
+import { useAppSelector } from "../../store";
+import { Input } from "../Input";
+import styles from "./PageWithProfileForm.module.scss";
 import { ChangeEvent, FC, FormEvent } from "react";
+import { ValidationObj } from "../../utils/hooks/validation.hook";
 
 type PageWithFormProps = {
     check: boolean,
     updateUser: () => void,
-    validObj: any,
+    validObj: ValidationObj,
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
     
 }
@@ -46,7 +45,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 name="second_name"
                                 autoFocus
                                 required
-                                
+
                                 label="Фамилия"
                                 onChange={onChange}
                                 validObj={validObj.second_name}
