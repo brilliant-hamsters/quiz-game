@@ -9,8 +9,9 @@ type InputProps = {
   autoFocus: boolean
   required: boolean
   label: string
+  placeholder?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-  value: string
+  value: string | undefined
   validObj: ValidationObj[keyof ValidationObj]
 }
 
@@ -22,6 +23,7 @@ export const Input: FC<InputProps> = ({
   autoFocus,
   required,
   label,
+  placeholder,
   onChange,
   value,
   validObj
@@ -41,6 +43,7 @@ export const Input: FC<InputProps> = ({
         required={required}
         onChange={handlerChange}
         value={value}
+        placeholder={placeholder}
        
       /> {validObj?.valid?<></>:<span className={styles.errorMessage}>{validObj?.text}</span>}
     </label>

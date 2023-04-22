@@ -1,7 +1,7 @@
 import { GamePage } from '../pages/GamePage'
 import { GameEnd } from '../pages/GameEnd'
 import { GameStart } from '../pages/GameStart'
-import { Profile } from '../pages/Profile'
+import Profile from '../pages/Profile/Profile'
 import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 
@@ -70,7 +70,7 @@ export const routes: IRoute[] = [
   {
     id: 'profile',
     path: '/profile',
-    component: Profile,
+    component: () => <Profile />,
     isPrivate: true,
   },
 ]

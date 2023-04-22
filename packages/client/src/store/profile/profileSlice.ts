@@ -4,9 +4,11 @@ import { updateUserAvatar } from '../../api/methods/updateAvatar';
 import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
+import { getCurrentUser } from '../../api/methods/getCurrentUser';
+import { useAppDispatch } from '..';
 
 interface IInitState {
-  user: IUserData | null;
+  user: Record<string, string> | null;
   isLoading: boolean;
   error: null | string
 }
@@ -17,30 +19,54 @@ const initialState: IInitState = {
   error: null
 }
 
-export const editUser = createAsyncThunk('user/profile' , async (data: IUserData, {rejectWithValue}) => {
+export const getUser = createAsyncThunk(
+  'auth/user',
+  async (_, { rejectWithValue }) => {
+    const result = await getCurrentUser()
+    if (result.status === 401) {
+      return rejectWithValue('Ошибка авторизации')
+    }
+
+    if (!result.ok) {
+      return rejectWithValue('Информация о пользователе не получена.')
+    }
+    return await result.json()
+  }
+)
+
+export const editUser = createAsyncThunk(
+  'user/profile', 
+  async (data: IUserData, {rejectWithValue, dispatch}) => {
   const result = await updateUserData(data);
   if (!result.ok) {
     return rejectWithValue('Невозможно выполнить запрос!');
   }
-
-return await result.json();
+  dispatch(getUser())
+  return ;
 });
 
-export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue}) => {
+
+export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue, dispatch}) => {
   const result = await updateUserAvatar(data);
   if(!result.ok) {
     return rejectWithValue('Невозможно загрузить аватар');
   }
-
+  dispatch(getUser())
   return result;
 });
 
 export const editPass = createAsyncThunk('user/password', async (data: IUserPassword, {rejectWithValue}) => {
   const result = await updateUserPassword(data);
+  const errPass = document.querySelector<HTMLSpanElement>('.errorMess');
   if(!result.ok) {
+    if(errPass) {
+      errPass.style.opacity = "1"
+    }
     return rejectWithValue('Невозможно выполнить запрос');
   }
-
+  if(errPass) {
+    errPass.style.opacity = "0"
+  }
   return;
 });
 
@@ -78,10 +104,9 @@ const profileSlice = createSlice({
       state.isLoading = true
       state.error = null
     })
-    .addCase(editUser.fulfilled, (state , { payload }) => {
-      state.isLoading = false
-      state.error = null
-      state.user = payload.data
+    .addCase(editUser.fulfilled, (state) => {
+        state.isLoading = false
+        state.error = null 
     })
     .addCase(editUser.rejected, (state, { error }) => {
       state.isLoading = false

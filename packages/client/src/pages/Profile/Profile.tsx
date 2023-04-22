@@ -2,34 +2,33 @@ import styles from "./Profile.module.scss"
 import { Achievements } from "../../components/block/Achievements"
 import iconEdit from "../../../public/images/icons/icon_edit_pencil.svg"
 import iconWin from "../../../public/images/icons/icon_verified_user.svg"
-import React from "react"
+import React, { useEffect } from "react"
 import { MouseEventHandler, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../store"
 import iconBack from "../../../public/images/icons/icon_back.svg"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { editUser, editAvatar, editPass } from "../../store/profile/profileSlice"
+import { logOut } from "../../store/auth/authSlice"
+import { Input } from "../../components/Input"
+import { ComponentWithValidation, CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
+import { DataProfile } from "../../typings/appTypes"
+import { PageWithProfileForm } from "../../components/PageWithProfileForm"
 
-interface IUserData {
-    [key: string]: string
-    first_name:string;
-    second_name:string;
-    display_name:string;
-    login:string;
-    email:string;
-    phone:string;
-}
+export interface ProfileProps extends CustomComponentProps {
+    dataForm: Omit<DataProfile,  'password'>
+  }
 
-interface IUserUpdatePass {
-    [key: string]: string;
-    oldPassword: string;
-    newPassword: string;
-}
 
-export const Profile = () => {
+function Profile({ validObj, onChange, dataForm }: ProfileProps) {
     const [trottle, setTrottle] = useState(true);
     const [check, setCheck] = useState(true);
-    const { user } = useAppSelector(state => state.auth)
+    const { user, loggedIn } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loggedIn) navigate('/auth')
+      }, [loggedIn])
 
     const addEditElement: MouseEventHandler = () => {
         const button_close = document.querySelector<HTMLButtonElement>(`.${styles.buttonClose}`);
@@ -65,54 +64,48 @@ export const Profile = () => {
         }
     }
 
-    const updateUser = (event: React.SyntheticEvent)=> {
-        event.preventDefault();
-        const userInfo__names = document.querySelector<HTMLInputElement>(`.${styles.input}`);
-        if(userInfo__names) {
-                const data:IUserData = {
-                    first_name: "",
-                    second_name: "",
-                    display_name: "",
-                    login: "",
-                    email: "",
-                    phone: ""
-                };
-                const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.input}`)
-            
-            if(userInfo) {
-                userInfo.forEach((e) => {
-                    data[e.name] = e.value 
-                });
-                dispatch(editUser(data))
-            } 
-        }
-        
-    }
-
     const updatePassword = (event: React.SyntheticEvent)=> {
         event.preventDefault();
-        const data:IUserUpdatePass = {
-            oldPassword: "",
-            newPassword: "",
-        };
-        const userInfo = document.querySelectorAll<HTMLInputElement>(`.${styles.password}`)
-        if(userInfo) {
-                userInfo.forEach((e) => {
-                    data[e.name] = e.value;
-                });
-                dispatch(editPass(data))
+        const modal = document.querySelector<HTMLDivElement>(`.${styles.background}`);
+        const errorMessage = document.querySelector<HTMLSpanElement>(`.${styles.errorMess}`);
+        
+        if(dataForm.newPassword && dataForm.oldPassword) {
+            const userForm =  {
+                newPassword: dataForm.newPassword,
+                oldPassword: dataForm.oldPassword        
+              }      
+                    if(errorMessage) {
+                        dispatch(editPass(userForm));
+                                if(modal !== null) {
+                                    modal.style.display = "none"
+                                    setTrottle(true);
+                                    errorMessage.textContent = ""
+                                }
+                    }
+                 
         }
     }
+
     const updateAvatar = (event: React.SyntheticEvent)=> {
         event.preventDefault();
-        const input = event.target;
-        const fileList = (input as HTMLInputElement).files;
+        const fileList = (event.target as HTMLInputElement).files;
         const data = new FormData();
             if(fileList) {
                 data.append('avatar', fileList[0], 'userAvatar');
                 dispatch(editAvatar(data));
             }
         
+    }
+    
+    const updateUser = ()=> {
+        dispatch(editUser(dataForm));
+        document.querySelectorAll<HTMLInputElement>('input').forEach((e) => {
+            e.value = ""
+        })
+    }
+    const onLogOut = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        dispatch(logOut());
     }
 
     return <div className={styles.root}>
@@ -127,24 +120,16 @@ export const Profile = () => {
                     <div className={styles.userInfo}>
                         <form method="post" encType="multipart/form-data" className={styles.avatarControl} onChange={updateAvatar}>
                             Аватар:
-                            <span className={styles.avatarSpan}>
-                                <input type="file" name="input__avatar" className={styles.avatar} accept="image/png, image/jpeg"/>
-                            </span>
+                            <span className={styles.avatarSpan} >
+                                <img src={`https://ya-praktikum.tech/api/v2/resources/${user?.avatar}`} className={styles.avatarImage} />
+                                <input type="file" name="input__avatar" accept="image/png, image/jpeg" className={styles.avatar}></input>
+                             </span>
                         </form>
-                        <form action="" className={styles.userDataControl} onSubmit={updateUser}>
-                            <fieldset className={styles.fieldset} disabled={check}>
-                            <label className={styles.userData}>Имя: <input  className={styles.input} name="first_name"  value={user?.first_name} /></label>
-                            <label className={styles.userData}>Фамилия: <input  className={styles.input} name="second_name" value={user?.second_name} /></label>
-                            <label className={styles.userData}>Почта: <input  className={styles.input} name="email" value={user?.email} /></label>
-                            <label className={styles.userData}>Логин: <input  className={styles.input} name="login" value={user?.login} /></label>
-                            <label className={styles.userData}>Номер телефона: <input  className={styles.input} name="phone" value={user?.phone} /></label>
-                            <button className={styles.buttonSave} type="submit"  disabled={check}>Сохранить</button>
-                            </fieldset>
-                        </form>
+                        <div className={styles.buttonLogOut} onClick={onLogOut} >Выйти из профиля</div>
+                        <PageWithProfileForm check={check} updateUser={updateUser} validObj={validObj} onChange={onChange} />
                         <button className={styles.buttonEditPass} onClick={addModal} disabled={!check}>Изменить пароль</button>
                     </div>
                     <div className={styles.gameInfo}>
-                        <div className={styles.nickname}>Nickname:<input  className={styles.input} name="display_name" placeholder={""} disabled={check} /></div>
                         <div className={styles.achievementsControl}>
                             Achievements:
                             <div className={styles.achievements}>
@@ -162,11 +147,38 @@ export const Profile = () => {
                         <div className={styles.modal}>
                             <div className={styles.modalHeader}>Изменение пароля!<button className={styles.buttonCloseModal} onClick={addModal}>X</button></div>
                             <form action="" className={styles.modalForm} onSubmit={updatePassword}>
-                                <div className={styles.password}>Старый пароль: <input  className={styles.oldPassword} /></div>
-                                <div className={styles.password}>Новый пароль:  <input  className={styles.newPassword} /></div>
+                                <label className={styles.password}>
+                                <Input
+                                    classInput=""
+                                    type="password"
+                                    name="oldPassword"
+                                    autoFocus
+                                    required
+                                    label="Старый"
+                                    onChange={onChange}
+                                    validObj={validObj.password}
+                                    value={undefined}
+                                    />
+                                </label>
+                                <label className={styles.password}>
+                                <Input
+                                    classInput=""
+                                    type="password"
+                                    name="newPassword"
+                                    autoFocus
+                                    required
+                                    label="Новый"
+                                    onChange={onChange}
+                                    validObj={validObj.password}
+                                    value={undefined}
+                                    />
+                                </label>
+                                    <span className={styles.errorMess}>Неверный старый пароль!</span>
                                 <input className={styles.savePass} type="submit" value="Сохранить" />
                             </form>
                         </div>
                     </div>
             </div>
 }
+
+export default ComponentWithValidation(Profile)

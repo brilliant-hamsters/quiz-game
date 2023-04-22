@@ -3,7 +3,8 @@ import { login } from '../../api/methods/login'
 import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
-
+import { logout } from '../../api/methods/logout'
+import { useNavigate } from 'react-router-dom'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
@@ -57,6 +58,19 @@ export const signUp = createAsyncThunk(
   }
 )
 
+export const logOut = createAsyncThunk(
+  'auth/logout',
+    async (_, { rejectWithValue }) => {
+      
+      const result = await logout();
+      if(!result.ok) {
+        return rejectWithValue('Произошла непредвиденная ошибка')
+      }
+      
+      return
+    }
+  )
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -106,6 +120,20 @@ const authSlice = createSlice({
       })
       .addCase(signUp.rejected, (state, { error }) => {
         console.log(error)
+        state.loggedIn = false
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      })
+      .addCase(logOut.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.error = null     
+        state.isLoading = false
+        state.loggedIn = false
+      })
+      .addCase(logOut.rejected, (state, { error }) => {
         state.loggedIn = false
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
