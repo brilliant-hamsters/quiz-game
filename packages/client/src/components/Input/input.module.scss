@@ -27,6 +27,17 @@
   margin-top: 20px;
 }
 
+.type_userData {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 60%;
+  margin-top: 4vh;
+  margin-left: 20%;
+  background-color: rgba(255, 255, 255);
+  border-radius: 2px;
+}
+
 .input {
   width: 100%;
   margin-right: 0;
@@ -53,3 +64,5 @@
   color: #fd2828;
   margin-top: 10px;
 }
+
+

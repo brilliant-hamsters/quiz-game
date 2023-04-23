@@ -24,9 +24,8 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
     return (
         <form action="" className={styles.userDataControl} onSubmit={handlerSubmit}>
             <fieldset className={styles.fieldset} disabled={check}>
-                    <label className={styles.userData}> 
                             <Input
-                                classInput=""
+                                classInput="userData"
                                 type="text"
                                 name="first_name"
                                 autoFocus
@@ -37,25 +36,20 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 value={undefined}
                                 placeholder={user?.first_name}
                                 />
-                    </label>
-                    <label className={styles.userData}>
                             <Input
-                                classInput=""
+                                classInput="userData"
                                 type="text"
                                 name="second_name"
                                 autoFocus
                                 required
-
                                 label="Фамилия"
                                 onChange={onChange}
                                 validObj={validObj.second_name}
                                 value={undefined}
                                 placeholder={user?.second_name}
                                 />
-                    </label>
-                    <label className={styles.userData}> 
                             <Input
-                                classInput=""
+                                classInput="userData"
                                 type="email"
                                 name="email"
                                 autoFocus
@@ -66,10 +60,8 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 value={undefined}
                                 placeholder={user?.email}
                                 />
-                    </label>
-                    <label className={styles.userData}>
                                 <Input
-                                    classInput=""
+                                    classInput="userData"
                                     type="text"
                                     name="display_name"
                                     autoFocus
@@ -80,10 +72,8 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                     value = {undefined}
                                     placeholder={user?.display_name}
                                     />
-                    </label>
-                    <label className={styles.userData}>
                             <Input
-                                classInput=""
+                                classInput="userData"
                                 type="text"
                                 name="login"
                                 autoFocus
@@ -94,10 +84,8 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 value={undefined}
                                 placeholder={user?.login}
                                 />
-                    </label>
-                    <label className={styles.userData}>
                             <Input
-                                classInput=""
+                                classInput="userData"
                                 type="phone"
                                 name="phone"
                                 autoFocus
@@ -108,8 +96,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 value={undefined}
                                 placeholder={user?.phone}
                                 /> 
-                    </label>
-                    <button className={styles.buttonSave} type="submit" disabled={check}>Сохранить</button>
+                    <button className={styles.button} type="submit" disabled={check}>Сохранить</button>
             </fieldset>
         </form>
     )

@@ -145,7 +145,7 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                     </div>
                     <div className={styles.background}>
                         <div className={styles.modal}>
-                            <div className={styles.modalHeader}>Изменение пароля!<button className={styles.buttonCloseModal} onClick={addModal}>X</button></div>
+                            <div className={styles.modalHeader}>Изменение пароля<button className={styles.buttonCloseModal} onClick={addModal}>X</button></div>
                             <form action="" className={styles.modalForm} onSubmit={updatePassword}>
                                 <label className={styles.password}>
                                 <Input
