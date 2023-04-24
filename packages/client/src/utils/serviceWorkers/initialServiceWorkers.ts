@@ -2,7 +2,7 @@ export function startServiceWorker() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
-        .register('/sw.ts')
+        .register('/sw.js')
         .then(registration => {
           console.log(
             'ServiceWorker registration successful with scope: ',
@@ -15,5 +15,3 @@ export function startServiceWorker() {
     })
   }
 }
-
-startServiceWorker()
