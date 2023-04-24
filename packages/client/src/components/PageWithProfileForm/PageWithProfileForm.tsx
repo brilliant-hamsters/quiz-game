@@ -1,29 +1,31 @@
 import { useAppSelector } from "../../store";
 import { Input } from "../Input";
 import styles from "./PageWithProfileForm.module.scss";
-import { ChangeEvent, FC, FormEvent } from "react";
+import { ChangeEvent, FC, FormEvent, useEffect } from "react";
 import { ValidationObj } from "../../utils/hooks/validation.hook";
+import { DataProfile } from "../../typings/appTypes";
+import { useNavigate } from "react-router-dom";
 
 type PageWithFormProps = {
-    check: boolean,
+    disable: boolean,
     updateUser: () => void,
     validObj: ValidationObj,
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
-    
+    dataForm: DataProfile,  
+    isFormValid: boolean,
 }
 
-export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, validObj, onChange}) => {
+export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser, validObj, onChange, dataForm, isFormValid}) => {
+    const { user, isLoading } = useAppSelector(state => state.profile)
     
-    const { user } = useAppSelector(state => state.auth)
-
     function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
         updateUser()
       }
 
     return (
-        <form action="" className={styles.userDataControl} onSubmit={handlerSubmit}>
-            <fieldset className={styles.fieldset} disabled={check}>
+        <form action="" className={styles.userDataControl} onSubmit={handlerSubmit} noValidate>
+            <fieldset className={styles.fieldset} disabled={disable}>
                             <Input
                                 classInput="userData"
                                 type="text"
@@ -33,70 +35,70 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({check, updateUser, v
                                 label="Имя"
                                 onChange={onChange}
                                 validObj={validObj.first_name}
-                                value={undefined}
+                                value={dataForm?.first_name}
                                 placeholder={user?.first_name}
-                                />
+                            />
                             <Input
                                 classInput="userData"
                                 type="text"
                                 name="second_name"
-                                autoFocus
+                                autoFocus={false}
                                 required
                                 label="Фамилия"
                                 onChange={onChange}
                                 validObj={validObj.second_name}
-                                value={undefined}
+                                value={dataForm?.second_name}
                                 placeholder={user?.second_name}
-                                />
+                            />
                             <Input
                                 classInput="userData"
                                 type="email"
                                 name="email"
-                                autoFocus
+                                autoFocus={false}
                                 required
                                 label="Почта"
                                 onChange={onChange}
                                 validObj={validObj.email}
-                                value={undefined}
+                                value={dataForm?.email}
                                 placeholder={user?.email}
-                                />
-                                <Input
-                                    classInput="userData"
-                                    type="text"
-                                    name="display_name"
-                                    autoFocus
-                                    required
-                                    label="Nickname"
-                                    onChange={onChange}
-                                    validObj={validObj.display_name}
-                                    value = {undefined}
-                                    placeholder={user?.display_name}
-                                    />
+                            />
+                            <Input
+                                classInput="userData"
+                                type="text"
+                                name="display_name"
+                                autoFocus={false}
+                                required
+                                label="Nickname"
+                                onChange={onChange}
+                                validObj={validObj.display_name}
+                                value = {dataForm?.display_name}
+                                placeholder={user?.display_name}
+                            />
                             <Input
                                 classInput="userData"
                                 type="text"
                                 name="login"
-                                autoFocus
+                                autoFocus={false}
                                 required
                                 label="Логин"
                                 onChange={onChange}
                                 validObj={validObj.login}
-                                value={undefined}
+                                value={dataForm?.login}
                                 placeholder={user?.login}
-                                />
+                            />
                             <Input
                                 classInput="userData"
                                 type="phone"
                                 name="phone"
-                                autoFocus
+                                autoFocus={false}
                                 required
                                 label="Телефон"
                                 onChange={onChange}
                                 validObj={validObj.phone}
-                                value={undefined}
+                                value={dataForm?.phone}
                                 placeholder={user?.phone}
-                                /> 
-                    <button className={styles.button} type="submit" disabled={check}>Сохранить</button>
+                            /> 
+                    <button className={styles.button} type="submit" disabled={!isFormValid || isLoading}>Сохранить</button>
             </fieldset>
         </form>
     )

@@ -4,7 +4,7 @@ import { updateUserAvatar } from '../../api/methods/updateAvatar';
 import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
-import { getCurrentUser } from '../../api/methods/getCurrentUser';
+import { getUser } from '../auth/authSlice';
 
 interface IInitState {
   user: Record<string, string> | null;
@@ -18,30 +18,14 @@ const initialState: IInitState = {
   error: null
 }
 
-export const getUser = createAsyncThunk(
-  'auth/user',
-  async (_, { rejectWithValue }) => {
-    const result = await getCurrentUser()
-    if (result.status === 401) {
-      return rejectWithValue('Ошибка авторизации')
-    }
-
-    if (!result.ok) {
-      return rejectWithValue('Информация о пользователе не получена.')
-    }
-    return await result.json()
-  }
-)
-
 export const editUser = createAsyncThunk(
   'user/profile', 
-  async (data: IUserData, {rejectWithValue, dispatch}) => {
+  async (data: IUserData, {rejectWithValue}) => {
   const result = await updateUserData(data);
   if (!result.ok) {
     return rejectWithValue('Невозможно выполнить запрос!');
   }
-  dispatch(getUser())
-  return ;
+  return await result.json();
 });
 
 
@@ -50,22 +34,18 @@ export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: F
   if(!result.ok) {
     return rejectWithValue('Невозможно загрузить аватар');
   }
-  dispatch(getUser())
-  return result;
+  return await result.json();
 });
 
 export const editPass = createAsyncThunk('user/password', async (data: IUserPassword, {rejectWithValue}) => {
   const result = await updateUserPassword(data);
-  const errPass = document.querySelector<HTMLSpanElement>('.errorMess');
-  if(!result.ok) {
-    if(errPass) {
-      errPass.style.opacity = "1"
-    }
-    return rejectWithValue('Невозможно выполнить запрос');
+  if(result.status === 400) {
+    return rejectWithValue('Некорректный старый пароль!');
   }
-  if(errPass) {
-    errPass.style.opacity = "0"
+  if(result.status === 500) {
+    return rejectWithValue('Невозможно выполнить запрос!')
   }
+
   return;
 });
 
@@ -75,7 +55,20 @@ const profileSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(editPass.pending, (state) => {
+    builder.addCase(getUser.pending, state => {
+      state.isLoading = true
+      state.error = null
+    })
+    .addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload
+      state.isLoading = false
+      state.error = null
+    })
+    .addCase(getUser.rejected, (state, { error }) => {
+      console.log(error)
+      state.isLoading = false
+    })
+    .addCase(editPass.pending, (state) => {
       state.isLoading = true
       state.error = null
     })
@@ -91,8 +84,9 @@ const profileSlice = createSlice({
       state.isLoading = true
       state.error = null
     })
-    .addCase(editAvatar.fulfilled, (state) => {
+    .addCase(editAvatar.fulfilled, (state, action) => {
       state.isLoading = false
+      state.user!.avatar = action.payload.avatar
       state.error = null
     })
     .addCase(editAvatar.rejected, (state, { error }) => {
@@ -103,7 +97,8 @@ const profileSlice = createSlice({
       state.isLoading = true
       state.error = null
     })
-    .addCase(editUser.fulfilled, (state) => {
+    .addCase(editUser.fulfilled, (state, action) => {
+        state.user = action.payload
         state.isLoading = false
         state.error = null 
     })

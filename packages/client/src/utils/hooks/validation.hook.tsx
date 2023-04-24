@@ -151,6 +151,12 @@ export const useValidation = (): [
     }
   }
   const password = (input: HTMLInputElement) => {
+    const typePassword =
+      input.name === 'password'
+        ? 'password'
+        : input.name === 'oldPassword'
+        ? 'oldPassword'
+        : 'newPassword'
     if (
       /\w{8,40}/.test(input.value) &&
       input.value.match(/[A-Z]/g) &&
@@ -158,13 +164,13 @@ export const useValidation = (): [
     ) {
       setObjValidation(state => ({
         ...state,
-        password: { valid: true, text: '' },
+        [typePassword]: { valid: true, text: '' },
       }))
       setPasswordValid(input.value)
     } else {
       setObjValidation(state => ({
         ...state,
-        password: {
+        [typePassword]: {
           valid: false,
           text: errorMessages.password,
         },
