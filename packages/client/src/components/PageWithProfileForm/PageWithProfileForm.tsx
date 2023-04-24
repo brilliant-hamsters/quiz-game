@@ -1,10 +1,9 @@
 import { useAppSelector } from "../../store";
 import { Input } from "../Input";
 import styles from "./PageWithProfileForm.module.scss";
-import { ChangeEvent, FC, FormEvent, useEffect } from "react";
+import { ChangeEvent, FC, FormEvent } from "react";
 import { ValidationObj } from "../../utils/hooks/validation.hook";
 import { DataProfile } from "../../typings/appTypes";
-import { useNavigate } from "react-router-dom";
 
 type PageWithFormProps = {
     disable: boolean,

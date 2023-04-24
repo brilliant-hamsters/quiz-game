@@ -29,7 +29,7 @@ export const editUser = createAsyncThunk(
 });
 
 
-export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue, dispatch}) => {
+export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue}) => {
   const result = await updateUserAvatar(data);
   if(!result.ok) {
     return rejectWithValue('Невозможно загрузить аватар');
@@ -86,7 +86,9 @@ const profileSlice = createSlice({
     })
     .addCase(editAvatar.fulfilled, (state, action) => {
       state.isLoading = false
-      state.user!.avatar = action.payload.avatar
+        if(state.user) {
+          state.user.avatar = action.payload.avatar
+        }
       state.error = null
     })
     .addCase(editAvatar.rejected, (state, { error }) => {
