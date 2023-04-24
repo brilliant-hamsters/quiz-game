@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v1'
+const CACHE_NAME = 'my-site-cache-v2'
 
 const URLS = ['index.html', 'src/index.scss', 'src/index.tsx']
 
@@ -18,21 +18,23 @@ self.addEventListener('install', event => {
 })
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response
-      } else {
-        return fetch(event.request).then(res => {
-          return caches.open(CACHE_NAME).then(cache => {
-            console.log(event.request.url)
-            cache.put(event.request.url, res.clone())
-            return res
+  if (event.request.url.startsWith('http')) {
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        if (response) {
+          return response
+        } else {
+          return fetch(event.request).then(res => {
+            return caches.open(CACHE_NAME).then(cache => {
+              console.log(event.request.url)
+              cache.put(event.request.url, res.clone())
+              return res
+            })
           })
-        })
-      }
-    })
-  )
+        }
+      })
+    )
+  }
 })
 
 self.addEventListener('activate', function (event) {
