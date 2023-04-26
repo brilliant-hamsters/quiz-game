@@ -1,24 +1,36 @@
 import styles from "./Profile.module.scss"
 import { Achievements } from "../../components/block/Achievements"
+import { Input } from "../../components/Input"
 import iconEdit from "../../../public/images/icons/icon_edit_pencil.svg"
 import iconWin from "../../../public/images/icons/icon_verified_user.svg"
-import React from "react"
-import { MouseEventHandler, useState } from "react"
-import store, { useAppDispatch, useAppSelector } from "../../store"
 import iconBack from "../../../public/images/icons/icon_back.svg"
 import iconAvatar from "../../../public/images/icons/icon_noAvatar.svg"
+import React from "react"
+import { MouseEventHandler, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../store"
 import { Link, useNavigate } from 'react-router-dom'
 import { editUser, editAvatar, editPass } from "../../store/profile/profileSlice"
 import { logOut } from "../../store/auth/authSlice"
-import { Input } from "../../components/Input"
-import { ComponentWithValidation, CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
-import { DataProfile } from "../../typings/appTypes"
 import { PageWithProfileForm } from "../../components/PageWithProfileForm"
+import { 
+    ComponentWithValidation
+    ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 
+interface UserProfile {
+    [key: string | number ]: string,
+    display_name: string
+    email: string
+    first_name: string
+    login: string
+    phone: string
+    second_name: string
+    password: string
+    oldPassword: string
+    newPassword: string
+}
 export interface ProfileProps extends CustomComponentProps {
-    dataForm: Omit<DataProfile,  'password'>
+    dataForm: UserProfile
   }
-
 
 function Profile({ validObj, onChange, dataForm }: ProfileProps) {
     const [isEditPassword, setEditPassword] = useState(false);
@@ -28,20 +40,11 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
     const navigate = useNavigate()
 
     const addEditElement: MouseEventHandler = () => {
-        if(isAbleChange) {
-            changeIsAbleChange(!isAbleChange);
-            console.log(store.getState())
-        }else {
-            changeIsAbleChange(!isAbleChange)
-        }
+        changeIsAbleChange(!isAbleChange);
       };
 
     const addModal:MouseEventHandler = () => {
-        if(isEditPassword) {
-                setEditPassword(!isEditPassword);
-        }else {
-                setEditPassword(!isEditPassword);
-        }
+        setEditPassword(!isEditPassword);
     }
 
     const updatePassword = (event: React.SyntheticEvent)=> {
@@ -49,11 +52,11 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
         const errorPass = document.querySelector<HTMLSpanElement>(`.${styles.errorPass}`);
 
         if(dataForm.newPassword && dataForm.oldPassword) {
-            const userForm =  {
+            const editPasswordData =  {
                 newPassword: dataForm.newPassword,
                 oldPassword: dataForm.oldPassword        
               } 
-            dispatch(editPass(userForm)).then((response: any) => {
+            dispatch(editPass(editPasswordData)).then((response: any) => {
                 if(errorPass) {
                     errorPass.textContent = response.payload;
                     if(response.payload !== 'Некорректный старый пароль!' 
@@ -79,10 +82,15 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
     }
     
     const updateUser = ()=> {
+        for(const key in dataForm) {
+            if(dataForm[key] === '' && user) {
+                dataForm[key] = user[key];
+            }
+            if(dataForm[key] === null) {
+                dataForm[key] = ''
+            } 
+        }
         dispatch(editUser(dataForm));
-        document.querySelectorAll<HTMLInputElement>('input').forEach((e) => {
-            e.value = ""
-        })
         changeIsAbleChange(!isAbleChange)
     }
 
