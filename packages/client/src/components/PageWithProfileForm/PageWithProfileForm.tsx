@@ -1,9 +1,10 @@
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { Input } from "../Input";
 import styles from "./PageWithProfileForm.module.scss";
 import { ChangeEvent, FC, FormEvent } from "react";
 import { ValidationObj } from "../../utils/hooks/validation.hook";
 import { DataProfile } from "../../typings/appTypes";
+import { editUser } from "../../store/profile/profileSlice";
 
 type PageWithFormProps = {
     disable: boolean,
@@ -13,12 +14,33 @@ type PageWithFormProps = {
     dataForm: DataProfile,  
     isFormValid: boolean,
 }
+interface UserProfile {
+    [key: string | number]: string | File,
+    display_name: string
+    email: string
+    first_name: string
+    login: string
+    phone: string
+    second_name: string
+}
 
 export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser, validObj, onChange, dataForm, isFormValid}) => {
     const { user, isLoading } = useAppSelector(state => state.profile)
-    
+    const dispatch = useAppDispatch();
+
     const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const formData = new FormData(e.target as HTMLFormElement);
+        const convert:UserProfile = {
+            display_name: "",
+            email: "",
+            first_name: "",
+            login: "",
+            phone: "",
+            second_name: ""
+        }
+        const dataProfile = Object.fromEntries(formData.entries()) as unknown as UserProfile
+        dispatch(editUser(dataProfile))
         updateUser()
       }
 

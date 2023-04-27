@@ -15,21 +15,10 @@ import { PageWithProfileForm } from "../../components/PageWithProfileForm"
 import { 
     ComponentWithValidation
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
+import { DataProfile } from "../../typings/appTypes"
 
-interface UserProfile {
-    [key: string | number ]: string,
-    display_name: string
-    email: string
-    first_name: string
-    login: string
-    phone: string
-    second_name: string
-    password: string
-    oldPassword: string
-    newPassword: string
-}
 export interface ProfileProps extends CustomComponentProps {
-    dataForm: UserProfile
+    dataForm: DataProfile
   }
 
 function Profile({ validObj, onChange, dataForm }: ProfileProps) {
@@ -81,16 +70,7 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
             } 
     }
     
-    const updateUser = ()=> {
-        for(const key in dataForm) {
-            if(dataForm[key] === '' && user) {
-                dataForm[key] = user[key];
-            }
-            if(dataForm[key] === null) {
-                dataForm[key] = ''
-            } 
-        }
-        dispatch(editUser(dataForm));
+    const updateUser = () => {
         changeIsAbleChange(!isAbleChange)
     }
 

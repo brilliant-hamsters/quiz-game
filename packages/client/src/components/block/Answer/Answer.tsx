@@ -9,7 +9,7 @@ export const Answer = (props:AnswerProps) => {
 
     return <div className={styles.root}>
                 <div className={styles.answer}>
-                    {props.answer_number}: {props.answer_text}
+                    <b>{props.answer_number})</b> {props.answer_text}
                 </div>
            </div>
 }

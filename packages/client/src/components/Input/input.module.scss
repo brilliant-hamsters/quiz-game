@@ -36,14 +36,22 @@
   margin-left: 20%;
   background-color: rgba(255, 255, 255);
   border-radius: 2px;
+
+  &:focus {
+    background:none;
+  }
 }
+
 .type_password {
     display: flex;
     align-items: center;
     width: 80%;
-    font-size: 1.2vw;
     background-color: rgba(255, 255, 255);
     border-radius: 2px;
+    
+    &:focus {
+      background:none;
+    }
 }
 
 .input {
