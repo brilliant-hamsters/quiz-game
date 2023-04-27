@@ -1,11 +1,22 @@
 import React from 'react'
-import styles from './App.module.scss'
-import { LeaderBoard } from './pages/leaderboard'
+import { routes } from './routes'
+import { Provider } from 'react-redux'
+import store from './store'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 export const App = () => {
   return (
-    <div>
-      <LeaderBoard />
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          {routes.map((route, index) => {
+            const { component, path } = route
+            const Page = component
+            return <Route key={index} path={path} element={<Page />} />
+          })}
+          <Route path="*" element={<div>Not Found</div>} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   )
 }
