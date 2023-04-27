@@ -31,14 +31,6 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
     const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement);
-        const convert:UserProfile = {
-            display_name: "",
-            email: "",
-            first_name: "",
-            login: "",
-            phone: "",
-            second_name: ""
-        }
         const dataProfile = Object.fromEntries(formData.entries()) as unknown as UserProfile
         dispatch(editUser(dataProfile))
         updateUser()

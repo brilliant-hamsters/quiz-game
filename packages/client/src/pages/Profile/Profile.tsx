@@ -9,7 +9,7 @@ import React from "react"
 import { MouseEventHandler, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { Link, useNavigate } from 'react-router-dom'
-import { editUser, editAvatar, editPass } from "../../store/profile/profileSlice"
+import { editAvatar, editPass } from "../../store/profile/profileSlice"
 import { logOut } from "../../store/auth/authSlice"
 import { PageWithProfileForm } from "../../components/PageWithProfileForm"
 import { 
