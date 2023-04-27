@@ -15,8 +15,8 @@ export const App = () => {
           <Routes>
             {routes.map((route, index) => {
               const { component, path, isPrivate } = route
-              const Page = component
-              return <Route key={index} path={path} element={<ComponentWithAuthorization Component={Page} isPrivate={isPrivate}/>}/>
+              const Page = <ComponentWithAuthorization Component={component} isPrivate={isPrivate}/>
+              return <Route key={index} path={path} element={Page}/>
             })}
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
