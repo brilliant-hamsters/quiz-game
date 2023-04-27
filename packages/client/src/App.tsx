@@ -5,7 +5,7 @@ import { LeaderBoard } from './pages/leaderboard'
 export const App = () => {
   return (
     <div>
-      <LeaderBoard position={1} salary={5000000} />
+      <LeaderBoard />
     </div>
   )
 }
