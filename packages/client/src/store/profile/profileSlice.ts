@@ -4,9 +4,10 @@ import { updateUserAvatar } from '../../api/methods/updateAvatar';
 import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
+import { getUser } from '../auth/authSlice';
 
 interface IInitState {
-  user: IUserData | null;
+  user: Record<string, string> | null;
   isLoading: boolean;
   error: null | string
 }
@@ -17,28 +18,32 @@ const initialState: IInitState = {
   error: null
 }
 
-export const editUser = createAsyncThunk('user/profile' , async (data: IUserData, {rejectWithValue}) => {
+export const editUser = createAsyncThunk(
+  'user/profile', 
+  async (data: IUserData, {rejectWithValue}) => {
   const result = await updateUserData(data);
   if (!result.ok) {
     return rejectWithValue('Невозможно выполнить запрос!');
   }
-
-return await result.json();
+  return await result.json();
 });
+
 
 export const editAvatar = createAsyncThunk('user/profile/avatar', async (data: FormData, {rejectWithValue}) => {
   const result = await updateUserAvatar(data);
   if(!result.ok) {
     return rejectWithValue('Невозможно загрузить аватар');
   }
-
-  return result;
+  return await result.json();
 });
 
 export const editPass = createAsyncThunk('user/password', async (data: IUserPassword, {rejectWithValue}) => {
   const result = await updateUserPassword(data);
-  if(!result.ok) {
-    return rejectWithValue('Невозможно выполнить запрос');
+  if(result.status === 400) {
+    return rejectWithValue('Некорректный старый пароль!');
+  }
+  if(result.status === 500) {
+    return rejectWithValue('Невозможно выполнить запрос!')
   }
 
   return;
@@ -50,7 +55,20 @@ const profileSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(editPass.pending, (state) => {
+    builder.addCase(getUser.pending, state => {
+      state.isLoading = true
+      state.error = null
+    })
+    .addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload
+      state.isLoading = false
+      state.error = null
+    })
+    .addCase(getUser.rejected, (state, { error }) => {
+      console.log(error)
+      state.isLoading = false
+    })
+    .addCase(editPass.pending, (state) => {
       state.isLoading = true
       state.error = null
     })
@@ -66,8 +84,11 @@ const profileSlice = createSlice({
       state.isLoading = true
       state.error = null
     })
-    .addCase(editAvatar.fulfilled, (state) => {
+    .addCase(editAvatar.fulfilled, (state, action) => {
       state.isLoading = false
+        if(state.user) {
+          state.user.avatar = action.payload.avatar
+        }
       state.error = null
     })
     .addCase(editAvatar.rejected, (state, { error }) => {
@@ -78,10 +99,10 @@ const profileSlice = createSlice({
       state.isLoading = true
       state.error = null
     })
-    .addCase(editUser.fulfilled, (state , { payload }) => {
-      state.isLoading = false
-      state.error = null
-      state.user = payload.data
+    .addCase(editUser.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.isLoading = false
+        state.error = null 
     })
     .addCase(editUser.rejected, (state, { error }) => {
       state.isLoading = false

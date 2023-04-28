@@ -1,6 +1,6 @@
 import { ChangeEvent, ComponentType, useState } from 'react'
 import { ValidationObj, useValidation } from '../hooks/validation.hook'
-import { DataAuth, DataRegister } from '../../typings/appTypes'
+import { DataAuth, DataProfile, DataRegister } from '../../typings/appTypes'
 import { Subtract } from 'utility-types'
 
 //type Subtract<A, C> = A extends C ? never : A;
@@ -8,7 +8,7 @@ import { Subtract } from 'utility-types'
 export interface CustomComponentProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   validObj: ValidationObj
-  dataForm: DataAuth | DataRegister
+  dataForm: DataAuth | DataRegister | DataProfile
 }
 
 //type form = DataAuth|DataRegister|{}
@@ -22,7 +22,18 @@ export const ComponentWithValidation = <T extends CustomComponentProps>(
       CustomComponentProps['dataForm']
     >(
       componentName === 'Login'
-        ? { login: '', password: '' }
+        ? { login: '', password: '' } :
+      componentName === 'Profile' 
+        ? {
+          login: '',
+          first_name: '',
+          second_name: '',
+          display_name: '',
+          email: '',
+          phone: '',
+          newPassword: '',
+          oldPassword: ''
+        }
         : {
             login: '',
             first_name: '',
