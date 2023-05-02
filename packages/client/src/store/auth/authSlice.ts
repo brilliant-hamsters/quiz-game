@@ -4,11 +4,15 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
+import { ServiceID, getServiceID } from '../../api/methods/getServiceID'
+import { SigInYandex, sigInWithYandex } from '../../api/methods/sigInWithYandex'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
   error: null | string
   loggedIn: boolean
+  serviceId: ServiceID | null,
+  verificate: boolean
 }
 
 const initialState: IInitState = {
@@ -16,6 +20,8 @@ const initialState: IInitState = {
   isLoading: false,
   error: null,
   loggedIn: false,
+  serviceId: null,
+  verificate: false
 }
 
 export const signIn = createAsyncThunk(
@@ -60,14 +66,37 @@ export const signUp = createAsyncThunk(
 export const logOut = createAsyncThunk(
   'auth/logout',
     async (_, { rejectWithValue }) => {
-      
       const result = await logout();
       if(!result.ok) {
         return rejectWithValue('Произошла непредвиденная ошибка')
       }
-      
       return
     }
+  )
+
+  export const serviceId = createAsyncThunk(
+    'oauth/yandex/service-id',
+    async(data: ServiceID, { rejectWithValue }) => {
+      const result = await getServiceID({redirect_uri: data.redirect_uri});
+      if(!result.ok) {
+        return rejectWithValue('Произошла непредвиденная ошибка')
+      }
+
+      return await result.json()
+    }
+  )
+
+  export const sigInYandex = createAsyncThunk(
+    'oauth/yandex',
+    async (data:SigInYandex, { rejectWithValue , dispatch }) => {
+      const result = await sigInWithYandex(data);
+
+      if(!result.ok) {
+        return rejectWithValue('Произошла ошибка');
+      }
+
+      return dispatch(getUser())
+    } 
   )
 
 const authSlice = createSlice({
@@ -131,9 +160,37 @@ const authSlice = createSlice({
         state.error = null     
         state.isLoading = false
         state.loggedIn = false
+        state.verificate = false
       })
       .addCase(logOut.rejected, (state, { error }) => {
         state.loggedIn = false
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      })
+      .addCase(serviceId.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(serviceId.fulfilled, state => {
+        state.error = null     
+        state.isLoading = false
+        state.loggedIn = true
+        state.verificate = true
+      })
+      .addCase(serviceId.rejected, (state, { error }) => {
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      })
+      .addCase(sigInYandex.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(sigInYandex.fulfilled, state => {
+        state.error = null     
+        state.isLoading = false
+        state.verificate = false
+      })
+      .addCase(sigInYandex.rejected, (state, { error }) => {
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
       })

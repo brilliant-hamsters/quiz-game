@@ -8,21 +8,39 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { sigInYandex } from '../../store/auth/authSlice'
 
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
+  const { loggedIn, verificate } = useAppSelector(state => state.auth)
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
+  const [isMounted, setIsMounted] = useState(true)
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
     if (!loggedIn) {
       navigate('/auth');
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if(verificate && !isMounted) {
+      dispatch(sigInYandex(
+        {code: String(new URL(window.location.href).searchParams.get('code')), redirect_uri: 'https://quiz-game-client.vercel.app/start'}
+    )).then((response) => {
+        if(response.payload !== 'Произошла ошибка') {
+            navigate('/start')
+        }else {
+            navigate('/auth')
+        }
+    })
+    }
+    setIsMounted(false)
+  }, [isMounted])
 
   function onClick(answer: string) {
     const result = game.checkAnswerAndMoveNext(answer)

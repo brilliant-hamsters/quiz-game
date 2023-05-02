@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { PageWithForm } from '../../components/PageWithForm/PageWithForm'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { signIn } from '../../store/auth/authSlice'
+import { serviceId, signIn } from '../../store/auth/authSlice'
 import { DataAuth } from '../../typings/appTypes'
 import styles from './login.module.scss'
 import {
@@ -29,6 +29,14 @@ function Login({ validObj, onChange, dataForm }: LoginProps) {
     dispatch(signIn(dataForm))
   }
 
+  function onOauthSubmt() {
+    dispatch(serviceId({redirect_uri: 'https://quiz-game-client.vercel.app/start'})).then((response) => {
+      if(response.payload.service_id) {
+         window.location.replace(`https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.payload.service_id}&redirect_uri=https://quiz-game-client.vercel.app/start`);
+        }
+    })
+  }
+
   return (
     <main className={styles.main}>
       <PageWithForm
@@ -40,6 +48,7 @@ function Login({ validObj, onChange, dataForm }: LoginProps) {
         path="/sign_up"
         linkName="Зарегистрироваться"
         onSubmitForm={onSubmitForm}
+        onOauth={onOauthSubmt}
         isLoading={isLoading}>
         <Input
           classInput="login"

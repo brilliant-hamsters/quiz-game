@@ -48,7 +48,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Имя"
                                 onChange={onChange}
                                 validObj={validObj.first_name}
-                                value={dataForm?.first_name || user?.first_name}
+                                value={dataForm?.first_name || user?.first_name || ''}
                             />
                             <Input
                                 classInput="userData"
@@ -59,7 +59,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Фамилия"
                                 onChange={onChange}
                                 validObj={validObj.second_name}
-                                value={dataForm?.second_name || user?.second_name} 
+                                value={dataForm?.second_name || user?.second_name || ''} 
                             />
                             <Input
                                 classInput="userData"
@@ -70,7 +70,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Почта"
                                 onChange={onChange}
                                 validObj={validObj.email}
-                                value={dataForm?.email || user?.email}
+                                value={dataForm?.email || user?.email || ''}
                             />
                             <Input
                                 classInput="userData"
@@ -81,7 +81,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Nickname"
                                 onChange={onChange}
                                 validObj={validObj.display_name}
-                                value = {dataForm?.display_name || user?.display_name || ""}
+                                value = {dataForm?.display_name || user?.display_name || ''}
                             />
                             <Input
                                 classInput="userData"
@@ -92,7 +92,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Логин"
                                 onChange={onChange}
                                 validObj={validObj.login}
-                                value={dataForm?.login || user?.login}
+                                value={dataForm?.login || user?.login|| ''}
                             />
                             <Input
                                 classInput="userData"
@@ -103,7 +103,7 @@ export const PageWithProfileForm: FC<PageWithFormProps> = ({disable, updateUser,
                                 label="Телефон"
                                 onChange={onChange}
                                 validObj={validObj.phone}
-                                value={dataForm?.phone || user?.phone}
+                                value={dataForm?.phone || user?.phone || ''}
                             /> 
                     <button className={styles.button} type="submit" disabled={!isFormValid || isLoading}>Сохранить</button>
             </fieldset>
