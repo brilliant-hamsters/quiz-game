@@ -13,7 +13,7 @@ import { useAppSelector } from "../../store";
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const { loggedIn, isLoading } = useAppSelector(state => state.auth)
+  const { loggedIn } = useAppSelector(state => state.auth)
   const navigate = useNavigate();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
 
