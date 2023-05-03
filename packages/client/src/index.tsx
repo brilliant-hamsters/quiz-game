@@ -5,15 +5,23 @@ import './index.scss'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
 import { Provider } from 'react-redux'
-import store from './store'
+import { createStore } from './store'
+import React from 'react'
+import { ErrorBoundary } from './components/core/ErrorBoundary'
 
 // startServiceWorker()
 
+const store = createStore()
+
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistStore(store)}>
-      <App />
-    </PersistGate>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <ErrorBoundary fallback={<p>Что-то полшло не так...</p>}>
+          <App />
+        </ErrorBoundary>
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 )

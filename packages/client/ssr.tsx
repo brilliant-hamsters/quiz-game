@@ -2,16 +2,35 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { Location } from 'react-router'
 import { StaticRouter } from 'react-router-dom/server'
-// import { App } from './src/App'
+import { App } from './src/App'
+import { GameStart } from './src/pages/GameStart'
+import { routes } from './src/routes'
 
 import { ErrorBoundary } from './src/components/core/ErrorBoundary'
+import { Store } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
 
-export function render(url: string | Partial<Location>) {
+export function render(url: string | Partial<Location>, store: Store) {
   return ReactDOMServer.renderToString(
-    <React.StrictMode>
-      <ErrorBoundary fallback={<p>Что-то полшло не так...</p>}>
-        <StaticRouter location={url}>{/* <App /> */}</StaticRouter>
-      </ErrorBoundary>
-    </React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <ErrorBoundary fallback={<p>Что-то полшло не так...</p>}>
+          <StaticRouter location={url}>
+            {routes
+              .filter(route => {
+                const { path } = route
+                return path === url
+              })
+              .map((route, i) => {
+                const { component } = route
+                const Page = component
+                return <Page key={i} />
+              })}
+          </StaticRouter>
+        </ErrorBoundary>
+      </PersistGate>
+    </Provider>
   )
 }

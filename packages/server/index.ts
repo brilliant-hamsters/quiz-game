@@ -1,3 +1,4 @@
+import { Store } from '@reduxjs/toolkit'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
@@ -57,16 +58,22 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: (url: string) => Promise<string>
+      let render: (url: string, store: Store) => Promise<string>
+      let createStore: () => Store
 
       if (!isDev()) {
         render = (await import(ssrClientPath)).render
+        createStore = (await import(ssrClientPath)).createStore
       } else {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render
+        createStore = (
+          await vite!.ssrLoadModule(path.resolve(srcPath, 'src/store/index.ts'))
+        ).createStore
       }
 
-      const appHtml = await render(url)
+      const store: Store = createStore()
+      const appHtml = await render(url, store)
 
       const html = template.replace('<!--ssr-outlet-->', appHtml)
 
