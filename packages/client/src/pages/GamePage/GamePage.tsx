@@ -8,8 +8,7 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from "../../store";
-import { sigInYandex } from '../../store/auth/authSlice'
+import { useAppSelector } from "../../store";
 
 export const game = new QuizGame()
 
