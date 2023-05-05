@@ -14,11 +14,10 @@ import { sigInYandex } from '../../store/auth/authSlice'
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const { loggedIn, verificate } = useAppSelector(state => state.auth)
+  const { loggedIn } = useAppSelector(state => state.auth)
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
-  const [isMounted, setIsMounted] = useState(true)
+  
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
@@ -27,20 +26,6 @@ export const GamePage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if(verificate && !isMounted) {
-      dispatch(sigInYandex(
-        {code: String(new URL(window.location.href).searchParams.get('code')), redirect_uri: 'https://quiz-game-client.vercel.app/start'}
-    )).then((response) => {
-        if(response.payload !== 'Произошла ошибка') {
-            navigate('/start')
-        }else {
-            navigate('/auth')
-        }
-    })
-    }
-    setIsMounted(false)
-  }, [isMounted])
 
   function onClick(answer: string) {
     const result = game.checkAnswerAndMoveNext(answer)

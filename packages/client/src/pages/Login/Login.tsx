@@ -30,11 +30,17 @@ function Login({ validObj, onChange, dataForm }: LoginProps) {
   }
 
   function onOauthSubmt() {
-    dispatch(serviceId({redirect_uri: 'https://quiz-game-client.vercel.app/start'})).then((response) => {
-      if(response.payload.service_id) {
-         window.location.replace(`https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.payload.service_id}&redirect_uri=https://quiz-game-client.vercel.app/start`);
-        }
-    })
+    dispatch(serviceId({
+      redirect_uri:'https://quiz-game-client.vercel.app/start'
+    })).then((response) => {
+        if(response.payload.service_id) {
+          window.location.replace(`
+          https://oauth.yandex.ru/authorize?response_type=code
+          &client_id=${response.payload.service_id}
+          &redirect_uri=https://quiz-game-client.vercel.app/start
+          `);
+          }
+      })
   }
 
   return (
