@@ -1,0 +1,313 @@
+.root {
+    display: flex;
+    background-image: url("../../../public/images/bg_editProfile.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 96.5%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6vh;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.185);
+    font-size: 2.5vh;             
+}
+
+.message {
+    display: block;
+    color:rgb(27,0,133);
+    text-decoration: underline;
+}
+
+.title {
+    margin-left: 4%;
+}
+
+.buttonEdit {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.iconEdit {
+    width: 1.2vw;
+    height: 1.2vw;
+}
+
+.buttonClose {
+    width: 2vw;
+    height: 2vw;
+    margin-right: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 2vw;
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(255, 0, 191);
+        background-color: rgba(255, 0, 191, 0.125);;
+        border-radius: 100%;
+    }
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 50%;
+    height: 94vh;          
+}
+
+.avatarControl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.7vw;
+    margin-bottom: 16vh;
+    background-color: rgba(255, 255, 255, 0.5);    
+}
+
+.avatarSpan {
+    position: relative;
+    margin-left: 20%;
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+
+    &:hover {
+        border-radius: 50%;
+        -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+    }
+    &:hover .avatarImage {
+        filter: blur(1px);
+    }
+    
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+	opacity: 0;
+	display: block;
+	cursor: pointer;
+}
+
+.avatarImage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.buttonEditPass:enabled {
+    width: 7.5vw;
+    height: 2vh;
+    margin-left: 75%;
+    margin-top: 3%;
+    text-decoration: underline;
+    font-size: .7vw;
+    color:rgba(120,0,178);
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(255, 0, 191);
+    }
+}
+
+.buttonEditPass:disabled { 
+    width: 7.5vw;
+    height: 2vh;
+    margin-left: 75%;
+    margin-top: 3%;
+    text-decoration: underline;
+    font-size: .7vw;
+    color:rgb(172, 172, 172);
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor:not-allowed ;
+}
+
+.buttonLogOut {
+    width: 7.5vw;
+    height: 2vh;
+    margin-left: 67.6%;
+    text-decoration: underline;
+    font-size: .7vw;
+    color:rgba(120,0,178);
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(255, 0, 191);
+    }
+}
+.gameInfo {
+    width: 50%;
+    height: 94vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5vw;
+}
+
+.nickname {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    height: 3vh;
+    margin-bottom: 30%;
+}
+
+.achievementsControl {
+    background-color: rgba(0, 0, 0, 0);
+    position: fixed;
+    width: 50%;
+}
+
+.achievements {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.background {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0, 0.5);
+    z-index: 1;
+    overflow: auto;
+    border: 1px solid black;
+}
+
+.modal {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 35%;
+    background-color: white;
+    border-radius: .5vw;
+    border: 2px solid black;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5)
+}
+
+
+.modalHeader {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 85%;
+    height: 20%;
+    font-size: 1.2vw;
+}
+
+.buttonCloseModal {
+    width: 1vw;
+    height: 1vw;
+    margin-left: 6vw;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    border:none;
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(255, 0, 191);
+        background-color: rgba(255, 0, 191, 0.125);
+    }
+}
+
+.modalForm {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 10px;
+}
+
+.savePass {
+    margin-left: 70%;
+    padding: 4px;
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover{ 
+        border: 1px solid rgb(255, 0, 191);
+        color:rgb(255, 0, 191);
+    }
+}
+
+.errorPass {
+    height: 5%;
+    width: 100%;
+    font-size: small;
+    color:red;
+}
+
+.softBar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 3.5%;
+    height: 100vh;
+    background: rgb(27,0,133);
+    background: linear-gradient(180deg, rgba(27,0,133,1) 0%, rgba(67,0,133,1) 50%, rgba(120,0,178,1) 100%);
+
+        .iconMenu {
+            width: 3vw;
+            height: 2vw;
+        }
+}
+
+.iconMenu {
+    margin-top: 1vh;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    cursor: pointer;
+
+    &:hover { 
+        background-color: rgba(255, 255, 255, 0.144);
+    }
+}
+

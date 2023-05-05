@@ -1,0 +1,28 @@
+.button {
+    text-align: center;
+    font-size: .8vw;
+    color: black;
+    background:none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+        border-radius: 5px;
+    }
+}
+
+.icon {
+    width: 2.5vw;
+    height: 2.5vw;
+    background-size: auto;
+    background-repeat: no-repeat;
+}
+.link {
+    color: black;
+    cursor: pointer;
+
+    &:hover {
+        color:#c532ff;
+    }
+}

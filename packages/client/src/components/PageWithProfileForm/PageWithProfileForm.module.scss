@@ -1,0 +1,38 @@
+.fieldset {
+    border: none;
+}
+.input:enabled:disabled {
+    border-bottom: 1px solid rgb(27,0,133);
+}
+
+.button:enabled {
+    display: block;
+    width: 7.5vw;
+    height: 3vh;
+    margin-left: 75%;
+    margin-top: 3%;
+    font-size: 1.2vw;
+    color:white;
+    border: none;
+    background-color: rgba(120,0,178);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button:disabled {
+    display: block;
+    width: 7.5vw;
+    height: 3vh;
+    margin-left: 75%;
+    margin-top: 3%;
+    font-size: 1.2vw;
+    border-radius: 5px;
+    background-color: rgb(190, 190, 190);
+    cursor:not-allowed;
+}
+.button {
+        &:enabled {
+            &:hover {
+                background-color: rgb(84, 0, 126);
+            }
+        }
+}
