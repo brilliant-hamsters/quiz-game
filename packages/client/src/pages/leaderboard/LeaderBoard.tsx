@@ -24,15 +24,7 @@ const arrList: ILeaderBoardItemProps[] = [
   },
 ]
 
-interface ILeaderBoardProps {
-  position: number
-  salary: number
-}
-
-export const LeaderBoard: FunctionComponent<ILeaderBoardProps> = ({
-  position,
-  salary,
-}) => {
+export const LeaderBoard: FunctionComponent = () => {
   const [leaderItem, setLeaderItem] = useState(arrList ?? [])
   return (
     <section className={style.root}>
@@ -44,12 +36,12 @@ export const LeaderBoard: FunctionComponent<ILeaderBoardProps> = ({
                 <img src={trophy} alt="trophy" />
               </div>
               <div className={style.titles}>
-                <h2 className={style.title}>You position: {position}</h2>
+                <h2 className={style.title}>You position: 1</h2>
                 <h3 className={style.subTitle}>Ты победитель высшей лиги</h3>
               </div>
             </div>
             <div className={style['block-left-salary']}>
-              <h3 className={style.titleSalary}>Твоя зарплата: {salary}₽</h3>
+              <h3 className={style.titleSalary}>Твоя зарплата: 1000000₽</h3>
               <div className={style.emojiWrapper}>
                 <div className={style.emojiIcon}>
                   <img src={emoji} alt="emoji" />
@@ -69,6 +61,7 @@ export const LeaderBoard: FunctionComponent<ILeaderBoardProps> = ({
               ? leaderItem.map(item => {
                   return (
                     <LeaderBoardItem
+                      key={item.nickname}
                       nickname={item.nickname}
                       money={item.money}
                     />

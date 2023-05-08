@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
 import store from './store'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ComponentWithAuthorization } from './utils/hoc/ComponentWithAuthorization'
 
 export const App = () => {
 
@@ -14,9 +15,9 @@ export const App = () => {
         <BrowserRouter>
           <Routes>
             {routes.map((route, index) => {
-              const { component, path } = route
-              const Page = component
-              return <Route key={index} path={path} element={<Page />} />
+              const { component, path, isPrivate } = route
+              const Page = <ComponentWithAuthorization Component={component} isPrivate={isPrivate}/>
+              return <Route key={index} path={path} element={Page}/>
             })}
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>

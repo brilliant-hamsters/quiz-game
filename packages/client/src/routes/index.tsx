@@ -4,6 +4,8 @@ import { GameStart } from '../pages/GameStart'
 import Profile from '../pages/Profile/Profile'
 import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
+import { ComponentType } from 'react'
+import { LeaderBoard } from '../pages/leaderboard'
 
 interface IRoute {
   /**
@@ -17,7 +19,7 @@ interface IRoute {
   /**
    * Компонент страницы
    */
-  component: () => JSX.Element
+  component: ComponentType
   /**
    * Страница доступна только авторизованному пользователю
    */
@@ -40,31 +42,33 @@ export const routes: IRoute[] = [
   {
     id: 'end',
     path: '/end',
-    component: GameEnd,
+    component: GameEnd ,
     isPrivate: true,
   },
-  {
-    id: 'leaderBoard',
-    path: '/leader_board',
-    component: () => <div>Leader Board</div>,
-    isPrivate: true,
-  },
-  {
-    id: 'forum',
-    path: '/forum',
-    component: () => <div>Forum</div>,
-    isPrivate: true,
-  },
+  // todo: для компонента LeaderBoard убрать пропсы
+
+  // {
+  //   id: 'leaderBoard',
+  //   path: '/leader_board',
+  //   component:LeaderBoard,
+  //   isPrivate: true,
+  // },
+  // {
+  //   id: 'forum',
+  //   path: '/forum',
+  //   component:<div>Forum</div>,
+  //   isPrivate: true,
+  // },
   {
     id: 'auth',
     path: '/auth',
-    component: () => <Login />,
+    component: Login ,
     isPrivate: false,
   },
   {
     id: 'signUp',
     path: '/sign_up',
-    component: () => <Register />,
+    component: Register,
     isPrivate: false,
   },
   {
