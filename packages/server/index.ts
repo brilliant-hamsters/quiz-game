@@ -50,6 +50,7 @@ async function startServer() {
       } else {
         template = fs.readFileSync(path.resolve(srcPath, 'index.html'), 'utf-8')
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         template = await vite!.transformIndexHtml(url, template)
       }
 
@@ -58,6 +59,7 @@ async function startServer() {
       if (!isDev()) {
         render = (await import(ssrClientPath)).render
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render
       }
@@ -69,6 +71,7 @@ async function startServer() {
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev()) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         vite!.ssrFixStacktrace(e as Error)
       }
       next(e)

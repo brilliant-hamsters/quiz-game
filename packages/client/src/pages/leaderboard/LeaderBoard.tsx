@@ -1,8 +1,6 @@
 import style from './leaderBoiard.module.scss'
-
 import trophy from '../../../public/images/icons/trophy.svg'
 import emoji from '../../../public/images/icons/emoji.svg'
-
 import arrow from '../../../public/images/icons/arrow.svg'
 import { FunctionComponent, useState } from 'react'
 import { LeaderBoardItem } from '../../components/block/leaderBoardItem'
