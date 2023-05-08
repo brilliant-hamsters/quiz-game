@@ -15,6 +15,7 @@ delete (window as any).initialState
 const store = createStore(initialStore)
 
 export const App = () => {
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>

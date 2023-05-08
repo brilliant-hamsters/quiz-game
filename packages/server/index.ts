@@ -73,8 +73,8 @@ async function startServer() {
       const initialStore = JSON.stringify(store);
 
       const html = template
-                    .replace('<!--ssr-outlet-->', appHtml)
-                    .replace('<!--store-data-->', initialStore)
+        .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--store-data-->', initialStore)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
