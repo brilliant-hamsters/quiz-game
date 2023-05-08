@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ComponentWithAuthorization } from './utils/hoc/ComponentWithAuthorization'
 
 export const App = () => {
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>

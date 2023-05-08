@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:ssr": "tsc && vite build --config ssr.config.ts",
+    "link": "yarn link",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
