@@ -19,7 +19,7 @@ async function startServer() {
 
   const port = Number(process.env.SERVER_PORT) || 3001
   let vite: ViteDevServer | undefined
-  const distPath = path.resolve('../client/dist/index.html')
+  const distPath = path.resolve('../client/dist')
   const srcPath = path.resolve('../client')
   const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
 

@@ -18,7 +18,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
-let store: Store
+let store: any
 
 export const createStore = () => {
   store = configureStore({

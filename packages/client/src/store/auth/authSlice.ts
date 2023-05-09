@@ -4,6 +4,7 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
+
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
@@ -59,16 +60,15 @@ export const signUp = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   'auth/logout',
-    async (_, { rejectWithValue }) => {
-      
-      const result = await logout();
-      if(!result.ok) {
-        return rejectWithValue('Произошла непредвиденная ошибка')
-      }
-      
-      return
+  async (_, { rejectWithValue }) => {
+    const result = await logout()
+    if (!result.ok) {
+      return rejectWithValue('Произошла непредвиденная ошибка')
     }
-  )
+
+    return
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -128,7 +128,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logOut.fulfilled, state => {
-        state.error = null     
+        state.error = null
         state.isLoading = false
         state.loggedIn = false
       })

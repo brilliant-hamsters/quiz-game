@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { Location } from 'react-router'
 import { StaticRouter } from 'react-router-dom/server'
-import { App } from './src/App'
-import { GameStart } from './src/pages/GameStart'
 import { routes } from './src/routes'
 
 import { ErrorBoundary } from './src/components/core/ErrorBoundary'
@@ -11,6 +9,9 @@ import { Store } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
+import { createStore } from './src/store'
+
+export { createStore }
 
 export function render(url: string | Partial<Location>, store: Store) {
   return ReactDOMServer.renderToString(

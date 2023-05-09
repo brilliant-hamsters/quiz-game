@@ -16,7 +16,6 @@ export interface LoginProps extends CustomComponentProps {
 }
 
 function Login({ validObj, onChange, dataForm }: LoginProps) {
-
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loggedIn, isLoading } = useAppSelector(state => state.auth)

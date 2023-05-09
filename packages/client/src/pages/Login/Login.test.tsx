@@ -2,10 +2,12 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Login from './Login'
 import { Provider } from 'react-redux'
-import store from '../../store'
+import { createStore } from '../../store'
 import '@testing-library/jest-dom'
 import useEvent from '@testing-library/user-event'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+const store = createStore()
 
 describe('Компонент Логин', () => {
   const { asFragment } = render(
