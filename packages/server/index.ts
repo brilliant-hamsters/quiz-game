@@ -1,3 +1,5 @@
+import { Store } from '@reduxjs/toolkit'
+
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -18,7 +20,6 @@ async function startServer() {
   const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
   let vite: ViteDevServer | undefined
 
-  //app.use('assets', express.static(path.resolve(distPath, 'assets')))
   app.use(cors())
 
   if (isDev()) {
@@ -53,19 +54,24 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: () => Promise<string>
+      let render: (url: string, store: Store) => Promise<string>
+      let createStore: () => Store
 
       if (!isDev()) {
         render = (await import(ssrClientPath)).render
+        createStore = (await import(ssrClientPath)).createStore
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render
+        createStore = (
+          await vite!.ssrLoadModule(path.resolve(srcPath, 'src/store/index.ts'))
+        ).createStore
       }
 
-      const appHtml = await render()
+      const store: Store = createStore()
+      const appHtml = await render(url, store)
 
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      const html = template.replace('<!--ssr-outlet-->', appHtml)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
