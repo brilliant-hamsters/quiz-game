@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "rimraf dist && tsc --p ./tsconfig.prod.json",
+    "build:ssr": "vite build --outDir dist/server --ssr ./index.ts",
     "preview": "node ./dist/index.js",
     "link:client": "yarn link client",
     "dev": "cross-env NODE_ENV=development nodemon index.ts",
