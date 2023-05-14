@@ -1,20 +1,22 @@
-import { Store, combineReducers, configureStore } from '@reduxjs/toolkit'
-import authReducer from './auth/authSlice'
-import profileReducer from './profile/profileSlice'
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import authReducer from './auth/authSlice';
+import profileReducer from './profile/profileSlice';
+import leaderboardReducer from './leaderboard/leaderboardSlice';
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
   auth: authReducer,
   profile: profileReducer,
-})
+  leaderboard: leaderboardReducer,
+});
 
 const persistConfig = {
   key: 'root',
-  whitelist: ['auth', 'profile'],
-  storage,
-}
+  whitelist: ['auth', 'profile', 'leaderboard'],
+  storage
+};
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 

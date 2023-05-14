@@ -51,6 +51,12 @@ export const routes: IRoute[] = [
     component: LeaderBoard,
     isPrivate: true,
   },
+  {
+    id: 'leaderboard',
+    path: '/leaderboard',
+    component: LeaderBoard,
+    isPrivate: true,
+  },
   // {
   //   id: 'forum',
   //   path: '/forum',
