@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 import style from './leaderBoardItem.module.scss'
 import profile from '../../../../public/images/icons/profile.svg'
 
@@ -18,7 +18,7 @@ export const LeaderBoardItem: FunctionComponent<ILeaderBoardItemProps> = ({
       </div>
       <div className={style.leadersInfo}>
         <div>{nickname}</div>
-        <div>Money: {money}₽</div>
+        <div>Результат: {money}₽</div>
       </div>
     </li>
   )

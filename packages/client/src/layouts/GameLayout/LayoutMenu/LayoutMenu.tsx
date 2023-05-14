@@ -8,7 +8,7 @@ export function LayoutMenu(): JSX.Element {
   return (
     <ul className={styles.menu}>
       <li>
-        <Link to="/leader_board">
+        <Link to="/leaderboard">
           <img
             className={styles.menuItem}
             src={leaderboardIcon}

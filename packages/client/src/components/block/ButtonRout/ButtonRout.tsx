@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "./ButtonRout.module.scss"
 
-type BtnRoute = {
+type TBtnRoute = {
     image_path: string;
     name_btn: string;
     link:string;
 }
 
-export const BtnRoute = (props:BtnRoute) => {
+export const BtnRoute = (props: TBtnRoute) => {
     return (
         <div className={styles.button}>
             <Link to={props.link}>

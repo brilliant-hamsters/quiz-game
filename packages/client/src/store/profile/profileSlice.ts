@@ -5,9 +5,10 @@ import { updateUserPassword } from '../../api/methods/updateUserPassword';
 import { IUserData } from '../../api/methods/updateUserData';
 import { IUserPassword } from '../../api/methods/updateUserPassword';
 import { getUser } from '../auth/authSlice';
+import { User } from '../../typings/appTypes'
 
 interface IInitState {
-  user: Record<string, string> | null;
+  user: User | null;
   isLoading: boolean;
   error: null | string
 }
