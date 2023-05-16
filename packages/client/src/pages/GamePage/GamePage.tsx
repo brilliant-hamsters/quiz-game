@@ -64,14 +64,14 @@ export const GamePage = () => {
             <BtnRoute
               image_path={iconHome}
               name_btn="Go start"
-              link={'/home'}
+              link={'/start'}
             />
           </li>
           <li className={styles.link}>
             <BtnRoute
               image_path={iconLeaderboarStar}
               name_btn="Leaders"
-              link={'/leaderbord'}
+              link={'/leader_board'}
             />
           </li>
           <li className={styles.link}>
