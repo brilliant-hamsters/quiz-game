@@ -4,14 +4,14 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
-import { ServiceID, getServiceID } from '../../api/methods/getServiceID'
-import { SigInYandex, sigInWithYandex } from '../../api/methods/sigInWithYandex'
+import { ServiceIdCallArgs, getServiceID } from '../../api/methods/getServiceID'
+import { SignInYandex, signInWithYandex } from '../../api/methods/sigInWithYandex'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
   error: null | string
   loggedIn: boolean
-  serviceId: ServiceID | null,
+  serviceId: ServiceIdCallArgs | null,
   verificate: boolean
 }
 
@@ -74,9 +74,9 @@ export const logOut = createAsyncThunk(
     }
   )
 
-  export const serviceId = createAsyncThunk(
+  export const serviceID = createAsyncThunk(
     'oauth/yandex/service-id',
-    async(data: ServiceID, { rejectWithValue }) => {
+    async(data: ServiceIdCallArgs, { rejectWithValue }) => {
       const result = await getServiceID({redirect_uri: data.redirect_uri});
       if(!result.ok) {
         return rejectWithValue('Произошла непредвиденная ошибка')
@@ -88,13 +88,13 @@ export const logOut = createAsyncThunk(
 
   export const sigInYandex = createAsyncThunk(
     'oauth/yandex',
-    async (data:SigInYandex, { rejectWithValue , dispatch }) => {
-      const result = await sigInWithYandex(data);
+    async (data:SignInYandex, { rejectWithValue , dispatch }) => {
+      const result = await signInWithYandex(data);
 
       if(!result.ok) {
         return rejectWithValue('Произошла ошибка');
       }
-
+      
       return dispatch(getUser())
     } 
   )
@@ -167,17 +167,17 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
       })
-      .addCase(serviceId.pending, state => {
+      .addCase(serviceID.pending, state => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(serviceId.fulfilled, state => {
+      .addCase(serviceID.fulfilled, state => {
         state.error = null     
         state.isLoading = false
         state.loggedIn = true
         state.verificate = true
       })
-      .addCase(serviceId.rejected, (state, { error }) => {
+      .addCase(serviceID.rejected, (state, { error }) => {
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
       })

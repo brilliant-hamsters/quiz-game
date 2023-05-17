@@ -8,19 +8,20 @@ import { sigInYandex } from '../../store/auth/authSlice'
 
 export function GameStart(): JSX.Element {
   const [isMounted, setIsMounted] = useState(true)
-  const dispatch = useAppDispatch();
   const { verificate } = useAppSelector(state => state.auth)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   
   useEffect(() => {
     if(verificate && !isMounted) {
-      dispatch(sigInYandex(
-        {code: String(new URL(window.location.href).searchParams.get('code')), redirect_uri: 'https://quiz-game-client.vercel.app/start'}
-    )).then((response) => {
-        if(response.payload == 'Произошла ошибка') {
-            navigate('/auth')
-        }
-    })
+      dispatch(sigInYandex({ 
+          code: String(new URL(window.location.href).searchParams.get('code')), 
+          redirect_uri: 'https://quiz-game-client.vercel.app/start'
+      }))
+      .then((response) => {
+                if(response.payload === 'Произошла ошибка') navigate('/auth')
+              }
+            )
     }
     setIsMounted(false)
   }, [isMounted])
