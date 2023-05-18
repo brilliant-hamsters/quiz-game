@@ -16,13 +16,15 @@ export const GamePage = () => {
   const { loggedIn } = useAppSelector(state => state.auth)
   const navigate = useNavigate();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
+  
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
     if (!loggedIn) {
       navigate('/auth');
     }
-  }, [])
+  }, []);
+
 
   function onClick(answer: string) {
     const result = game.checkAnswerAndMoveNext(answer)

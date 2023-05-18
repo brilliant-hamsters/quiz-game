@@ -9,7 +9,7 @@ interface IApiOptions {
 }
 
 export const sendApiRequest = async (path: string, options?: IApiOptions) => {
-  if (!options) {
+  if (!options || options.method === 'GET') {
     const result = await fetch(`${DEFAULT_API_URL}${path}`, {
       method: 'GET',
       headers: DEFAULT_HEADERS,
