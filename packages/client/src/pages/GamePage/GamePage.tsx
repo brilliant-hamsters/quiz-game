@@ -9,6 +9,7 @@ import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from "../../store";
+import { Button } from '../../components/Button'
 
 export const game = new QuizGame()
 
@@ -64,7 +65,7 @@ export const GamePage = () => {
             <BtnRoute
               image_path={iconHome}
               name_btn="Go start"
-              link={'/home'}
+              link={'/start'}
             />
           </li>
           <li className={styles.link}>
@@ -83,6 +84,7 @@ export const GamePage = () => {
           </li>
         </ul>
       </nav>
+      <Button classButton={'switch_theme'} buttonName={'Dark/Light'} disabled={false}></Button>
     </div>
   )
 }

@@ -16,6 +16,7 @@ import {
     ComponentWithValidation
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 import { DataProfile } from "../../typings/appTypes"
+import { Button } from "../../components/Button"
 
 export interface ProfileProps extends CustomComponentProps {
     dataForm: DataProfile
@@ -158,6 +159,8 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                     :
                     <></>
                     }
+                    
+            <Button classButton={'switch_theme'} buttonName={'Dark/Light'} disabled={false}></Button>
             </div>
 }
 
