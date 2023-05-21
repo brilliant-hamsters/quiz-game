@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeContext, themes } from "../../context/ThemeContext";
 import { Toggler } from "../../components/Toggler/Toggler";
 
+
 export const ChoiceTheme = () => {
     return (
         <ThemeContext.Consumer>

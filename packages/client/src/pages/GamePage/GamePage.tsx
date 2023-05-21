@@ -9,7 +9,6 @@ import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from "../../store";
-import { Button } from '../../components/Button'
 import { ChoiceTheme } from '../../utils/hoc/ChoiceTheme'
 
 export const game = new QuizGame()
