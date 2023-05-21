@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from "../../store";
 import { Button } from '../../components/Button'
+import { ChoiceTheme } from '../../utils/hoc/ChoiceTheme'
 
 export const game = new QuizGame()
 
@@ -41,6 +42,7 @@ export const GamePage = () => {
         <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
+        <ChoiceTheme/>
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>
@@ -84,7 +86,6 @@ export const GamePage = () => {
           </li>
         </ul>
       </nav>
-      <Button classButton={'switch_theme'} buttonName={'Dark/Light'} disabled={false}></Button>
     </div>
   )
 }

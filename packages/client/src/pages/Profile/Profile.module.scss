@@ -4,21 +4,19 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
-
 .body {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
     width: 96.5%;
-}
+  }
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 6vh;
+    height: 5vh;
     width: 100%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.185);
     font-size: 2.5vh;             
 }
 
@@ -288,7 +286,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    width: 3.5%;
+    width: 4%;
     height: 100vh;
     background: rgb(27,0,133);
     background: linear-gradient(180deg, rgba(27,0,133,1) 0%, rgba(67,0,133,1) 50%, rgba(120,0,178,1) 100%);
