@@ -42,17 +42,21 @@ export const routes: IRoute[] = [
   {
     id: 'end',
     path: '/end',
-    component: GameEnd ,
+    component: GameEnd,
     isPrivate: true,
   },
-  // todo: для компонента LeaderBoard убрать пропсы
-
-  // {
-  //   id: 'leaderBoard',
-  //   path: '/leader_board',
-  //   component:LeaderBoard,
-  //   isPrivate: true,
-  // },
+  {
+    id: 'leaderBoard',
+    path: '/leader_board',
+    component: LeaderBoard,
+    isPrivate: true,
+  },
+  {
+    id: 'leaderboard',
+    path: '/leaderboard',
+    component: LeaderBoard,
+    isPrivate: true,
+  },
   // {
   //   id: 'forum',
   //   path: '/forum',
@@ -62,7 +66,7 @@ export const routes: IRoute[] = [
   {
     id: 'auth',
     path: '/auth',
-    component: Login ,
+    component: Login,
     isPrivate: false,
   },
   {

@@ -8,15 +8,17 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from '../../store'
+import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
 
 export const game = new QuizGame()
 
 export const GamePage = () => {
-  const { loggedIn } = useAppSelector(state => state.auth)
-  const navigate = useNavigate();
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
-  
+  const { loggedIn } = useAppSelector(state => state.auth)
+  const { user } = useAppSelector(state => state.profile);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
@@ -26,10 +28,23 @@ export const GamePage = () => {
   }, []);
 
 
+  function saveResult() {
+    if (user) {
+      dispatch(updateLeaderboardData({
+        result: game.savedCash,
+        id: user.id,
+        login: user.login,
+      }))
+    }
+  }
+
   function onClick(answer: string) {
     const result = game.checkAnswerAndMoveNext(answer)
     if (typeof result === 'object') onChangeCurrentQuestion({ ...result })
-    if (typeof result === 'number') navigate('/end')
+    if (typeof result === 'number') {
+      saveResult()
+      navigate('/end')
+    }
   }
 
   return (
@@ -66,14 +81,14 @@ export const GamePage = () => {
             <BtnRoute
               image_path={iconHome}
               name_btn="Go start"
-              link={'/home'}
+              link={'/start'}
             />
           </li>
           <li className={styles.link}>
             <BtnRoute
               image_path={iconLeaderboarStar}
               name_btn="Leaders"
-              link={'/leaderbord'}
+              link={'/leaderboard'}
             />
           </li>
           <li className={styles.link}>

@@ -1,15 +1,15 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { hydrateRoot } from 'react-dom/client'
 import { App } from './App'
 import { ErrorBoundary } from './components/core/ErrorBoundary'
 import './index.scss'
-import { startServiceWorker } from './utils/serviceWorkers/initialServiceWorkers'
+//import { startServiceWorker } from './utils/serviceWorkers/initialServiceWorkers'
 
-startServiceWorker()
+//startServiceWorker()
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+hydrateRoot(document.getElementById('root') as HTMLElement,
   <React.StrictMode>
-    <ErrorBoundary fallback={<p>Что-то полшло не так...</p>}>
+    <ErrorBoundary fallback={<p>Что-то пошло не так...</p>}>
       <App />
     </ErrorBoundary>
   </React.StrictMode>
