@@ -20,8 +20,9 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 let store: any
 
-export const createStore = () => {
+export const createStore = (initialStore?: any) => {
   store = configureStore({
+    preloadedState: initialStore,
     reducer: persistedReducer,
     middleware: getDefaultMiddleware => {
       return getDefaultMiddleware({

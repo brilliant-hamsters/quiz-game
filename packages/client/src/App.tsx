@@ -7,7 +7,12 @@ import { createStore } from './store'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ComponentWithAuthorization } from './utils/hoc/ComponentWithAuthorization'
 
-const store = createStore()
+
+const initialStore = (window as any).initialState
+
+delete (window as any).initialState
+
+const store = createStore(initialStore)
 
 export const App = () => {
   return (
