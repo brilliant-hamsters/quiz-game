@@ -9,6 +9,9 @@ import cors from 'cors'
 import * as fs from 'fs'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
+import { createClientAndConnect, themeClass } from './db'
+import bodyParser from 'body-parser'
+// import { themesRoutes } from './router'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -19,6 +22,8 @@ async function startServer() {
   const srcPath = path.resolve('../client')
   const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
   let vite: ViteDevServer | undefined
+
+  // const router: Router = Router()
 
   app.use(cors())
 
@@ -35,6 +40,51 @@ async function startServer() {
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
   }
+
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
+
+  app.post('/theme', (req, res) => {
+    const { body } = req
+    if (body) {
+      themeClass.create(body)
+      res.status(201).send('Okay')
+    }
+    res.send('false')
+  })
+
+  app.put('/theme', async (req, res) => {
+    const { body } = req
+    if (body) {
+      await themeClass.update(
+        { isTheme: false },
+        {
+          where: {
+            isTheme: true,
+          },
+        }
+      )
+
+      await themeClass.update(
+        { isTheme: true },
+        {
+          where: {
+            theme: body.theme,
+          },
+        }
+      )
+
+      res.status(200).send('UPDATE')
+      return
+    }
+  })
+
+  app.get('/theme', async (req, res) => {
+    const { body } = req
+    const resul = await themeClass.findOne({ where: body })
+
+    res.status(200).send(resul)
+  })
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
@@ -82,6 +132,8 @@ async function startServer() {
       next(e)
     }
   })
+
+  await createClientAndConnect()
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
