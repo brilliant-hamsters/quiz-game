@@ -11,11 +11,11 @@ export function GameStart(): JSX.Element {
   const { verificate } = useAppSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  
+
   useEffect(() => {
     if(verificate && !isMounted) {
-      dispatch(sigInYandex({ 
-          code: String(new URL(window.location.href).searchParams.get('code')), 
+      dispatch(sigInYandex({
+          code: String(new URL(window.location.href).searchParams.get('code')),
           redirect_uri: 'https://quiz-game-client.vercel.app/start'
       }))
       .then((response) => {
@@ -25,7 +25,7 @@ export function GameStart(): JSX.Element {
     }
     setIsMounted(false)
   }, [isMounted])
-  
+
   return (
     <GameLayout>
       <>

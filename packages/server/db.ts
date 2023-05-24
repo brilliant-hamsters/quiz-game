@@ -1,28 +1,61 @@
-import { Client } from 'pg'
+import {
+  Sequelize,
+  SequelizeOptions,
+  Model,
+  Table,
+  Column,
+  DataType,
+  AutoIncrement,
+  PrimaryKey,
+  AllowNull,
+} from 'sequelize-typescript'
+import { InferAttributes, InferCreationAttributes } from 'sequelize/types/model'
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env
+let themeClass: any
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
-  try {
-    const client = new Client({
-      user: POSTGRES_USER,
-      host: 'localhost',
-      database: POSTGRES_DB,
-      password: POSTGRES_PASSWORD,
-      port: Number(POSTGRES_PORT),
-    })
-
-    await client.connect()
-
-    const res = await client.query('SELECT NOW()')
-    console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now)
-    client.end()
-
-    return client
-  } catch (e) {
-    console.error(e)
+export const createClientAndConnect = async () => {
+  const sequelizeOptions: SequelizeOptions = {
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: '123',
+    database: 'postgres',
+    dialect: 'postgres',
   }
 
-  return null
+  const sequelize = new Sequelize(sequelizeOptions)
+
+  @Table({
+    tableName: 'themes',
+    timestamps: false,
+    paranoid: true,
+  })
+  class Theme extends Model<
+    InferAttributes<Theme>,
+    InferCreationAttributes<Theme>
+  > {
+    @AutoIncrement
+    @PrimaryKey
+    @Column(DataType.INTEGER)
+    override id: number | undefined
+
+    @AllowNull(false)
+    @Column(DataType.STRING)
+    theme: string | undefined
+
+    @AllowNull(false)
+    @Column(DataType.BOOLEAN)
+    isTheme: boolean | undefined
+  }
+  sequelize.addModels([Theme])
+
+  await Theme.sync()
+    .then(() => {
+      console.log('Синхронизация выполнена, можно начинать работать')
+    })
+    .catch(err => console.log('ERROR', err))
+
+  themeClass = Theme
 }
+
+export { themeClass }
