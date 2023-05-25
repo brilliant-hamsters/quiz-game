@@ -11,7 +11,6 @@ import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
 import { createClientAndConnect, themeClass } from './db'
 import bodyParser from 'body-parser'
-// import { themesRoutes } from './router'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -22,8 +21,6 @@ async function startServer() {
   const srcPath = path.resolve('../client')
   const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
   let vite: ViteDevServer | undefined
-
-  // const router: Router = Router()
 
   app.use(cors())
 
@@ -48,7 +45,7 @@ async function startServer() {
     const { body } = req
     if (body) {
       themeClass.create(body)
-      res.status(201).send('Okay')
+      res.status(201).send('Added')
     }
     res.send('false')
   })

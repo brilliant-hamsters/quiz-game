@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { GameLayout } from '../../layouts/GameLayout'
 import styles from './GameStart.module.scss'
 import logoutIcon from '/images/icons/logout-icon.svg'
-import { useEffect } from 'react'
 
 export function GameStart(): JSX.Element {
   return (
