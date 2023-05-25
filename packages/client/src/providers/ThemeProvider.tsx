@@ -1,14 +1,18 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { ThemeContext, themes } from "../context/ThemeContext";
+import { getByTheme } from "../api/methods/getTheme";
 
 interface ThemeChildren {
     children: ReactNode
 }
 
 const getTheme = () => { 
-    const theme = `${window?.localStorage?.getItem('theme')}`
-    if(Object.values(theme).includes(theme)) return theme;
-    // else { theme = await getTheme().json()); return theme} 
+    let theme = `${window?.localStorage?.getItem('theme')}`
+    if(Object.values(theme).includes(theme)) {
+        return theme;
+    }else { 
+        getByTheme().then((response) => {if(response.status === 200) theme = response.theme as string})
+    } 
     const prefersColor = window.matchMedia('(prefers-color-scheme: light)')
     if(prefersColor.matches) return themes.light
 
