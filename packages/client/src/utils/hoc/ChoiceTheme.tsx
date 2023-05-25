@@ -9,8 +9,14 @@ export const ChoiceTheme = () => {
                 {({ theme, setTheme }: any) => (
                 <Toggler
                     onChange={() => {
-                    if (theme === themes.light) setTheme(themes.dark)
-                    if (theme === themes.dark) setTheme(themes.light)
+                        if (theme === themes.light) {
+                            //await updateTheme(dark).then((response) => {if(response.status === 200) setTheme(themes.dark)})
+                            setTheme(themes.dark)
+                        }  
+                        if (theme === themes.dark) {
+                            //await updateTheme(light).then((response) => {if(response.status === 200) setTheme(themes.light)})
+                            setTheme(themes.light)
+                        } 
                     }}
                     value={theme === themes.dark}
                 />

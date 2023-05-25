@@ -8,7 +8,7 @@ interface ThemeChildren {
 const getTheme = () => { 
     const theme = `${window?.localStorage?.getItem('theme')}`
     if(Object.values(theme).includes(theme)) return theme;
-
+    // else { theme = await getTheme().json()); return theme} 
     const prefersColor = window.matchMedia('(prefers-color-scheme: light)')
     if(prefersColor.matches) return themes.light
 
