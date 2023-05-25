@@ -1,36 +1,42 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
 import profileReducer from './profile/profileSlice';
+import leaderboardReducer from './leaderboard/leaderboardSlice';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
   auth: authReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  leaderboard: leaderboardReducer,
 });
 
 const persistConfig = {
   key: 'root',
-  whitelist: ['auth', 'profile'],
+  whitelist: ['auth', 'profile', 'leaderboard'],
   storage
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, reducers)
 
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware => {
-    return getDefaultMiddleware({
-      serializableCheck: false
-    })
-  }
-});
+let store: any
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const createStore = (initialStore?: any) => {
+  store = configureStore({
+    preloadedState: initialStore,
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware => {
+      return getDefaultMiddleware({
+        serializableCheck: false,
+      })
+    },
+  })
+  return store
+}
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
-export default store;
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

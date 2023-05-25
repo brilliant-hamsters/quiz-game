@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "rimraf dist && tsc && vite build",
+    "build:ssr": "rimraf ssr-dist && tsc && vite build --config ssr.config.ts",
+    "link": "yarn link",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",

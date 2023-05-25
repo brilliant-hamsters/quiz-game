@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import styles from './LayoutMenu.module.scss'
-import leaderboardIcon from '/images/icons/leaderboard-icon.svg'
-import profileIcon from '/images/icons/profile-icon.svg'
-import forumIcon from '/images/icons/forum-icon.svg'
+import leaderboardIcon from '../../../../public/images/icons/leaderboard-icon.svg'
+import profileIcon from '../../../../public/images/icons/profile-icon.svg'
+import forumIcon from '../../../../public/images/icons/forum-icon.svg'
 
 export function LayoutMenu(): JSX.Element {
   return (
     <ul className={styles.menu}>
       <li>
-        <Link to="/leader_board">
+        <Link to="/leaderboard">
           <img
             className={styles.menuItem}
             src={leaderboardIcon}
