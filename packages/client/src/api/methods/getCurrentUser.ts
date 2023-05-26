@@ -1,5 +1,5 @@
-import { sendApiRequest } from '../apiService';
+import { sendApiRequestDefault } from '../apiService';
 
 export const getCurrentUser = async () => {
-  return await sendApiRequest('/auth/user');
+  return await sendApiRequestDefault('/auth/user')
 };
