@@ -6,7 +6,7 @@ import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import { ComponentType } from 'react'
 import { LeaderBoard } from '../pages/leaderboard'
-import { Forum } from '../pages/forum'
+import Forum from '../pages/forum/Forum'
 
 interface IRoute {
   /**

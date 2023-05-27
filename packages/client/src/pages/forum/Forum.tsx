@@ -1,82 +1,125 @@
-import { FunctionComponent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import send from '../../../public/images/icons/send.svg'
 import arrow from '../../../public/images/icons/arrow.svg'
 import style from './forum.module.scss'
 import { ForumThemesList } from '../../components/block/forumThemesList'
 import { FormThemesMessages } from '../../components/block/formThemesMessages'
+import { useAppDispatch, useAppSelector } from '../../store'
+import {
+  DataMessage,
+  Message,
+  MessagesList,
+  ThemesList,
+} from '../../typings/appTypes'
+import {
+  ComponentWithValidation,
+  CustomComponentProps,
+} from '../../utils/hoc/ComponentWithValidation'
+import {
+  createNewTheme,
+  getMessageOfTheme,
+  getThemesListData,
+  sendNewMessage,
+} from '../../store/forum/forumSlice'
+import Modal from '../../components/Modal/Modal'
+export interface ForumProps extends CustomComponentProps {
+  dataForm: DataMessage
+}
 
-const arrThemesList = [
-  {
-    theme: 'Сделать более сложные вопросы',
-    active: false,
-  },
-  {
-    theme: 'Поменять дизайн',
-    active: true,
-  },
-  {
-    theme: 'Увеличить время на ответ',
-    active: false,
-  },
-]
-const arrMessages = [
-  {
-    nickName: 'Jiraf',
-    message:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolor odit cupiditate omnis neque, odio voluptate similique, minima ducimus, non eveniet dolore quae impedit illo perferendis mollitia velit. Atque, deleniti!',
+function Forum({ validObj, onChange, dataForm }: ForumProps) {
+  const dispatch = useAppDispatch()
+  const [activeTheme, setActiveTheme] = useState<number | null>(null)
+  const [isOpenModal, toggleOpenModal] = useState<boolean>(false)
+  const { user } = useAppSelector(state => state.auth)
+  const themesList = useAppSelector<ThemesList>(state => state.forum.themesList)
+  const messages = useAppSelector<MessagesList>(state => state.forum.messages)
 
-    your: false,
-  },
-  {
-    nickName: 'Pharaoh',
-    message:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolor odit cupiditate omnis neque, odio voluptate similique, minima ducimus, non eveniet dolore quae impedit illo perferendis mollitia velit. Atque, deleniti!',
-    your: true,
-  },
-  {
-    nickName: 'Face',
-    message:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolor odit cupiditate omnis neque, odio voluptate similique, minima ducimus, non eveniet dolore quae impedit illo perferendis mollitia velit. Atque, deleniti!',
-    your: false,
-  },
-]
+  useEffect(() => {
+    dispatch(getThemesListData())
+  }, [])
 
-export const Forum: FunctionComponent = () => {
+  function changeCurrentTheme(themeId: number) {
+    setActiveTheme(themeId)
+    dispatch(getMessageOfTheme(themeId))
+  }
+
+  function submitMessage(evt: FormEvent) {
+    evt.preventDefault()
+    const message: Message = {
+      author: user.first_name,
+      themeId: activeTheme,
+      text: dataForm.text,
+      date: Date.now(),
+    }
+    dispatch(sendNewMessage(message))
+  }
+
+  function createTheme(theme: string) {
+    dispatch(createNewTheme({ theme }))
+    toggleDisplayModal()
+  }
+
+  function toggleDisplayModal() {
+    toggleOpenModal(!isOpenModal)
+  }
+
   return (
     <section className={style.root}>
       <div className={style.left}>
         <h2 className={style.title}>Темы для обсуждения:</h2>
         <ul className={style.themes}>
-          {arrThemesList.map(item => (
-            <ForumThemesList
-              key={item.theme}
-              theme={item.theme}
-              active={item.active}
-            />
-          ))}
+          {themesList.length ? (
+            themesList.map(item => (
+              <ForumThemesList
+                key={item.themeId}
+                theme={item}
+                active={item.themeId === activeTheme}
+                onClick={changeCurrentTheme}
+              />
+            ))
+          ) : (
+            <li>Создайте новую тему</li>
+          )}
         </ul>
-        <button className={style.button}>Создать тему</button>
+        <button
+          className={style.button}
+          type="button"
+          onClick={toggleDisplayModal}>
+          Создать тему
+        </button>
       </div>
       <div className={style.right}>
         <div className={style.gradient}></div>
         <div className={style.content}>
-          {arrMessages.map(item => (
-            <FormThemesMessages
-              message={item.message}
-              your={item.your}
-              nickName={item.nickName}
-            />
-          ))}
+          {!activeTheme ? (
+            <p>Выберите тему для просмотра сообщений</p>
+          ) : messages.length ? (
+            messages.map(item => (
+              <FormThemesMessages
+                key={item.id}
+                message={item.text}
+                nickName={item.author}
+              />
+            ))
+          ) : (
+            <p>Сообщений пока нет</p>
+          )}
         </div>
-        <form className={style.form}>
+        <form className={style.form} onSubmit={submitMessage}>
           <div className={style.wrapInput}>
             <input
+              name="text"
               placeholder="Напишите ваше сообщение..."
               type="text"
               className={style.input}
+              onChange={onChange}
+              disabled={!activeTheme}
             />
           </div>
-          <button className={style.send}>
+          <button
+            className={style.send}
+            type="submit"
+            disabled={!validObj.text?.valid}>
             <img src={send} alt="send" />
           </button>
         </form>
@@ -87,6 +130,13 @@ export const Forum: FunctionComponent = () => {
         </div>
         <div className={style.sidebarDivider}></div>
       </div>
+      <Modal
+        isOpen={isOpenModal}
+        onSubmit={createTheme}
+        onClose={toggleDisplayModal}
+      />
     </section>
   )
 }
+
+export default ComponentWithValidation(Forum)

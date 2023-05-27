@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Button } from '../Button/Button'
 import styles from './pageWithForm.module.scss'
 
-
 type PageWithFormProps = {
   classElement: string
   title: string
@@ -53,7 +52,7 @@ export const PageWithForm: FC<PageWithFormProps> = ({
             buttonName={buttonName}
             disabled={isLoading || !isFormValid}
           />
-        <span className={styles.span}>или</span>
+          <span className={styles.span}>или</span>
           <Button
             classButton="standard"
             buttonName="Войти с"
@@ -62,13 +61,13 @@ export const PageWithForm: FC<PageWithFormProps> = ({
             <div className={styles.iconOAuth}></div>
           </Button>
         </div>
-        </form>   
-        <span className={styles.caption}>
-          {caption}
-          <Link to={path} className={styles.link}>
-            {linkName}
-          </Link>
-        </span>
+      </form>
+      <span className={styles.caption}>
+        {caption}
+        <Link to={path} className={styles.link}>
+          {linkName}
+        </Link>
+      </span>
     </div>
   )
 }

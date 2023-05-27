@@ -1,48 +1,60 @@
 import { ChangeEvent, ComponentType, useState } from 'react'
 import { ValidationObj, useValidation } from '../hooks/validation.hook'
-import { DataAuth, DataProfile, DataRegister } from '../../typings/appTypes'
+import {
+  DataAuth,
+  DataMessage,
+  DataProfile,
+  DataRegister,
+} from '../../typings/appTypes'
 import { Subtract } from 'utility-types'
-
-//type Subtract<A, C> = A extends C ? never : A;
 
 export interface CustomComponentProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   validObj: ValidationObj
-  dataForm: DataAuth | DataRegister | DataProfile
+  dataForm: DataAuth | DataRegister | DataProfile | DataMessage
 }
-
-//type form = DataAuth|DataRegister|{}
 
 export const ComponentWithValidation = <T extends CustomComponentProps>(
   WrappedComponent: ComponentType<T>
 ): ComponentType<Subtract<T, CustomComponentProps>> => {
-  const NewComponent = () => {
+  const NewComponent = (props:Subtract<T, CustomComponentProps>) => {
     const componentName = WrappedComponent.name
     const [dataForm, onChangeDataForm] = useState<
       CustomComponentProps['dataForm']
-    >(
-      componentName === 'Login'
-        ? { login: '', password: '' } :
-      componentName === 'Profile' 
-        ? {
-          login: '',
-          first_name: '',
-          second_name: '',
-          display_name: '',
-          email: '',
-          phone: '',
-          newPassword: '',
-          oldPassword: ''
-        }
-        : {
+    >(getInitObject())
+
+    function getInitObject():
+      | DataAuth
+      | DataProfile
+      | DataRegister
+      | DataMessage {
+      switch (componentName) {
+        case 'Login':
+          return { login: '', password: '' } as DataAuth
+        case 'Profile':
+          return {
+            login: '',
+            first_name: '',
+            second_name: '',
+            display_name: '',
+            email: '',
+            phone: '',
+            newPassword: '',
+            oldPassword: '',
+          } as DataProfile
+        case 'Register':
+          return {
             login: '',
             first_name: '',
             second_name: '',
             password: '',
             email: '',
             phone: '',
-          }
-    )
+          } as DataRegister
+        default:
+          return { text: '' } as DataMessage
+      }
+    }
 
     const [validObj, setValidity] = useValidation()
 
@@ -57,6 +69,7 @@ export const ComponentWithValidation = <T extends CustomComponentProps>(
       onChange: onChange,
       validObj: validObj,
       dataForm: dataForm,
+      ...props
     }
 
     return <WrappedComponent {...(propsComp as T)} />

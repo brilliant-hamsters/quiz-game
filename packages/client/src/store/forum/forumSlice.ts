@@ -50,7 +50,7 @@ export const getMessageOfTheme = createAsyncThunk(
 
 export const createNewTheme = createAsyncThunk(
   'forum/createTheme',
-  async (data: Theme, { rejectWithValue }) => {
+  async (data: Pick<Theme, 'theme'>, { rejectWithValue }) => {
     const result = await createTheme(data)
     if (!result.ok) {
       return rejectWithValue('Невозможно выполнить запрос!')
