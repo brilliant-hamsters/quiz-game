@@ -3,7 +3,7 @@ import { ThemeContext, themes } from "../../context/ThemeContext";
 import { Toggler } from "../../components/Toggler/Toggler";
 import { updateTheme } from "../../api/methods/updateTheme";
 
-export const ChoiceTheme = () => {
+export const ChooseTheme = () => {
 
     return (
         <ThemeContext.Consumer>
@@ -11,10 +11,12 @@ export const ChoiceTheme = () => {
                 <Toggler
                     onChange={async () => {
                         if (theme === themes.light) {
-                            await updateTheme({theme: 'dark'}).then((response) => {if(response.status === 200) setTheme(themes.dark)})
+                            setTheme(themes.dark)
+                            await updateTheme({theme: 'dark'})
                         }  
                         if (theme === themes.dark) {
-                            await updateTheme({theme: 'light'}).then((response) => {if(response.status === 200) setTheme(themes.light)})
+                            setTheme(themes.light)
+                            await updateTheme({theme: 'light'})
                         } 
                     }}
                     value={theme === themes.dark}

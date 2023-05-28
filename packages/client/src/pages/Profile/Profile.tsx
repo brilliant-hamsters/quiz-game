@@ -16,7 +16,7 @@ import {
     ComponentWithValidation
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 import { DataProfile } from "../../typings/appTypes"
-import { ChoiceTheme } from "../../utils/hoc/ChoiceTheme"
+import { ChoiceTheme } from "../../utils/hoc/ChooseTheme"
 
 export interface ProfileProps extends CustomComponentProps {
     dataForm: DataProfile

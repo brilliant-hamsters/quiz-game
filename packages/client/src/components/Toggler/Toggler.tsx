@@ -6,7 +6,7 @@ type TogglerProps = {
     onChange: () => void,
 }
 
-export const Toggler:FC<TogglerProps> = ({value, onChange}) => {
+export const Toggler: FC<TogglerProps> = ({value, onChange}) => {
     return (
         <label className={styles.root}>
             <input 
