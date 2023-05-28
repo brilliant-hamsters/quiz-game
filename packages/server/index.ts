@@ -117,8 +117,11 @@ async function startServer() {
 
       const store: Store = createStore()
       const appHtml = await render(url, store)
+      const initialStore = JSON.stringify(store)
 
-      const html = template.replace('<!--ssr-outlet-->', appHtml)
+      const html = template
+        .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--store-data-->', initialStore)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

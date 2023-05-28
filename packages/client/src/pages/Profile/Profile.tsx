@@ -45,9 +45,9 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                 newPassword: dataForm.newPassword,
                 oldPassword: dataForm.oldPassword        
               } 
-            dispatch(editPass(editPasswordData)).then((response: any) => {
+            dispatch(editPass(editPasswordData)).then((response) => {
                 if(errorPass) {
-                    errorPass.textContent = response.payload;
+                    errorPass.textContent = response.payload as string;
                     if(response.payload !== 'Некорректный старый пароль!' 
                     && response.payload !== 'Невозможно выполнить запрос!') {
                         errorPass.textContent = "";
@@ -84,7 +84,9 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                 <div className={styles.body}>
                     <div className={styles.header}>
                         <div className={styles.title}>
-                            Профиль <button onClick={addEditElement} className={styles.buttonEdit} ><img src={iconEdit} className={styles.iconEdit}/></button>
+                            Профиль <button onClick={addEditElement} className={styles.buttonEdit} >
+                            <img src={iconEdit} className={styles.iconEdit} alt='Иконка редактирования'/>
+                        </button>
                         </div>
                         { isAbleChange ?
                         <>
@@ -100,7 +102,7 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                             Аватар:
                             <span className={styles.avatarSpan} >
                                 <img src={ user?.avatar !== null ? `https://ya-praktikum.tech/api/v2/resources/${user?.avatar}` : iconAvatar } className={styles.avatarImage} alt="" />
-                                <input type="file" name="input__avatar" accept="image/png, image/jpeg" className={styles.avatar}></input>
+                                <input type="file" name="input__avatar" accept="image/png, image/jpeg" className={styles.avatar} />
                              </span>
                         </form>
                         <div className={styles.buttonLogOut} onClick={onLogOut} >Выйти из профиля</div>
@@ -149,7 +151,7 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                                         validObj={validObj.newPassword}
                                         value={undefined}
                                     />
-                                        <span className={styles.errorPass}></span>
+                                        <span className={styles.errorPass} />
                                     <input className={styles.savePass} type="submit" value="Сохранить" />
                                 </form>
                             </div>

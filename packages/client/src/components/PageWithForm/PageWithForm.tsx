@@ -14,6 +14,7 @@ type PageWithFormProps = {
   path: string
   linkName: string
   onSubmitForm: () => void
+  onOauth?: () => void
   isLoading: boolean
 }
 
@@ -27,6 +28,7 @@ export const PageWithForm: FC<PageWithFormProps> = ({
   path,
   linkName,
   onSubmitForm,
+  onOauth,
   isLoading,
 }) => {
   function handlerSubmit(e: FormEvent<HTMLFormElement>) {
@@ -51,21 +53,22 @@ export const PageWithForm: FC<PageWithFormProps> = ({
             buttonName={buttonName}
             disabled={isLoading || !isFormValid}
           />
-          <span className={styles.span}>или</span>
+        <span className={styles.span}>или</span>
           <Button
             classButton="standard"
             buttonName="Войти с"
+            onClick={onOauth}
             disabled={isLoading || !isFormValid}>
             <div className={styles.iconOAuth}></div>
           </Button>
         </div>
+        </form>   
         <span className={styles.caption}>
           {caption}
           <Link to={path} className={styles.link}>
             {linkName}
           </Link>
         </span>
-      </form>
     </div>
   )
 }

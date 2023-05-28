@@ -3,13 +3,19 @@ export type User = {
   display_name: string
   email: string
   first_name: string
-  id?: number
+  id: number
   login: string
   phone: string
   second_name: string
   password: string
   oldPassword: string
   newPassword: string
+}
+
+export type TLeaderboardItem = {
+  id: number;
+  login: string;
+  result: number;
 }
 
 export type DataAuth = Pick<User, 'login' | 'password'>

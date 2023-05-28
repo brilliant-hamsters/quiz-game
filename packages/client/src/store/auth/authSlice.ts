@@ -4,11 +4,18 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
+import { ServiceIdCallArgs, getServiceID } from '../../api/methods/getServiceID'
+import {
+  SignInYandex,
+  signInWithYandex,
+} from '../../api/methods/sigInWithYandex'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
   error: null | string
   loggedIn: boolean
+  serviceId: ServiceIdCallArgs | null
+  verificate: boolean
 }
 
 const initialState: IInitState = {
@@ -16,6 +23,8 @@ const initialState: IInitState = {
   isLoading: false,
   error: null,
   loggedIn: false,
+  serviceId: null,
+  verificate: false,
 }
 
 export const signIn = createAsyncThunk(
@@ -59,16 +68,39 @@ export const signUp = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   'auth/logout',
-    async (_, { rejectWithValue }) => {
-      
-      const result = await logout();
-      if(!result.ok) {
-        return rejectWithValue('Произошла непредвиденная ошибка')
-      }
-      
-      return
+  async (_, { rejectWithValue }) => {
+    const result = await logout()
+    if (!result.ok) {
+      return rejectWithValue('Произошла непредвиденная ошибка')
     }
-  )
+    return
+  }
+)
+
+export const serviceID = createAsyncThunk(
+  'oauth/yandex/service-id',
+  async (data: ServiceIdCallArgs, { rejectWithValue }) => {
+    const result = await getServiceID({ redirect_uri: data.redirect_uri })
+    if (!result.ok) {
+      return rejectWithValue('Произошла непредвиденная ошибка')
+    }
+
+    return await result.json()
+  }
+)
+
+export const signInYandex = createAsyncThunk(
+  'oauth/yandex',
+  async (data: SignInYandex, { rejectWithValue, dispatch }) => {
+    const result = await signInWithYandex(data)
+
+    if (!result.ok) {
+      return rejectWithValue('Произошла ошибка')
+    }
+
+    return dispatch(getUser())
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -128,12 +160,40 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logOut.fulfilled, state => {
-        state.error = null     
+        state.error = null
         state.isLoading = false
         state.loggedIn = false
+        state.verificate = false
       })
       .addCase(logOut.rejected, (state, { error }) => {
         state.loggedIn = false
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      })
+      .addCase(serviceID.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(serviceID.fulfilled, state => {
+        state.error = null
+        state.isLoading = false
+        state.loggedIn = true
+        state.verificate = true
+      })
+      .addCase(serviceID.rejected, (state, { error }) => {
+        state.isLoading = false
+        state.error = error.message || 'Произошла неизвестная ошибка'
+      })
+      .addCase(signInYandex.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(signInYandex.fulfilled, state => {
+        state.error = null
+        state.isLoading = false
+        state.verificate = false
+      })
+      .addCase(signInYandex.rejected, (state, { error }) => {
         state.isLoading = false
         state.error = error.message || 'Произошла неизвестная ошибка'
       })
