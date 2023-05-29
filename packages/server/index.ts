@@ -1,16 +1,38 @@
+import express, { NextFunction, Request, Response } from 'express'
+import path from 'path'
+import * as fs from 'fs'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import { Store } from '@reduxjs/toolkit'
-
+import type { ViteDevServer } from 'vite'
+import { createServer as createViteServer } from 'vite'
+import setupDatabase from './sequelize/db-setup'
+import assertDatabaseConnectionOk from './sequelize/db-connect'
+import * as themes from './controllers/themes'
+import * as messages from './controllers/messages'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import express from 'express'
-import path from 'path'
-import cors from 'cors'
-import * as fs from 'fs'
-import type { ViteDevServer } from 'vite'
-import { createServer as createViteServer } from 'vite'
+function makeHandlerAwareOfAsyncErrors(handler: (req: Request, res: Response) => unknown) {
+  return async function(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (Object.entries(req.cookies).length === 0) {
+        throw new Error('Invalid cookies')
+      }
 
-const isDev = () => process.env.NODE_ENV === 'development'
+      await handler(req, res)
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Invalid cookies') {
+        res.status(403).send(error.message)
+      } else {
+        res.status(500).send(error)
+      }
+
+      next(error)
+    }
+  }
+}
 
 async function startServer() {
   const app = express()
@@ -19,14 +41,35 @@ async function startServer() {
   const srcPath = path.resolve('../client')
   const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
   let vite: ViteDevServer | undefined
+  const isDev = () => process.env.NODE_ENV === 'development'
 
+  const controllers = {
+    themes,
+    messages
+  }
+
+  await assertDatabaseConnectionOk()
+  await setupDatabase()
+
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(cookieParser())
   app.use(cors())
+
+  app.get(`/api/themes`, makeHandlerAwareOfAsyncErrors(themes.getAll))
+  app.get(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.getById))
+
+  for (const [routeName, routeController] of Object.entries(controllers)) {
+    app.post(`/api/${routeName}`, makeHandlerAwareOfAsyncErrors(routeController.create))
+    app.put(`/api/${routeName}/:id`, makeHandlerAwareOfAsyncErrors(routeController.update))
+    app.delete(`/api/${routeName}/:id`, makeHandlerAwareOfAsyncErrors(routeController.remove))
+  }
 
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
-      appType: 'custom',
+      appType: 'custom'
     })
 
     app.use(vite.middlewares)
@@ -70,11 +113,11 @@ async function startServer() {
 
       const store: Store = createStore()
       const appHtml = await render(url, store)
-      const initialStore = JSON.stringify(store);
+      const initialStore = JSON.stringify(store)
 
       const html = template
-                    .replace('<!--ssr-outlet-->', appHtml)
-                    .replace('<!--store-data-->', initialStore)
+        .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--store-data-->', initialStore)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

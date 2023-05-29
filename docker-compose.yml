@@ -23,31 +23,35 @@ services:
       dockerfile: Dockerfile.server
       args:
         SERVER_PORT: ${SERVER_PORT}
+    restart: always
     depends_on:
       - postgres
-    restart: always
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
       SERVER_PORT: ${SERVER_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
     networks:
       - quizgame
-
   postgres:
     container_name: postgres
     image: postgres:14
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
-    restart: always
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    restart: always
     volumes:
       - ./tmp/pgdata:/var/lib/postgresql/data
     networks:
       - quizgame
-
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:4.18
@@ -65,9 +69,9 @@ services:
     networks:
       - quizgame
 
-  volumes:
-    pgadmin-data:
+volumes:
+  pgadmin-data:
 
-  networks:
-    quizgame:
-      driver: bridge
+networks:
+  quizgame:
+    driver: bridge
