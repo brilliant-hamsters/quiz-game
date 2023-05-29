@@ -11,15 +11,18 @@ import { useNavigate } from 'react-router-dom'
 import { ChooseTheme } from '../../utils/hoc/ChooseTheme'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
+import { sigInYandex } from '../../store/auth/authSlice'
 
 export const game = new QuizGame()
 
 export const GamePage = () => {
   const [currentQuestion, onChangeCurrentQuestion] = useState<QuestionType>()
   const { loggedIn } = useAppSelector(state => state.auth)
-  const { user } = useAppSelector(state => state.profile);
-  const navigate = useNavigate();
+  const { user } = useAppSelector(state => state.profile)
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [isMounted, setIsMounted] = useState(true)
+  const { verificate } = useAppSelector(state => state.auth)
 
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
@@ -27,6 +30,20 @@ export const GamePage = () => {
       navigate('/auth');
     }
   }, []);
+  
+  useEffect(() => {
+    if(verificate && !isMounted) {
+      dispatch(sigInYandex({ 
+          code: String(new URL(window.location.href).searchParams.get('code')), 
+          redirect_uri: 'http://localhost:3000'
+      }))
+      .then((response) => {
+                if(response.payload === 'Произошла ошибка') navigate('/auth')
+              }
+            )
+    }
+    setIsMounted(false)
+  }, [isMounted])
 
 
   function saveResult() {

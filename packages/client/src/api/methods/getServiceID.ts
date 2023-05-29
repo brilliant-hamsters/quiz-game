@@ -4,7 +4,7 @@ export type ServiceIdCallArgs = {
     redirect_uri: string
 }
 
-export const getServiceId = async (data: ServiceIdCallArgs) => {
+export const getServiceID = async (data: ServiceIdCallArgs) => {
   return await sendApiRequestDefault(
     `/oauth/yandex/service-id?redirect_uri=${data.redirect_uri}`,
     {

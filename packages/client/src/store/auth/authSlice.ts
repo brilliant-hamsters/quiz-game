@@ -4,7 +4,7 @@ import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
-import { ServiceIdCallArgs, getServiceId } from '../../api/methods/getServiceId'
+import { ServiceIdCallArgs, getServiceID } from '../../api/methods/getServiceID'
 import { SignInYandex, signInWithYandex } from '../../api/methods/sigInWithYandex'
 interface IInitState {
   user: Record<string, string> | null
@@ -77,7 +77,7 @@ export const logOut = createAsyncThunk(
   export const serviceID = createAsyncThunk(
     'oauth/yandex/service-id',
     async(data: ServiceIdCallArgs, { rejectWithValue }) => {
-      const result = await getServiceId({redirect_uri: data.redirect_uri});
+      const result = await getServiceID({redirect_uri: data.redirect_uri});
       if(!result.ok) {
         return rejectWithValue('Произошла непредвиденная ошибка')
       }
