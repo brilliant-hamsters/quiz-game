@@ -1,4 +1,4 @@
-import {sendApiRequest} from "../apiService";
+import {sendApiRequestDefault} from "../apiService";
 
 export type IUserPassword = {
     oldPassword:string;
@@ -7,8 +7,8 @@ export type IUserPassword = {
 
 
 export const updateUserPassword = async (data:IUserPassword) => {
-    return await sendApiRequest('/user/password', {
-        method: "PUT",
-        body: data
+    return await sendApiRequestDefault('/user/password', {
+      method: 'PUT',
+      body: data,
     })
 }

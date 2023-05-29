@@ -6,6 +6,7 @@ import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import { ComponentType } from 'react'
 import { LeaderBoard } from '../pages/leaderboard'
+import Forum from '../pages/forum/Forum'
 
 interface IRoute {
   /**
@@ -57,12 +58,12 @@ export const routes: IRoute[] = [
     component: LeaderBoard,
     isPrivate: true,
   },
-  // {
-  //   id: 'forum',
-  //   path: '/forum',
-  //   component:<div>Forum</div>,
-  //   isPrivate: true,
-  // },
+  {
+    id: 'forum',
+    path: '/forum',
+    component: Forum,
+    isPrivate: true,
+  },
   {
     id: 'auth',
     path: '/auth',

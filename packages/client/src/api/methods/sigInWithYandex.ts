@@ -1,4 +1,4 @@
-import { sendApiRequest } from '../apiService';
+import { sendApiRequestDefault } from '../apiService';
 
 export type SignInYandex = {
     code: string
@@ -6,9 +6,9 @@ export type SignInYandex = {
 }
 
 export const signInWithYandex = async (data: SignInYandex) => {
-  return await sendApiRequest('/oauth/yandex', {
+  return await sendApiRequestDefault('/oauth/yandex', {
     method: 'POST',
-    body: data
-  });
+    body: data,
+  })
 };
 

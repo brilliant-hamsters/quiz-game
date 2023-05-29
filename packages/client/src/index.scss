@@ -18,13 +18,30 @@ textarea {
 
 html,
 body {
-  --color-text: #1e1e1e;
-
   font-family: Inter, sans-serif;
-  color: var(--color-text);
 }
+
 body {
   position: relative;
+}
+
+:root[data-theme="light"] {
+  --background-color: #fafafa;
+  --text-color: rgb(0, 0, 0);
+  --input-text-color: #7b7b7b;
+}
+:root[data-theme="dark"] {
+  --background-color: #23153b;
+  --color-text: #fafafa
+}
+
+body {
+  background: var(--background-color);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-text);
 }
 
 h1 {

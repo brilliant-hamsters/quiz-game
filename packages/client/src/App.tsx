@@ -6,6 +6,7 @@ import { persistStore } from 'redux-persist'
 import { createStore } from './store'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ComponentWithAuthorization } from './utils/hoc/ComponentWithAuthorization'
+import { ThemeProvider } from './providers/ThemeProvider'
 
 
 const initialStore = (window as any).initialState
@@ -16,6 +17,7 @@ const store = createStore(initialStore)
 
 export const App = () => {
   return (
+    <ThemeProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>
         <BrowserRouter>
@@ -35,5 +37,6 @@ export const App = () => {
         </BrowserRouter>
       </PersistGate>
     </Provider>
+    </ThemeProvider>
   )
 }
