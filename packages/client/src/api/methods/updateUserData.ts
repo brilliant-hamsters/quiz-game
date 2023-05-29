@@ -1,4 +1,4 @@
-import {sendApiRequest} from "../apiService";
+import {sendApiRequestDefault} from "../apiService";
 
 export type IUserData = {
     first_name:string;
@@ -11,8 +11,8 @@ export type IUserData = {
 
 
 export const updateUserData = async (data:IUserData) => {
-    return await sendApiRequest('/user/profile', {
-        method: "PUT",
-        body: data
+    return await sendApiRequestDefault('/user/profile', {
+      method: 'PUT',
+      body: data,
     })
 }

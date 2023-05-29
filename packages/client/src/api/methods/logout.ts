@@ -1,7 +1,7 @@
-import { sendApiRequest } from '../apiService';
+import { sendApiRequestDefault } from '../apiService';
 
 export const logout = async () => {
-  return await sendApiRequest('/auth/logout', {
+  return await sendApiRequestDefault('/auth/logout', {
     method: 'POST',
-  });
+  })
 };

@@ -8,7 +8,7 @@ type InputProps = {
   name: string
   autoFocus: boolean
   required: boolean
-  label: string
+  label?: string
   placeholder?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   value: string | undefined

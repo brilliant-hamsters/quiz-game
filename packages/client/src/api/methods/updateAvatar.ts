@@ -1,8 +1,8 @@
-import {sendApiRequest} from "../apiService";
+import {sendApiRequestDefault} from "../apiService";
 
 export const updateUserAvatar = async (data:FormData) => {
-    return await sendApiRequest('/user/profile/avatar', {
-        method: "PUT",
-        body: data
+    return await sendApiRequestDefault('/user/profile/avatar', {
+      method: 'PUT',
+      body: data,
     })
 }
