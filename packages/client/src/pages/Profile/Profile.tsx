@@ -16,7 +16,7 @@ import {
     ComponentWithValidation
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 import { DataProfile } from "../../typings/appTypes"
-import { ChoiceTheme } from "../../utils/hoc/ChooseTheme"
+import { ChooseTheme } from "../../utils/hoc/ChooseTheme"
 
 export interface ProfileProps extends CustomComponentProps {
     dataForm: DataProfile
@@ -97,7 +97,7 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                         <></>
                         }
                     </div>
-                    <ChoiceTheme />  
+                    <ChooseTheme />  
                     <div className={styles.userInfo}>
                         <form method="post" encType="multipart/form-data" className={styles.avatarControl} onChange={updateAvatar}>
                             Аватар:
