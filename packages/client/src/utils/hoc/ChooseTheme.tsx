@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeContext, themes } from "../../context/ThemeContext";
-import { Toggler } from "../../components/Toggler/Toggler";
+import { Toggler } from "../../components/Toggler";
 import { updateTheme } from "../../api/methods/updateTheme";
 
 export const ChooseTheme = () => {
