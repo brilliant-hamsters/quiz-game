@@ -21,7 +21,7 @@ import {
   getThemesListData,
   sendNewMessage,
 } from '../../store/forum/forumSlice'
-import Modal from '../../components/Modal/Modal'
+import ModalWithForm from '../../components/ModalWithForm/ModalWithForm'
 export interface ForumProps extends CustomComponentProps {
   dataForm: DataMessage
 }
@@ -130,10 +130,12 @@ function Forum({ validObj, onChange, dataForm }: ForumProps) {
         </div>
         <div className={style.sidebarDivider}></div>
       </div>
-      <Modal
+      <ModalWithForm
         isOpen={isOpenModal}
         onSubmit={createTheme}
         onClose={toggleDisplayModal}
+        title={'Введите название темы'}
+        buttonName={'Создать тему'}
       />
     </section>
   )

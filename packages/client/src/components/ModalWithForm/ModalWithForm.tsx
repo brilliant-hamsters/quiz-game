@@ -6,29 +6,45 @@ import {
 } from '../../utils/hoc/ComponentWithValidation'
 import { Button } from '../Button'
 import { Input } from '../Input'
-import styles from './modal.module.css'
+import styles from './modalWithForm.module.css'
 
-export interface ModalProps extends CustomComponentProps {
+export interface ModalWithFormProps extends CustomComponentProps {
   dataForm: DataMessage
   isOpen: boolean
   onSubmit: (theme: string) => void
   onClose: () => void
+  title: string
+  buttonName: string
 }
 
-function Modal({ isOpen, onClose, onSubmit, validObj, onChange, dataForm }: ModalProps) {
+function ModalWithForm({
+  isOpen,
+  onClose,
+  onSubmit,
+  validObj,
+  onChange,
+  dataForm,
+  title,
+  buttonName,
+}: ModalWithFormProps) {
   function submitForm(evt: FormEvent) {
     evt.preventDefault()
     onSubmit(dataForm.text)
   }
 
-function stopClose(evt:MouseEvent<HTMLElement>) {
-  evt.stopPropagation()
-}
+  function stopClose(evt: MouseEvent<HTMLElement>) {
+    evt.stopPropagation()
+  }
 
   return (
-    <div className={`${styles.root} ${isOpen ? styles.root_opened : ''}`} onClick={onClose}>
-      <form className={styles.container} onSubmit={submitForm} onClick={stopClose}>
-        <h3 className={styles.title}>Введите название темы</h3>
+    <div
+      className={`${styles.root} ${isOpen ? styles.root_opened : ''}`}
+      onClick={onClose}>
+      <form
+        className={styles.container}
+        onSubmit={submitForm}
+        onClick={stopClose}>
+        <h3 className={styles.title}>{title}</h3>
         <Input
           classInput="modal"
           type="text"
@@ -41,7 +57,7 @@ function stopClose(evt:MouseEvent<HTMLElement>) {
         />
         <Button
           classButton="standard"
-          buttonName="Создать тему"
+          buttonName={buttonName}
           disabled={false}
         />
       </form>
@@ -49,4 +65,4 @@ function stopClose(evt:MouseEvent<HTMLElement>) {
   )
 }
 
-export default ComponentWithValidation(Modal)
+export default ComponentWithValidation(ModalWithForm)
