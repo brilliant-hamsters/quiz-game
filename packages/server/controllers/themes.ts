@@ -16,7 +16,7 @@ export async function getById(req: Request, res: Response) {
   if (themes) {
     res.status(200).json(themes)
   } else {
-    res.status(404).send('404 - Not found.')
+    res.status(404).send('404 - Theme not found.')
   }
 }
 
@@ -24,8 +24,8 @@ export async function create(req: Request, res: Response) {
   if (req.body.id) {
     res.status(400).send(`Bad request: ID should not be provided, since it is determined automatically by the database.`)
   } else if (!req.body.theme) {
-    res.status(400).send('Bad request: Не передано обязательное поле theme.')
-  } else{
+    res.status(400).send('Bad request: theme should be provided.')
+  } else {
     const theme = await models.theme.create({
       theme: req.body.theme
     })
@@ -47,7 +47,7 @@ export async function update(req: Request, res: Response) {
     if (result[0] !== 0) {
       res.status(200).end()
     } else {
-      res.status(400).send('Ничего не изменилось, или что-то пошло не так. Возможно такого id не существует.')
+      res.status(304).send('Nothing changed.')
     }
   } else {
     res.status(400).send(`Bad request: param ID (${id}) does not match body ID (${req.body.id}).`)
@@ -65,6 +65,6 @@ export async function remove(req: Request, res: Response) {
   if (result) {
     res.status(200).end()
   } else {
-    res.status(400).send('Что-то пошло не так, возможно такого id не существует.')
+    res.status(304).send('Nothing changed.')
   }
 }

@@ -8,7 +8,7 @@ export async function create(req: Request, res: Response) {
   if (req.body.id) {
     res.status(400).send(`Bad request: ID should not be provided, since it is determined automatically by the database.`)
   } else if (!req.body.author || !req.body.message || !req.body.themeId) {
-    res.status(400).send('Bad request: Не переданы обязательные поля author, message и themeId.')
+    res.status(400).send('Bad request: author, message and themeId should be provided.')
   } else {
     const message = await models.message.create({
       author: req.body.author,
@@ -35,7 +35,7 @@ export async function update(req: Request, res: Response) {
     if (result[0] !== 0) {
       res.status(200).end()
     } else {
-      res.status(400).send('Ничего не изменилось, или что-то пошло не так. Возможно такого id не существует.')
+      res.status(304).send('Nothing changed.')
     }
   } else {
     res.status(400).send(`Bad request: param ID (${id}) does not match body ID (${req.body.id}).`)
@@ -53,6 +53,6 @@ export async function remove(req: Request, res: Response) {
   if (result) {
     res.status(200).end()
   } else {
-    res.status(400).send('Что-то пошло не так, возможно такого id не существует.')
+    res.status(304).send('Nothing changed.')
   }
 }
