@@ -12,10 +12,14 @@ import assertDatabaseConnectionOk from './sequelize/db-connect'
 import * as themes from './controllers/themes'
 import * as messages from './controllers/messages'
 import dotenv from 'dotenv'
+import { themeClass } from 'db'
+import { createClientAndConnect } from 'db'
 dotenv.config()
 
-function makeHandlerAwareOfAsyncErrors(handler: (req: Request, res: Response) => unknown) {
-  return async function(req: Request, res: Response, next: NextFunction) {
+function makeHandlerAwareOfAsyncErrors(
+  handler: (req: Request, res: Response) => unknown
+) {
+  return async function (req: Request, res: Response, next: NextFunction) {
     try {
       if (Object.entries(req.cookies).length === 0) {
         throw new Error('Invalid cookies')
@@ -45,7 +49,7 @@ async function startServer() {
 
   const controllers = {
     themes,
-    messages
+    messages,
   }
 
   await assertDatabaseConnectionOk()
@@ -60,16 +64,67 @@ async function startServer() {
   app.get(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.getById))
 
   for (const [routeName, routeController] of Object.entries(controllers)) {
-    app.post(`/api/${routeName}`, makeHandlerAwareOfAsyncErrors(routeController.create))
-    app.put(`/api/${routeName}/:id`, makeHandlerAwareOfAsyncErrors(routeController.update))
-    app.delete(`/api/${routeName}/:id`, makeHandlerAwareOfAsyncErrors(routeController.remove))
+    app.post(
+      `/api/${routeName}`,
+      makeHandlerAwareOfAsyncErrors(routeController.create)
+    )
+    app.put(
+      `/api/${routeName}/:id`,
+      makeHandlerAwareOfAsyncErrors(routeController.update)
+    )
+    app.delete(
+      `/api/${routeName}/:id`,
+      makeHandlerAwareOfAsyncErrors(routeController.remove)
+    )
   }
+
+  app.post('/theme', (req, res) => {
+    const { body } = req
+    if (body) {
+      themeClass.create(body)
+      res.status(201).send('Added')
+    }
+    res.send('false')
+  })
+
+  app.put('/theme', async (req, res) => {
+    const { body } = req
+    if (body) {
+      await themeClass.update(
+        { isTheme: false },
+        {
+          where: {
+            isTheme: true,
+          },
+        }
+      )
+
+      await themeClass.update(
+        { isTheme: true },
+        {
+          where: {
+            theme: body.theme,
+          },
+        }
+      )
+
+      res.status(200).send('UPDATE')
+      return
+    }
+  })
+
+  app.get('/theme', async (req, res) => {
+    const { body } = req
+    const resul = await themeClass.findOne({ where: body })
+
+    res.status(200).send(resul)
+  })
 
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
-      appType: 'custom'
+      appType: 'custom',
     })
 
     app.use(vite.middlewares)
@@ -128,6 +183,8 @@ async function startServer() {
       next(e)
     }
   })
+
+  await createClientAndConnect()
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
