@@ -38,7 +38,11 @@ export const GamePage = () => {
           redirect_uri: 'http://localhost:3000'
       }))
       .then((response) => {
-                if(response.payload === 'Произошла ошибка') navigate('/auth')
+                if(response.payload === 'Произошла ошибка') {
+                  navigate('/auth')
+                }else {
+                  navigate('/start')
+                }
               }
             )
     }

@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { ThemeContext, themes } from "../context/ThemeContext";
-import { getByTheme } from "../api/methods/getTheme";
+import { getByTheme } from "../api/methods/getByTheme";
 
 interface ThemeChildren {
     children: ReactNode
