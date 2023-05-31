@@ -15,6 +15,8 @@ services:
     environment:
       - CLIENT_PORT=${CLIENT_PORT}
       - SERVER_PORT=${SERVER_PORT}
+    depends_on:
+      - server
   server:
     container_name: prakticum-server
     image: prackicum-server
@@ -70,7 +72,10 @@ services:
       - quizgame
 
 volumes:
+  postgres-data:
+    external: false
   pgadmin-data:
+    external: false
 
 networks:
   quizgame:

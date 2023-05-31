@@ -41,9 +41,9 @@ function makeHandlerAwareOfAsyncErrors(
 async function startServer() {
   const app = express()
   const port = Number(process.env.SERVER_PORT) || 3001
-  const distPath = path.resolve('../client/dist')
-  const srcPath = path.resolve('../client')
-  const ssrClientPath = path.resolve('../client/ssr-dist/client.cjs')
+  const distPath = path.resolve(__dirname, '../client/dist')
+  const srcPath = path.resolve(__dirname, '../client')
+  const ssrClientPath = path.resolve(__dirname, '../client/ssr-dist/client.cjs')
   let vite: ViteDevServer | undefined
   const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -136,7 +136,6 @@ async function startServer() {
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
-
     try {
       let template: string
 
@@ -173,7 +172,7 @@ async function startServer() {
       const html = template
         .replace('<!--ssr-outlet-->', appHtml)
         .replace('<!--store-data-->', initialStore)
-
+      console.log(html)
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev()) {
