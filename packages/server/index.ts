@@ -12,8 +12,8 @@ import assertDatabaseConnectionOk from './sequelize/db-connect'
 import * as themes from './controllers/themes'
 import * as messages from './controllers/messages'
 import dotenv from 'dotenv'
-import { themeClass } from 'db'
-import { createClientAndConnect } from 'db'
+import { themeClass } from './db'
+import { createClientAndConnect } from './db'
 dotenv.config()
 
 function makeHandlerAwareOfAsyncErrors(
