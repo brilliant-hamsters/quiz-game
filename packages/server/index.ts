@@ -177,7 +177,7 @@ async function startServer() {
       const html = template
         .replace('<!--ssr-outlet-->', appHtml)
         .replace('<!--store-data-->', initialStore)
-      console.log(html)
+
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev()) {
