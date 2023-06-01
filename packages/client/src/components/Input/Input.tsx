@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC } from 'react'
 import styles from './input.module.scss'
 import { ValidationObj } from '../../utils/hooks/validation.hook'
 
@@ -15,7 +15,6 @@ type InputProps = {
   validObj: ValidationObj[keyof ValidationObj]
 }
 
-
 export const Input: FC<InputProps> = ({
   classInput,
   type,
@@ -28,12 +27,6 @@ export const Input: FC<InputProps> = ({
   value,
   validObj
 }) => {
-  const [inputValue, setInputValue] = useState(value);
-
-  function handlerChange(e: ChangeEvent<HTMLInputElement>) {
-    onChange(e);
-    setInputValue(e.target.value)
-  }
 
   return (
     <label className={`${styles.root} ${styles[`type_${classInput}`]}`}>
@@ -45,11 +38,15 @@ export const Input: FC<InputProps> = ({
         id={`input-${name}`}
         autoFocus={autoFocus}
         required={required}
-        onChange={handlerChange}
-        value={inputValue}
+        onChange={onChange}
+        value={value}
         placeholder={placeholder}
-
-      /> {validObj?.valid?<></>:<span className={styles.errorMessage}>{validObj?.text}</span>}
+      />{' '}
+      {validObj?.valid ? (
+        <></>
+      ) : (
+        <span className={styles.errorMessage}>{validObj?.text}</span>
+      )}
     </label>
   )
 }

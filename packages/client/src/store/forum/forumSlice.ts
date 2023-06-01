@@ -95,7 +95,7 @@ const forumSlice = createSlice({
         state.error = null
       })
       .addCase(getMessageOfTheme.fulfilled, (state, action) => {
-        state.messages = action.payload
+        state.messages = action.payload.messages
         state.error = null
       })
       .addCase(getMessageOfTheme.rejected, (state, { error }) => {

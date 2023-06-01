@@ -19,18 +19,22 @@ export type TLeaderboardItem = {
 }
 
 export type Theme = {
-  themeId: number
+  id?: number
   theme: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export type ThemesList = Theme[]
 
 export type Message = {
-  id?:number
+  id?: number
   themeId: number | null
   author: string
-  text: string
+  message: string
   date: number
+  createdAt?: string
+  updatedAt?: string
 }
 
 export type MessagesList = Message[]
@@ -42,4 +46,4 @@ export type DataRegister = Omit<
 >
 export type DataProfile = Omit<User, 'id' | 'avatar' | 'password'>
 
-export type DataMessage = Pick<Message, 'text' >
+export type DataMessage = Pick<Message, 'message'>
