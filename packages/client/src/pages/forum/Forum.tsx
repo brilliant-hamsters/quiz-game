@@ -22,12 +22,14 @@ import {
   sendNewMessage,
 } from '../../store/forum/forumSlice'
 import ModalWithForm from '../../components/ModalWithForm/ModalWithForm'
+import { useNavigate } from 'react-router-dom'
 export interface ForumProps extends CustomComponentProps {
   dataForm: DataMessage
 }
 
 function Forum({ validObj, onChange, dataForm, clearValue }: ForumProps) {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [activeTheme, setActiveTheme] = useState<number | null>(null)
   const [isOpenModal, toggleOpenModal] = useState<boolean>(false)
   const { user } = useAppSelector(state => state.auth)
@@ -63,6 +65,10 @@ function Forum({ validObj, onChange, dataForm, clearValue }: ForumProps) {
 
   function toggleDisplayModal() {
     toggleOpenModal(!isOpenModal)
+  }
+
+  function goBack() {
+    navigate(-1)
   }
 
   return (
@@ -115,21 +121,20 @@ function Forum({ validObj, onChange, dataForm, clearValue }: ForumProps) {
               type="text"
               className={style.input}
               onChange={onChange}
-              disabled={!activeTheme || !validObj.message?.valid}
+              disabled={!activeTheme}
               value={dataForm.message}
             />
           </div>
           <button
             className={style.send}
             type="submit"
-            disabled={!validObj.message?.valid}
-            >
+            disabled={!validObj.message?.valid}>
             <img src={send} alt="send" />
           </button>
         </form>
       </div>
       <div className={style.sidebar}>
-        <div className={style.sidebarArrow}>
+        <div className={style.sidebarArrow} onClick={goBack}>
           <img src={arrow} alt="arrow" />
         </div>
         <div className={style.sidebarDivider}></div>
