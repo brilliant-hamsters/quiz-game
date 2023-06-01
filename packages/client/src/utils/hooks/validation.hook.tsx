@@ -6,7 +6,7 @@ type FormFields =
   | 'first_name'
   | 'second_name'
   | 'phone'
-  | 'text'
+  | 'message'
   | 'password'
   | 'passwordRepeat'
   | 'display_name'
@@ -34,7 +34,7 @@ const errorMessages: { [key in ErrorMessages]: string } = {
     'от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра',
   passwordRepeat: 'пароль не совпадает',
   phone: 'от 10 до 15 символов, состоит из цифр, может начинается с плюса',
-  text: 'не должно быть пустым',
+  message: 'не должно быть пустым',
 }
 
 export type ValidationObj = {
@@ -66,7 +66,7 @@ export const useValidation = (): [
       case 'phone':
         phone(input)
         break
-      case 'text':
+      case 'message':
         message(input)
         break
       case 'password':
@@ -215,12 +215,12 @@ export const useValidation = (): [
         ...state,
         message: { valid: true, text: '' },
       }))
-    } else {
+    } else {message
       setObjValidation(state => ({
         ...state,
         message: {
           valid: false,
-          text: errorMessages.text,
+          text: errorMessages.message,
         },
       }))
     }

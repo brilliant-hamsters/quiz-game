@@ -26,7 +26,7 @@ export interface ForumProps extends CustomComponentProps {
   dataForm: DataMessage
 }
 
-function Forum({ validObj, onChange, dataForm }: ForumProps) {
+function Forum({ validObj, onChange, dataForm, clearValue }: ForumProps) {
   const dispatch = useAppDispatch()
   const [activeTheme, setActiveTheme] = useState<number | null>(null)
   const [isOpenModal, toggleOpenModal] = useState<boolean>(false)
@@ -48,15 +48,17 @@ function Forum({ validObj, onChange, dataForm }: ForumProps) {
     const message: Message = {
       author: user.first_name,
       themeId: activeTheme,
-      text: dataForm.text,
+      message: dataForm.message,
       date: Date.now(),
     }
     dispatch(sendNewMessage(message))
+    clearValue()
   }
 
   function createTheme(theme: string) {
-    dispatch(createNewTheme({ theme }))
+    dispatch(createNewTheme({ theme: theme }))
     toggleDisplayModal()
+    clearValue()
   }
 
   function toggleDisplayModal() {
@@ -71,9 +73,9 @@ function Forum({ validObj, onChange, dataForm }: ForumProps) {
           {themesList.length ? (
             themesList.map(item => (
               <ForumThemesList
-                key={item.themeId}
+                key={item.id}
                 theme={item}
-                active={item.themeId === activeTheme}
+                active={item.id === activeTheme}
                 onClick={changeCurrentTheme}
               />
             ))
@@ -97,7 +99,7 @@ function Forum({ validObj, onChange, dataForm }: ForumProps) {
             messages.map(item => (
               <FormThemesMessages
                 key={item.id}
-                message={item.text}
+                message={item.message}
                 nickName={item.author}
               />
             ))
@@ -108,18 +110,20 @@ function Forum({ validObj, onChange, dataForm }: ForumProps) {
         <form className={style.form} onSubmit={submitMessage}>
           <div className={style.wrapInput}>
             <input
-              name="text"
+              name="message"
               placeholder="Напишите ваше сообщение..."
               type="text"
               className={style.input}
               onChange={onChange}
-              disabled={!activeTheme}
+              disabled={!activeTheme || !validObj.message?.valid}
+              value={dataForm.message}
             />
           </div>
           <button
             className={style.send}
             type="submit"
-            disabled={!validObj.text?.valid}>
+            disabled={!validObj.message?.valid}
+            >
             <img src={send} alt="send" />
           </button>
         </form>
