@@ -1,10 +1,8 @@
-const DEFAULT_HEADERS = {
-    'Content-Type': 'application/json',
-  }
+import { sendApiRequestForum } from "../apiService";
+
 
 export const getByTheme = async () => {
-  return await fetch('http://localhost:5432/theme', {
+  return await sendApiRequestForum('/theme', {
     method: 'GET',
-    headers: DEFAULT_HEADERS,
-  });
+  })
 };
