@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GameLayout } from '../../layouts/GameLayout'
 import styles from './GameEnd.module.scss'
-import logoutIcon from '/images/icons/logout-icon.svg'
+import logoutIcon from '../../../public/images/icons/logout-icon.svg'
 import { game } from '../GamePage/GamePage'
 import { useAppSelector } from '../../store'
 
