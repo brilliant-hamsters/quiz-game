@@ -69,17 +69,23 @@ export const GamePage = () => {
     }
   }
 
+function stopGame(){
+  game.endGame(false)
+  saveResult()
+  navigate('/end')
+}
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>Time-left:</div>
         <div className={styles.timer}>
-          <TimeBar />
+          <TimeBar stopGame={stopGame} question={currentQuestion} />
         </div>
         <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
-        <ChooseTheme/>
+        <ChooseTheme />
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>
