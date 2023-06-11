@@ -2,13 +2,15 @@ import { Sequelize } from 'sequelize-typescript'
 import { applyExtraSetup } from './utils/utils'
 import themeModel from './models/theme.model'
 import messageModel from './models/message.model'
+import schemeModel from './models/scheme.model'
 
 const { DATABASE_URL } = process.env
 const sequelize = new Sequelize(DATABASE_URL as string)
 
 const modelDefiners = [
   themeModel,
-  messageModel
+  messageModel,
+  schemeModel
 ]
 
 // We define all models according to their files.
