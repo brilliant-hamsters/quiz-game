@@ -1,17 +1,21 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { login } from '../../api/methods/login'
 import { getCurrentUser } from '../../api/methods/getCurrentUser'
 import { signup } from '../../api/methods/signup'
 import { DataAuth, DataRegister } from '../../typings/appTypes'
 import { logout } from '../../api/methods/logout'
 import { ServiceIdCallArgs, getServiceID } from '../../api/methods/getServiceID'
-import { SignInYandex, signInWithYandex } from '../../api/methods/sigInWithYandex'
+import {
+  SignInYandex,
+  signInWithYandex,
+} from '../../api/methods/sigInWithYandex'
+import { authUser } from '../../api/methods/authUser'
 interface IInitState {
   user: Record<string, string> | null
   isLoading: boolean
   error: null | string
   loggedIn: boolean
-  serviceId: ServiceIdCallArgs | null,
+  serviceId: ServiceIdCallArgs | null
   verificate: boolean
 }
 
@@ -21,7 +25,7 @@ const initialState: IInitState = {
   error: null,
   loggedIn: false,
   serviceId: null,
-  verificate: false
+  verificate: false,
 }
 
 export const signIn = createAsyncThunk(
@@ -31,7 +35,13 @@ export const signIn = createAsyncThunk(
     if (!result.ok) {
       return rejectWithValue('Невозможно выполнить запрос авторизации!')
     }
-    dispatch(getUser())
+
+    dispatch(getUser()).then(
+      async res => {
+        await authUser(res.payload.id)
+      },
+      err => rejectWithValue(err)
+    )
     return
   }
 )
@@ -58,51 +68,62 @@ export const signUp = createAsyncThunk(
     if (!result.ok) {
       return rejectWithValue('В процессе регистрации произошла ошибка')
     }
-    dispatch(getUser())
+    dispatch(getUser()).then(
+      async res => {
+        await authUser(res.payload.id)
+      },
+      err => rejectWithValue(err)
+    )
     return
   }
 )
 
 export const logOut = createAsyncThunk(
   'auth/logout',
-    async (_, { rejectWithValue }) => {
-      const result = await logout();
-      if(!result.ok) {
-        return rejectWithValue('Произошла непредвиденная ошибка')
-      }
-      return
+  async (_, { rejectWithValue }) => {
+    const result = await logout()
+
+    if (!result.ok) {
+      return rejectWithValue('Произошла непредвиденная ошибка')
     }
-  )
 
-  export const serviceID = createAsyncThunk(
-    'oauth/yandex/service-id',
-    async(data: ServiceIdCallArgs, { rejectWithValue }) => {
-      const result = await getServiceID({redirect_uri: data.redirect_uri});
-      if(!result.ok) {
-        return rejectWithValue('Произошла непредвиденная ошибка')
-      }
+    return
+  }
+)
 
-      return await result.json()
+export const serviceID = createAsyncThunk(
+  'oauth/yandex/service-id',
+  async (data: ServiceIdCallArgs, { rejectWithValue }) => {
+    const result = await getServiceID({ redirect_uri: data.redirect_uri })
+    if (!result.ok) {
+      return rejectWithValue('Произошла непредвиденная ошибка')
     }
-  )
 
-  export const sigInYandex = createAsyncThunk(
-    'oauth/yandex',
-    async (data:SignInYandex, { rejectWithValue , dispatch }) => {
-      const result = await signInWithYandex(data);
+    return await result.json()
+  }
+)
 
-      if(!result.ok) {
-        return rejectWithValue('Произошла ошибка');
-      }
-      
-      return dispatch(getUser())
-    } 
-  )
+export const sigInYandex = createAsyncThunk(
+  'oauth/yandex',
+  async (data: SignInYandex, { rejectWithValue, dispatch }) => {
+    const result = await signInWithYandex(data)
+
+    if (!result.ok) {
+      return rejectWithValue('Произошла ошибка')
+    }
+
+    return dispatch(getUser())
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    changeLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.loggedIn = action.payload
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(signIn.pending, state => {
@@ -157,7 +178,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logOut.fulfilled, state => {
-        state.error = null     
+        state.error = null
         state.isLoading = false
         state.loggedIn = false
         state.verificate = false
@@ -172,7 +193,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(serviceID.fulfilled, state => {
-        state.error = null     
+        state.error = null
         state.isLoading = false
         state.loggedIn = true
         state.verificate = true
@@ -186,7 +207,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(sigInYandex.fulfilled, state => {
-        state.error = null     
+        state.error = null
         state.isLoading = false
         state.verificate = false
       })
@@ -197,4 +218,8 @@ const authSlice = createSlice({
   },
 })
 
-export default authSlice.reducer
+const { reducer, actions } = authSlice
+
+export const { changeLoggedIn } = actions
+
+export default reducer

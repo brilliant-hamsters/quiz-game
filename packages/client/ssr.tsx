@@ -14,6 +14,7 @@ import { createStore } from './src/store'
 export { createStore }
 
 export function render(url: string | Partial<Location>, store: Store) {
+  console.log('URL', url)
   return ReactDOMServer.renderToString(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>

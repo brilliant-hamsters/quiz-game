@@ -16,11 +16,9 @@ export interface LoginProps extends CustomComponentProps {
 }
 
 function Login({ validObj, onChange, dataForm }: LoginProps) {
-
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { loggedIn, isLoading } = useAppSelector(state => state.auth)
-
   useEffect(() => {
     if (loggedIn) navigate('/start')
   }, [loggedIn])
@@ -30,16 +28,17 @@ function Login({ validObj, onChange, dataForm }: LoginProps) {
   }
 
   function onOauthSubmit() {
-    dispatch(serviceID({
-      redirect_uri:'http://localhost:3000'
-    }))
-    .then((response) => {
-              if(response.payload.service_id) {
-                  window.location.replace(`
+    dispatch(
+      serviceID({
+        redirect_uri: 'http://localhost:3000',
+      })
+    ).then(response => {
+      if (response.payload.service_id) {
+        window.location.replace(`
                   https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.payload.service_id}&redirect_uri=http://localhost:3000
                   `)
-              }
-          })
+      }
+    })
   }
 
   return (

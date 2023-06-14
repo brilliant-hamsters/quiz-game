@@ -37,7 +37,7 @@ const sendApiRequest = async (
 }
 
 export const sendApiRequestDefault = (path: string, options?: IApiOptions) =>
-  sendApiRequest(DEFAULT_API_URL, path, options);
+  sendApiRequest(DEFAULT_API_URL, path, options)
 
 export const sendApiRequestForum = (path: string, options?: IApiOptions) =>
   sendApiRequest(DEFAULT_API_FORUM, path, options)
