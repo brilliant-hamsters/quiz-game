@@ -83,7 +83,6 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
   const onLogOut = async (event: React.SyntheticEvent) => {
     event.preventDefault()
     await dispatch(logOut())
-    console.log('ID', user.id)
     await logouthUser(user.id)
     navigate('/auth')
   }

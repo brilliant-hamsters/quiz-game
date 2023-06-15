@@ -23,13 +23,15 @@ function ModalWithForm({
   onSubmit,
   validObj,
   onChange,
+  clearValue,
   dataForm,
   title,
   buttonName,
 }: ModalWithFormProps) {
   function submitForm(evt: FormEvent) {
     evt.preventDefault()
-    onSubmit(dataForm.text)
+    onSubmit(dataForm.message)
+    clearValue()
   }
 
   function stopClose(evt: MouseEvent<HTMLElement>) {
@@ -43,22 +45,23 @@ function ModalWithForm({
       <form
         className={styles.container}
         onSubmit={submitForm}
-        onClick={stopClose}>
+        onClick={stopClose}
+        noValidate>
         <h3 className={styles.title}>{title}</h3>
         <Input
           classInput="modal"
           type="text"
-          name="text"
+          name="message"
           autoFocus
           required
           onChange={onChange}
-          validObj={validObj.text}
-          value={dataForm.text}
+          validObj={validObj.message}
+          value={dataForm.message}
         />
         <Button
           classButton="standard"
           buttonName={buttonName}
-          disabled={false}
+          disabled={validObj.message?!validObj.message.valid:true}
         />
       </form>
     </div>

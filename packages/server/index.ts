@@ -48,10 +48,10 @@ async function startServer() {
   let vite: ViteDevServer | undefined
   const isDev = () => process.env.NODE_ENV === 'development'
 
-  const controllers = {
-    themes,
-    messages,
-  }
+  // const controllers = {
+  //   themes,
+  //   messages,
+  // }
 
   await assertDatabaseConnectionOk()
   await setupDatabase()
@@ -97,25 +97,38 @@ async function startServer() {
     authCheker,
     makeHandlerAwareOfAsyncErrors(themes.getAll)
   )
-  app.get(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.getById))
+  app.get(
+    `/api/themes/:id`,
+    authCheker,
+    makeHandlerAwareOfAsyncErrors(themes.getById)
+  )
 
-  for (const [routeName, routeController] of Object.entries(controllers)) {
-    app.post(
-      `/api/${routeName}`,
-      authCheker,
-      makeHandlerAwareOfAsyncErrors(routeController.create)
-    )
-    app.put(
-      `/api/${routeName}/:id`,
-      authCheker,
-      makeHandlerAwareOfAsyncErrors(routeController.update)
-    )
-    app.delete(
-      `/api/${routeName}/:id`,
-      authCheker,
-      makeHandlerAwareOfAsyncErrors(routeController.remove)
-    )
-  }
+  app.post(
+    `/api/themes`,
+    authCheker,
+    makeHandlerAwareOfAsyncErrors(themes.create)
+  )
+
+  app.post(
+    `/api/themes/:id`,
+    authCheker,
+    makeHandlerAwareOfAsyncErrors(messages.create)
+  )
+
+  // for (const [routeName, routeController] of Object.entries(controllers)) {
+  //   app.post(
+  //     `/api/${routeName}`,
+  //     makeHandlerAwareOfAsyncErrors(routeController.create)
+  //   )
+  //   app.put(
+  //     `/api/${routeName}/:id`,
+  //     makeHandlerAwareOfAsyncErrors(routeController.update)
+  //   )
+  //   app.delete(
+  //     `/api/${routeName}/:id`,
+  //     makeHandlerAwareOfAsyncErrors(routeController.remove)
+  //   )
+  // }
 
   app.delete('/authUser', authCheker, async (req, res) => {
     const { body } = req

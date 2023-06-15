@@ -11,14 +11,17 @@ import { Subtract } from 'utility-types'
 export interface CustomComponentProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   validObj: ValidationObj
+  clearValue: () => void
   dataForm: DataAuth | DataRegister | DataProfile | DataMessage
 }
 
 export const ComponentWithValidation = <T extends CustomComponentProps>(
   WrappedComponent: ComponentType<T>
 ): ComponentType<Subtract<T, CustomComponentProps>> => {
-  const NewComponent = (props:Subtract<T, CustomComponentProps>) => {
+  const NewComponent = (props: Subtract<T, CustomComponentProps>) => {
+
     const componentName = WrappedComponent.name
+
     const [dataForm, onChangeDataForm] = useState<
       CustomComponentProps['dataForm']
     >(getInitObject())
@@ -52,7 +55,7 @@ export const ComponentWithValidation = <T extends CustomComponentProps>(
             phone: '',
           } as DataRegister
         default:
-          return { text: '' } as DataMessage
+          return { message: '' } as DataMessage
       }
     }
 
@@ -62,14 +65,23 @@ export const ComponentWithValidation = <T extends CustomComponentProps>(
       const value = e.target.value
       const nameInput = e.target.name
       onChangeDataForm({ ...dataForm, [nameInput]: value })
-      console.log(componentName)
       setValidity(e)
     }
+
+    const clearValue = () => {
+      const emptyFormObj = {...dataForm}
+      for (const key in emptyFormObj) {
+        emptyFormObj[key]=''
+      }
+      onChangeDataForm(emptyFormObj)
+    }
+
     const propsComp = {
+      clearValue: clearValue,
       onChange: onChange,
       validObj: validObj,
       dataForm: dataForm,
-      ...props
+      ...props,
     }
 
     return <WrappedComponent {...(propsComp as T)} />

@@ -13,7 +13,7 @@ export const ForumThemesList: FunctionComponent<IForumThemesListProps> = ({
   onClick,
 }) => {
   function changeActiveTheme() {
-    onClick(theme.themeId)
+    if (theme.id) onClick(theme.id)
   }
   return (
     <li className={style.root} onClick={changeActiveTheme}>

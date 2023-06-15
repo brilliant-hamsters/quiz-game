@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import { ThemeContext, themes } from "../context/ThemeContext";
+import { ReactNode, useEffect, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 import { getByTheme } from "../api/methods/getByTheme";
 
 interface ThemeChildren {
@@ -23,10 +23,10 @@ const getTheme = () => {
             theme = body.theme 
         })
     } 
-    const prefersColor = window.matchMedia('(prefers-color-scheme: light)')
-    if(prefersColor.matches) return themes.light
+    const prefersColor = window.matchMedia(`(prefers-color-scheme: ${theme})`)
+    if(prefersColor.matches) return theme
 
-    return themes.light
+    return theme
 }
 
 export function ThemeProvider({children}: ThemeChildren) {
