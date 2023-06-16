@@ -1,7 +1,8 @@
+import { sendApiRequestForum } from '../apiService'
+
 export const logouthUser = async (id: number) => {
-  return await fetch('/authUser', {
+  return await sendApiRequestForum('/authUser', {
     method: 'DELETE',
-    body: JSON.stringify({ userId: id }),
-    headers: { 'Content-Type': 'application/json' },
+    body: { userId: id },
   })
 }

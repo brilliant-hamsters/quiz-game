@@ -74,7 +74,7 @@ async function startServer() {
 
   app.use(cors())
 
-  app.post('/authUser', async (req, res) => {
+  app.post('/api/authUser', async (req, res) => {
     const { body } = req
 
     if (body) {
@@ -130,7 +130,7 @@ async function startServer() {
   //   )
   // }
 
-  app.delete('/authUser', authCheker, async (req, res) => {
+  app.delete('/api/authUser', authCheker, async (req, res) => {
     const { body } = req
     if (body) {
       try {
@@ -148,7 +148,7 @@ async function startServer() {
       }
     }
   })
-  app.get('/authUser', authCheker, async (req, res) => {
+  app.get('/api/authUser', authCheker, async (req, res) => {
     const { body } = req
     if (body) {
       try {

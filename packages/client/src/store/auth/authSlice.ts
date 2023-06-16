@@ -37,9 +37,7 @@ export const signIn = createAsyncThunk(
     }
 
     dispatch(getUser()).then(
-      async res => {
-        await authUser(res.payload.id)
-      },
+      async res => await authUser(res.payload.id),
       err => rejectWithValue(err)
     )
     return
@@ -69,9 +67,7 @@ export const signUp = createAsyncThunk(
       return rejectWithValue('В процессе регистрации произошла ошибка')
     }
     dispatch(getUser()).then(
-      async res => {
-        await authUser(res.payload.id)
-      },
+      async res => await authUser(res.payload.id),
       err => rejectWithValue(err)
     )
     return
