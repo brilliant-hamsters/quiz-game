@@ -11,9 +11,8 @@ import setupDatabase from './sequelize/db-setup'
 import assertDatabaseConnectionOk from './sequelize/db-connect'
 import * as themes from './controllers/themes'
 import * as messages from './controllers/messages'
+import * as schemes from './controllers/schemes'
 import dotenv from 'dotenv'
-import { themeClass } from './db'
-import { createClientAndConnect } from './db'
 dotenv.config()
 
 function makeHandlerAwareOfAsyncErrors(
@@ -47,11 +46,6 @@ async function startServer() {
   let vite: ViteDevServer | undefined
   const isDev = () => process.env.NODE_ENV === 'development'
 
-  // const controllers = {
-  //   themes,
-  //   messages,
-  // }
-
   await assertDatabaseConnectionOk()
   await setupDatabase()
 
@@ -60,70 +54,40 @@ async function startServer() {
   app.use(cookieParser())
   app.use(cors())
 
+  /* GET запросы */
+
+  // Получение всех тем форума
   app.get(`/api/themes`, makeHandlerAwareOfAsyncErrors(themes.getAll))
+  // Получение конкретной темы с сообщениями по id
   app.get(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.getById))
+  // Получение цветовой схемы по userId
+  app.get(`/api/theme/:id`, makeHandlerAwareOfAsyncErrors(schemes.getById))
 
+  /* POST запросы */
 
+  // Создание новой темы форума
   app.post(`/api/themes`, makeHandlerAwareOfAsyncErrors(themes.create))
-
+  // Создание нового сообщения в теме форума
   app.post(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(messages.create))
+  // Добавление пользователя с цветовой схемой
+  app.post(`/api/theme`, makeHandlerAwareOfAsyncErrors(schemes.create))
 
-  // for (const [routeName, routeController] of Object.entries(controllers)) {
-  //   app.post(
-  //     `/api/${routeName}`,
-  //     makeHandlerAwareOfAsyncErrors(routeController.create)
-  //   )
-  //   app.put(
-  //     `/api/${routeName}/:id`,
-  //     makeHandlerAwareOfAsyncErrors(routeController.update)
-  //   )
-  //   app.delete(
-  //     `/api/${routeName}/:id`,
-  //     makeHandlerAwareOfAsyncErrors(routeController.remove)
-  //   )
-  // }
 
-  app.post('/theme', (req, res) => {
-    const { body } = req
-    if (body) {
-      themeClass.create(body)
-      res.status(201).send('Added')
-    }
-    res.send('false')
-  })
+  /* PUT запросы */
 
-  app.put('/theme', async (req, res) => {
-    const { body } = req
-    if (body) {
-      await themeClass.update(
-        { isTheme: false },
-        {
-          where: {
-            isTheme: true,
-          },
-        }
-      )
+  // Изменение темы по id
+  app.put(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.update))
+  // Изменение сообщения по id
+  app.put(`/api/messages/:id`, makeHandlerAwareOfAsyncErrors(messages.update))
+  // Изменения цветовой схемы по userId
+  app.put(`/api/theme/:id`, makeHandlerAwareOfAsyncErrors(schemes.update))
 
-      await themeClass.update(
-        { isTheme: true },
-        {
-          where: {
-            theme: body.theme,
-          },
-        }
-      )
+  /* DELETE запросы */
 
-      res.status(200).send('UPDATE')
-      return
-    }
-  })
-
-  app.get('/theme', async (req, res) => {
-    const { body } = req
-    const resul = await themeClass.findOne({ where: body })
-
-    res.status(200).send(resul)
-  })
+  // Удаление темы по id
+  app.delete(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.remove))
+  // Удаление сообщения по id
+  app.delete(`/api/messages/:id`, makeHandlerAwareOfAsyncErrors(messages.remove))
 
   if (isDev()) {
     vite = await createViteServer({
@@ -187,8 +151,6 @@ async function startServer() {
       next(e)
     }
   })
-
-  await createClientAndConnect()
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
