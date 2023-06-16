@@ -17,6 +17,7 @@ import {
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 import { DataProfile } from "../../typings/appTypes"
 import { ChooseTheme } from "../../utils/hoc/ChooseTheme"
+import { Maps } from "../../components/Map"
 
 export interface ProfileProps extends CustomComponentProps {
     dataForm: DataProfile
@@ -118,6 +119,9 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                                 <Achievements  imp_path={iconWin} achieve_text="Win x10"/>
                                 <Achievements  imp_path={iconWin} achieve_text="Win x10"/>
                             </div>
+                        </div>
+                        <div className={styles.mapsControll}>
+                            <Maps />
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ import { ChooseTheme } from '../../utils/hoc/ChooseTheme'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
 import { sigInYandex } from '../../store/auth/authSlice'
+import { Player } from '../../components/Player'
 
 export const game = new QuizGame()
 
@@ -80,6 +81,9 @@ export const GamePage = () => {
       </div>
       <div className={styles.game}>
         <ChooseTheme/>
+        <div className={styles.playerControll}>
+          <Player />
+          </div>        
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>
