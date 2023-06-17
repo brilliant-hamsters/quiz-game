@@ -1,3 +1,5 @@
+export type Indexed = { [key: string]: any };
+
 export type User = {
   avatar?: string
   display_name: string

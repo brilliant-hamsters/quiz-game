@@ -3,9 +3,9 @@ import styles from './TimeBar.module.scss'
 
 type LinearGradientType = string | CanvasGradient | CanvasPattern
 
-export const TimeBar = () => {
-  const SECONDS_PER_QUESTION = 120
-  const FRAME_PER_SECONDS = 30
+export const TimeBar = ({ stopGame, question }) => {
+  const SECONDS_PER_QUESTION = 15
+  const FRAME_PER_SECONDS = 60
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null)
@@ -19,7 +19,7 @@ export const TimeBar = () => {
     if (canvasRef.current) {
       canvasCtxRef.current = canvasRef.current.getContext('2d')
       const ctx = canvasCtxRef.current as CanvasRenderingContext2D
-
+      ctx.clearRect(0, 0, canvasWidth, 150)
       const linearGradient: LinearGradientType = ctx.createLinearGradient(
         0,
         0,
@@ -29,7 +29,6 @@ export const TimeBar = () => {
       linearGradient.addColorStop(0, '#1B0085')
       linearGradient.addColorStop(0.5, '#430085')
       linearGradient.addColorStop(1, '#7900B2')
-
       const draw = () => {
         if (Date.now() - timestamp > 1000 / FRAME_PER_SECONDS && ctx) {
           ctx.fillStyle = linearGradient
@@ -37,9 +36,10 @@ export const TimeBar = () => {
           width += canvasWidth / (SECONDS_PER_QUESTION * FRAME_PER_SECONDS)
           timestamp = Date.now()
         }
-
-        if (Math.round(width) <= Math.round(canvasWidth)) {
+        if (Math.round(width) < Math.round(canvasWidth)) {
           animationFrameId = requestAnimationFrame(draw)
+        } else {
+          stopGame()
         }
       }
 
@@ -48,10 +48,12 @@ export const TimeBar = () => {
 
     return () => {
       if (animationFrameId) {
+        width = 0
+        timestamp = Date.now()
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [])
+  }, [question])
 
   return (
     <canvas ref={canvasRef} className={styles.canvas} width={canvasWidth} />
