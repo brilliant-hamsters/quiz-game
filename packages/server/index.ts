@@ -3,7 +3,7 @@ import path from 'path'
 import * as fs from 'fs'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-import cors from 'cors'
+//import cors from 'cors'
 import { Store } from '@reduxjs/toolkit'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
@@ -37,6 +37,11 @@ function makeHandlerAwareOfAsyncErrors(
   }
 }
 
+const allowList: string[] = [
+  'http://localhost',
+  'https://quiz-to-senior.ya-praktikum.tech',
+]
+
 async function startServer() {
   const app = express()
   const port = Number(process.env.SERVER_PORT) || 3001
@@ -52,7 +57,23 @@ async function startServer() {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(cookieParser())
-  app.use(cors())
+
+  app.use((req, res, next) => {
+    const { origin } = req.headers
+    const { method } = req
+    const requestHeaders = req.headers['access-control-request-headers']
+    const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE'
+    if (allowList.includes(origin!)) {
+      res.header('Access-Control-Allow-Origin', origin)
+      res.header('Access-Control-Allow-Credentials', 'true')
+      if (method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Headers', requestHeaders)
+        res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS)
+        return res.end()
+      }
+    }
+    return next()
+  })
 
   /* GET запросы */
 
@@ -72,7 +93,6 @@ async function startServer() {
   // Добавление пользователя с цветовой схемой
   app.post(`/api/theme`, makeHandlerAwareOfAsyncErrors(schemes.create))
 
-
   /* PUT запросы */
 
   // Изменение темы по id
@@ -87,7 +107,10 @@ async function startServer() {
   // Удаление темы по id
   app.delete(`/api/themes/:id`, makeHandlerAwareOfAsyncErrors(themes.remove))
   // Удаление сообщения по id
-  app.delete(`/api/messages/:id`, makeHandlerAwareOfAsyncErrors(messages.remove))
+  app.delete(
+    `/api/messages/:id`,
+    makeHandlerAwareOfAsyncErrors(messages.remove)
+  )
 
   if (isDev()) {
     vite = await createViteServer({
