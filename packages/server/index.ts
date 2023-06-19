@@ -37,7 +37,7 @@ function makeHandlerAwareOfAsyncErrors(
   }
 }
 
-const allowLIst: string[] = [
+const allowList: string[] = [
   'http://localhost',
   'https://quiz-to-senior.ya-praktikum.tech',
 ]
@@ -63,7 +63,7 @@ async function startServer() {
     const { method } = req
     const requestHeaders = req.headers['access-control-request-headers']
     const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE'
-    if (allowLIst.includes(origin!)) {
+    if (allowList.includes(origin!)) {
       res.header('Access-Control-Allow-Origin', origin)
       res.header('Access-Control-Allow-Credentials', 'true')
       if (method === 'OPTIONS') {
