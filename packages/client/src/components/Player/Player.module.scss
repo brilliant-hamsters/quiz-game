@@ -1,0 +1,41 @@
+.audio {
+    display: none;
+}
+.section {
+    width: 40px;
+    padding: 2px 6px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: #705affbe;
+    border-radius: 4px;
+}
+
+.buttonSound {
+    width: 30px;
+    height: 30px;
+    background-image: url('../../../public/images/icons/volume-mute-fill.svg');
+    background-color: rgba(0, 0, 0, 0);
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+        }
+}
+
+.volume {
+    font-size: 16px;
+    padding: 1px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+        }
+}

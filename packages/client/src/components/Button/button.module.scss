@@ -32,6 +32,23 @@
   justify-content: center;
 }
 
+.widthButton {
+  padding: 8px;
+  margin: 10px;
+  background: #7900b3;
+  border-radius: 4px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .switch_theme {
   position:fixed;
   top: 7%;

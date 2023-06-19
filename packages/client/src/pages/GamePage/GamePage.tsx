@@ -12,6 +12,7 @@ import { ChooseTheme } from '../../components/ChooseTheme'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
 import { sigInYandex } from '../../store/auth/authSlice'
+import { Player } from '../../components/Player'
 
 export const game = new QuizGame()
 
@@ -85,7 +86,10 @@ function stopGame(){
         <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
-        <ChooseTheme />
+        <ChooseTheme/>
+        <div className={styles.playerControll}>
+          <Player />
+        </div>
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>

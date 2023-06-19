@@ -15,7 +15,8 @@ import {
     ComponentWithValidation
     ,CustomComponentProps } from "../../utils/hoc/ComponentWithValidation"
 import { DataProfile } from "../../typings/appTypes"
-import { ChooseTheme } from "../../components/ChooseTheme"
+import { ChooseTheme } from "../../utils/hoc/ChooseTheme"
+import { Maps } from "../../components/Map"
 import { updateByPassword } from "../../utils/hooks/updatePassword.hook"
 import { ModalByProfile } from "../../components/ModalByProfile"
 
@@ -137,6 +138,9 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
                                 <Achievements  imp_path={iconWin} achieve_text="Win x10"/>
                                 <Achievements  imp_path={iconWin} achieve_text="Win x10"/>
                             </div>
+                        </div>
+                        <div className={styles.mapsControll}>
+                            <Maps />
                         </div>
                     </div>
                 </div>
