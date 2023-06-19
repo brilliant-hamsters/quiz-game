@@ -8,7 +8,7 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChooseTheme } from '../../utils/hoc/ChooseTheme'
+import { ChooseTheme } from '../../components/ChooseTheme'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
 import { sigInYandex } from '../../store/auth/authSlice'
@@ -38,7 +38,7 @@ export const GamePage = () => {
           code: String(new URL(window.location.href).searchParams.get('code')), 
           redirect_uri: 'http://localhost:3000'
       }))
-      .then((response) => {
+      .then((response: { payload: string }) => {
                 if(response.payload === 'Произошла ошибка') {
                   navigate('/auth')
                 }else {
@@ -70,12 +70,18 @@ export const GamePage = () => {
     }
   }
 
+function stopGame(){
+  game.endGame(false)
+  saveResult()
+  navigate('/end')
+}
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>Time-left:</div>
         <div className={styles.timer}>
-          <TimeBar />
+          <TimeBar stopGame={stopGame} question={currentQuestion} />
         </div>
         <div className={styles.money}>{game.totalCash}</div>
       </div>
@@ -83,7 +89,7 @@ export const GamePage = () => {
         <ChooseTheme/>
         <div className={styles.playerControll}>
           <Player />
-          </div>        
+        </div>
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>

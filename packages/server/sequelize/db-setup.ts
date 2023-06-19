@@ -12,6 +12,12 @@ export default async function setupDatabase() {
     { theme: 'How to become Senior' },
   ]);
 
+  await sequelize.models.scheme.bulkCreate([
+    { userId: 123, theme: 'light' },
+    { userId: 123456, theme: 'dark' },
+    { userId: 123456789, theme: 'light' },
+  ]);
+
   for (const theme of await sequelize.models.theme.findAll()) {
     for (let i = 0; i < 5; i++) {
       const author = pickRandom([

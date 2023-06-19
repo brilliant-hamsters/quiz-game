@@ -1,5 +1,5 @@
 const DEFAULT_API_URL = 'https://ya-praktikum.tech/api/v2'
-const DEFAULT_API_FORUM = 'http://localhost:3001/api'
+const DEFAULT_API_FORUM = 'https://quiz-to-senior.ya-praktikum.tech/api'
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 }
