@@ -28,36 +28,37 @@ export const GamePage = () => {
   useEffect(() => {
     onChangeCurrentQuestion(game.startGame())
     if (!loggedIn) {
-      navigate('/auth');
+      navigate('/auth')
     }
-  }, []);
-  
+  }, [])
+
   useEffect(() => {
-    if(verificate && !isMounted) {
-      dispatch(sigInYandex({ 
-          code: String(new URL(window.location.href).searchParams.get('code')), 
-          redirect_uri: 'http://localhost:3000'
-      }))
-      .then((response: { payload: string }) => {
-                if(response.payload === 'Произошла ошибка') {
-                  navigate('/auth')
-                }else {
-                  navigate('/start')
-                }
-              }
-            )
+    if (verificate && !isMounted) {
+      dispatch(
+        sigInYandex({
+          code: String(new URL(window.location.href).searchParams.get('code')),
+          redirect_uri: 'http://localhost:3000',
+        })
+      ).then(response => {
+        if (response.payload === 'Произошла ошибка') {
+          navigate('/auth')
+        } else {
+          navigate('/start')
+        }
+      })
     }
     setIsMounted(false)
   }, [isMounted])
 
-
   function saveResult() {
     if (user) {
-      dispatch(updateLeaderboardData({
-        result: game.savedCash,
-        id: user.id,
-        login: user.login,
-      }))
+      dispatch(
+        updateLeaderboardData({
+          result: game.savedCash,
+          id: user.id,
+          login: user.login,
+        })
+      )
     }
   }
 
@@ -86,7 +87,7 @@ function stopGame(){
         <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
-        <ChooseTheme/>
+        <ChooseTheme />
         <div className={styles.playerControll}>
           <Player />
         </div>
