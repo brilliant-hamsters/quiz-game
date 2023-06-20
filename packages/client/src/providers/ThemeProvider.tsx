@@ -12,6 +12,10 @@ type BodyTheme = {
 
 const getTheme = () => { 
     let theme = `${window?.localStorage?.getItem('theme')}`
+    
+    if(theme === null || theme === 'null') {
+        return 'light'
+    }
     if(Object.values(theme).includes(theme)) {
         return theme;
     }else { 

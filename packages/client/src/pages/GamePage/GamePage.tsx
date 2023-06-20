@@ -8,10 +8,11 @@ import iconPercon from '../../../public/images/icons/icon_user_circle.svg'
 import { QuestionType, QuizGame } from '../../engine/QuizGame'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChooseTheme } from '../../utils/hoc/ChooseTheme'
+import { ChooseTheme } from '../../components/ChooseTheme'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { updateLeaderboardData } from '../../store/leaderboard/leaderboardSlice'
 import { sigInYandex } from '../../store/auth/authSlice'
+import { Player } from '../../components/Player'
 
 export const game = new QuizGame()
 
@@ -70,17 +71,26 @@ export const GamePage = () => {
     }
   }
 
+function stopGame(){
+  game.endGame(false)
+  saveResult()
+  navigate('/end')
+}
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>Time-left:</div>
         <div className={styles.timer}>
-          <TimeBar />
+          <TimeBar stopGame={stopGame} question={currentQuestion} />
         </div>
         <div className={styles.money}>{game.totalCash}</div>
       </div>
       <div className={styles.game}>
         <ChooseTheme />
+        <div className={styles.playerControll}>
+          <Player />
+        </div>
         <div className={styles.questionControl}>
           <div className={styles.question}>
             <span>{currentQuestion?.question}</span>

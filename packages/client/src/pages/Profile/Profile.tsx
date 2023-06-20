@@ -1,23 +1,23 @@
 import styles from './Profile.module.scss'
 import { Achievements } from '../../components/block/Achievements'
-import { Input } from '../../components/Input'
 import iconEdit from '../../../public/images/icons/icon_edit_pencil.svg'
 import iconWin from '../../../public/images/icons/icon_verified_user.svg'
 import iconBack from '../../../public/images/icons/icon_back.svg'
 import iconAvatar from '../../../public/images/icons/icon_noAvatar.svg'
-import React, { useEffect } from 'react'
-import { MouseEventHandler, useState } from 'react'
+import React, { MouseEventHandler, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { Link, useNavigate } from 'react-router-dom'
-import { editAvatar, editPass } from '../../store/profile/profileSlice'
+import { editAvatar } from '../../store/profile/profileSlice'
 import { logOut } from '../../store/auth/authSlice'
 import { PageWithProfileForm } from '../../components/PageWithProfileForm'
 import {
-  ComponentWithValidation,
-  CustomComponentProps,
-} from '../../utils/hoc/ComponentWithValidation'
+    ComponentWithValidation
+    ,CustomComponentProps } from '../../utils/hoc/ComponentWithValidation'
 import { DataProfile } from '../../typings/appTypes'
 import { ChooseTheme } from '../../utils/hoc/ChooseTheme'
+import { Maps } from '../../components/Map'
+import { updateByPassword } from '../../utils/hooks/updatePassword.hook'
+import { ModalByProfile } from '../../components/ModalByProfile'
 import { logouthUser } from '../../api/methods/logoutUser'
 
 export interface ProfileProps extends CustomComponentProps {
@@ -39,40 +39,25 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
     setEditPassword(!isEditPassword)
   }
 
-  const updatePassword = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    const errorPass = document.querySelector<HTMLSpanElement>(
-      `.${styles.errorPass}`
-    )
-
-    if (dataForm.newPassword && dataForm.oldPassword) {
-      const editPasswordData = {
-        newPassword: dataForm.newPassword,
-        oldPassword: dataForm.oldPassword,
-      }
-      dispatch(editPass(editPasswordData)).then(response => {
-        if (errorPass) {
-          errorPass.textContent = response.payload as string
-          if (
-            response.payload !== 'Некорректный старый пароль!' &&
-            response.payload !== 'Невозможно выполнить запрос!'
-          ) {
-            errorPass.textContent = ''
-            setEditPassword(!isEditPassword)
-          }
-        }
-      })
-    }
+  const updatePassword = (event: React.SyntheticEvent)=> {
+    event.preventDefault();
+    updateByPassword({
+      styles,
+      dataForm,
+      dispatch,
+      setEditPassword,
+      isEditPassword
+    })
   }
 
-  const updateAvatar = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    const fileList = (event.target as HTMLInputElement).files
-    const data = new FormData()
+  const updateAvatar = (event: React.SyntheticEvent)=> {
+    event.preventDefault();
+    const fileList = (event.target as HTMLInputElement).files;
+    const data = new FormData();
 
-    if (fileList && fileList.length !== 0) {
-      data.append('avatar', fileList[0], 'userAvatar')
-      dispatch(editAvatar(data))
+    if(fileList && fileList.length !== 0) {
+      data.append('avatar', fileList[0], 'userAvatar');
+      dispatch(editAvatar(data));
     }
   }
 
@@ -163,6 +148,9 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
               <Achievements imp_path={iconWin} achieve_text="Win x10" />
               <Achievements imp_path={iconWin} achieve_text="Win x10" />
             </div>
+            <div className={styles.mapsControll}>
+              <Maps />
+            </div>
           </div>
         </div>
       </div>
@@ -171,56 +159,16 @@ function Profile({ validObj, onChange, dataForm }: ProfileProps) {
           <img src={iconBack} alt="" className={styles.iconMenu} />
         </Link>
       </div>
-      {isEditPassword ? (
-        <>
-          <div className={styles.background}>
-            <div className={styles.modal}>
-              <div className={styles.modalHeader}>
-                Изменение пароля
-                <button className={styles.buttonCloseModal} onClick={addModal}>
-                  X
-                </button>
-              </div>
-              <form
-                action=""
-                className={styles.modalForm}
-                onSubmit={updatePassword}
-                noValidate>
-                <Input
-                  classInput="password"
-                  type="password"
-                  name="oldPassword"
-                  autoFocus
-                  required
-                  label="Старый"
-                  onChange={onChange}
-                  validObj={validObj.oldPassword}
-                  value={undefined}
-                />
-                <Input
-                  classInput="password"
-                  type="password"
-                  name="newPassword"
-                  autoFocus={false}
-                  required
-                  label="Новый"
-                  onChange={onChange}
-                  validObj={validObj.newPassword}
-                  value={undefined}
-                />
-                <span className={styles.errorPass} />
-                <input
-                  className={styles.savePass}
-                  type="submit"
-                  value="Сохранить"
-                />
-              </form>
-            </div>
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
+        { isEditPassword ?
+          <ModalByProfile
+            onChange={onChange}
+            validObj={validObj}
+            addModal={addModal}
+            updatePassword={updatePassword}
+          />
+          :
+          <></>
+        }
     </div>
   )
 }
