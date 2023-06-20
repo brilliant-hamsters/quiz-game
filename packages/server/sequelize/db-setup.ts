@@ -9,6 +9,7 @@ export default async function setupDatabase() {
   await sequelize.models.message.sync({ force: true })
   await sequelize.models.theme.sync({ force: true })
   await sequelize.models.currentUser.sync({ force: true })
+  await sequelize.models.scheme.sync({ force: true })
 
   await sequelize.models.theme.bulkCreate([
     { theme: 'How to become Junior' },
