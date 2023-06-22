@@ -5,34 +5,34 @@ services:
     container_name: prakticum-server
     image: prackicum-server
     build:
-    context: .
-    dockerfile: Dockerfile.server
-    args:
-      SERVER_PORT: 3001
+      context: .
+      dockerfile: Dockerfile.server
+      args:
+        SERVER_PORT: ${SERVER_PORT}
     restart: always
     depends_on:
       - postgres
     ports:
-      - '3001:3001'
+      - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
-      SERVER_PORT: 3001
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: rootpassword
-      POSTGRES_DB: quizgamedb
-      DATABASE_URL: postgres://root:rootpassword@postgres:5432/quizgamedb
+      SERVER_PORT: ${SERVER_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
     networks:
       - quizgame
   postgres:
     container_name: postgres
     image: postgres:14
     ports:
-      - '5432:5432'
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: rootpassword
-      POSTGRES_DB: quizgamedb
-      PGADMIN_DEFAULT_EMAIL: root@root.ru
-      PGADMIN_DEFAULT_PASSWORD: rootpassword
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     restart: always
     volumes:
       - ./tmp/pgdata:/var/lib/postgresql/data
@@ -43,11 +43,11 @@ services:
     image: dpage/pgadmin4:4.18
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: root@root.ru
-      PGADMIN_DEFAULT_PASSWORD: rootpassword
-      PGADMIN_LISTEN_PORT: 8080
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
     ports:
-      - '8080:80'
+      - "${PGADMIN_PORT}:${PGADMIN_LISTEN_PORT}"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
@@ -60,6 +60,7 @@ services:
     restart: always
     volumes:
       - ./packages/client/nginx.conf:/etc/nginx/nginx.conf
+      # - ./certbot/www/:/var/www/certbot/:ro
     depends_on:
       - server
     ports:
@@ -67,6 +68,11 @@ services:
       - '443:443'
     networks:
       - quizgame
+  # certbot:
+  #   image: certbot/certbot:latest
+  #   volumes:
+  #     - ./certbot/www/:/var/www/certbot/:rw
+  #     - ./certbot/conf/:/etc/letsencrypt/:rw
 volumes:
   postgres-data:
     external: false
