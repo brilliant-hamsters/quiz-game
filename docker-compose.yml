@@ -1,27 +1,77 @@
-version: "3.9"
+version: '3.9'
 
 services:
   server:
     container_name: prakticum-server
     image: prackicum-server
     build:
-      context: .
-      dockerfile: Dockerfile.server
-      args:
-        SERVER_PORT: ${SERVER_PORT}
+    context: .
+    dockerfile: Dockerfile.server
+    args:
+      SERVER_PORT: 3001
     restart: always
     depends_on:
       - postgres
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - '3001:3001'
     environment:
-      SERVER_PORT: ${SERVER_PORT}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
+      SERVER_PORT: 3001
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: quizgamedb
+      DATABASE_URL: postgres://root:rootpassword@postgres:5432/quizgamedb
     networks:
       - quizgame
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: quizgamedb
+      PGADMIN_DEFAULT_EMAIL: root@root.ru
+      PGADMIN_DEFAULT_PASSWORD: rootpassword
+    restart: always
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data
+    networks:
+      - quizgame
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.18
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.ru
+      PGADMIN_DEFAULT_PASSWORD: rootpassword
+      PGADMIN_LISTEN_PORT: 8080
+    ports:
+      - '8080:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - quizgame
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    volumes:
+      - ./packages/client/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - server
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      - quizgame
+volumes:
+  postgres-data:
+    external: false
+  pgadmin-data:
+    external: false
 networks:
   quizgame:
     driver: bridge
